@@ -4,13 +4,10 @@ const prompts = [
 ];
 
 let round = 1;
-const totalRounds = 3;
+let totalRounds = 3;
 let currentPrompt = "";
 let pairs = [];
 let scores = [];
-let answers = [];
-let currentPairIndex = 0;
-let currentMemberIndex = 0;
 
 function createPairInputs() {
   const count = parseInt(document.getElementById('playerCount').value);
@@ -24,7 +21,7 @@ function createPairInputs() {
   for (let i = 0; i < count / 2; i++) {
     pairInputs.innerHTML += `
       <div>
-        <label>ペア${i + 1}（上 / 下）</label><br>
+        <label>ペア${i + 1}（上の人 / 下の人）</label><br>
         <input type="text" id="upper${i}" placeholder="上の人の名前">
         <input type="text" id="lower${i}" placeholder="下の人の名前">
       </div>
@@ -37,7 +34,7 @@ function createPairInputs() {
 
 function startGame(pairCount) {
   pairs = [];
-  scores = new Array(pairCount).fill(0);
+  scores = [];
 
   for (let i = 0; i < pairCount; i++) {
     const upper = document.getElementById(`upper${i}`).value.trim();
@@ -47,6 +44,7 @@ function startGame(pairCount) {
       return;
     }
     pairs.push({ upper, lower });
+    scores.push(0);
   }
 
   document.getElementById('pairInputs').style.display = 'none';
@@ -58,66 +56,39 @@ function loadRound() {
   currentPrompt = prompts[Math.floor(Math.random() * prompts.length)];
   document.getElementById('prompt').textContent = `お題：「${currentPrompt}」`;
   document.getElementById('roundNumber').textContent = round;
-  answers = new Array(pairs.length).fill(null).map(() => ({ upper: "", lower: "" }));
-  currentPairIndex = 0;
-  currentMemberIndex = 0;
-  showInput();
+
+  const answerDiv = document.getElementById('answers');
+  answerDiv.innerHTML = "";
+  pairs.forEach((pair, i) => {
+    answerDiv.innerHTML += `
+      <div>
+        <strong>${pair.upper} の回答</strong>
+        <input type="text" id="upperAnswer${i}">
+        <strong>${pair.lower} の回答</strong>
+        <input type="text" id="lowerAnswer${i}">
+      </div>
+    `;
+  });
 }
 
-function showInput() {
-  const pair = pairs[currentPairIndex];
-  const role = currentMemberIndex === 0 ? "upper" : "lower";
-  const name = pair[role];
-  const inputArea = document.getElementById('inputArea');
-
-  inputArea.innerHTML = `
-    <h3>${name} の入力</h3>
-    <input type="text" id="answerInput" placeholder="回答を入力">
-    <button onclick="submitSingleAnswer()">完了</button>
-  `;
-}
-
-function submitSingleAnswer() {
-  const input = document.getElementById('answerInput').value.trim();
-  if (!input) {
-    alert("回答を入力してください");
-    return;
-  }
-
-  const role = currentMemberIndex === 0 ? "upper" : "lower";
-  answers[currentPairIndex][role] = input;
-
-  if (currentMemberIndex === 0) {
-    currentMemberIndex = 1;
-    showInput(); // 下の人へ
-  } else {
-    currentMemberIndex = 0;
-    currentPairIndex++;
-    if (currentPairIndex < pairs.length) {
-      showInput(); // 次のペアへ
-    } else {
-      evaluateRound(); // ラウンド終了
-    }
-  }
-}
-
-function evaluateRound() {
-  for (let i = 0; i < pairs.length; i++) {
-    const { upper, lower } = answers[i];
-    if (upper && lower && upper === lower) {
+function submitAnswers() {
+  pairs.forEach((pair, i) => {
+    const upperAns = document.getElementById(`upperAnswer${i}`).value.trim();
+    const lowerAns = document.getElementById(`lowerAnswer${i}`).value.trim();
+    if (upperAns && lowerAns && upperAns === lowerAns) {
       scores[i]++;
     }
-  }
+  });
 
   if (round < totalRounds) {
     round++;
     loadRound();
   } else {
-    showResult();
+    endGame();
   }
 }
 
-function showResult() {
+function endGame() {
   document.getElementById('game').style.display = 'none';
   document.getElementById('result').style.display = 'block';
 
@@ -133,8 +104,9 @@ function showResult() {
     }
   });
 
-  document.getElementById('winner').textContent =
-    winners.length > 1
-      ? `勝者（同点）：${winners.join(' / ')}`
-      : `勝者：${winners[0]}`;
+  const winnerText = winners.length > 1 ?
+    `勝者（同点）：${winners.join(' / ')}` :
+    `勝者：${winners[0]}`;
+
+  document.getElementById('winner').textContent = winnerText;
 }
