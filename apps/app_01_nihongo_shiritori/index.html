@@ -1,40 +1,55 @@
-<!-- プレーヤー入力画面 -->
-<section id="setupScreen">
-  <h1>ジェスチャーゲーム（拡張版）</h1>
-  <label>プレイヤー名（カンマ区切り）:</label><br>
-  <input type="text" id="playerInput" placeholder="例: あきら,さくら"><br><br>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ジェスチャーゲーム 拡張版</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-  <label>チーム分け方法：</label>
-  <select id="teamMethod">
-    <option value="none">チーム分けしない（個人戦）</option>
-    <option value="random">ランダム</option>
-    <option value="manual">手動</option>
-  </select><br><br>
+  <!-- プレイヤー入力画面 -->
+  <section id="setupScreen">
+    <h1>ジェスチャーゲーム（拡張版）</h1>
 
-  <label>ゲーム数：</label>
-  <input type="number" id="gameCount" value="3" min="1" max="10"><br><br>
+    <label>プレイヤー名（カンマ区切り）:</label><br />
+    <input type="text" id="playerInput" placeholder="例: あきら,さくら"><br /><br />
 
-  <button onclick="setupGame()">ゲーム開始</button>
-</section>
+    <label>チーム分け方法：</label>
+    <select id="teamMethod">
+      <option value="none">チーム分けしない（個人戦）</option>
+      <option value="random">ランダム</option>
+      <option value="manual">手動</option>
+    </select><br /><br />
 
-<!-- ゲーム画面 -->
-<section id="gameArea" style="display:none;">
-  <h2>Round <span id="roundNum">1</span> / <span id="totalRounds">3</span></h2>
-  <div id="topicArea">ここにお題が表示されます</div>
-  <button onclick="startGame()">お題を表示</button>
-  <div id="timer">残り時間: --秒</div>
-  <button onclick="resetGame()">次のお題へ</button>
+    <label>ゲーム数：</label>
+    <input type="number" id="gameCount" value="3" min="1" max="10"><br /><br />
 
-  <h3>スコア入力</h3>
-  <div id="scoreInputArea"></div>
-  <button onclick="submitScores()">スコア確定</button>
-</section>
+    <button onclick="setupGame()">ゲーム開始</button>
+  </section>
 
-<!-- スコア結果 -->
-<section id="scoreDisplay" style="display:none;">
-  <h2>スコア集計</h2>
-  <ul id="scoreBoard"></ul>
-</section>
+  <!-- ゲーム画面 -->
+  <section id="gameArea" style="display:none;">
+    <h2>Round <span id="roundNum">1</span> / <span id="totalRounds">3</span></h2>
+    <div id="topicArea">ここにお題が表示されます</div>
+    <button onclick="startGame()">お題を表示</button>
+    <div id="timer">残り時間: --秒</div>
+    <button onclick="resetGame()">次のお題へ</button>
 
-<div class="ad">[広告スペース]</div>
-<button onclick="share()">SNSでシェア</button>
+    <h3>スコア入力</h3>
+    <div id="scoreInputArea"></div>
+    <button onclick="submitScores()">スコア確定</button>
+  </section>
+
+  <!-- 結果画面 -->
+  <section id="scoreDisplay" style="display:none;">
+    <h2>スコア集計</h2>
+    <ul id="scoreBoard"></ul>
+  </section>
+
+  <div class="ad">[広告スペース]</div>
+  <button onclick="share()">SNSでシェア</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
