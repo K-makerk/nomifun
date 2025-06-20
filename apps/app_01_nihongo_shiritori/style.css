@@ -1,32 +1,62 @@
-bbody {
-  font-family: sans-serif;
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
   padding: 20px;
+  background-color: #fdfdfd;
+  color: #333;
   max-width: 600px;
-  margin: auto;
-  text-align: center;
-  background-color: #fefefe;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h1, h2, h3 {
-  color: #333;
+  text-align: center;
+  color: #222;
 }
 
-input, select, button {
-  font-size: 1em;
-  margin: 5px;
-  padding: 8px;
+section {
+  margin-bottom: 30px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-#ad {
-  background-color: #eee;
+input[type="text"],
+input[type="number"],
+select {
+  width: 90%;
+  max-width: 400px;
   padding: 10px;
-  margin: 20px 0;
+  font-size: 1em;
+  margin: 5px auto;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  font-size: 1em;
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 #topicArea {
   font-size: 1.4em;
-  margin: 20px 0;
   font-weight: bold;
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f0f8ff;
+  border-radius: 8px;
 }
 
 #timer {
@@ -35,13 +65,52 @@ input, select, button {
   margin: 10px 0;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+#ad {
+  margin: 20px 0;
+  background: #eee;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9em;
 }
 
-@media (max-width: 600px) {
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  font-size: 1.1em;
+  margin: 8px 0;
+}
+
+/* ✅ スマホ専用対応 */
+@media screen and (max-width: 480px) {
   body {
-    font-size: 1em;
+    padding: 10px;
+    font-size: 0.95em;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.2em;
+  }
+
+  button {
+    width: 100%;
+    margin: 8px 0;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+  }
+
+  #topicArea {
+    font-size: 1.2em;
+  }
+
+  #timer {
+    font-size: 1.1em;
   }
 }
