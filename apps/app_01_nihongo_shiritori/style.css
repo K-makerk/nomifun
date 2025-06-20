@@ -1,121 +1,59 @@
-:root {
-  --bg-color: #f9f9f9;
-  --text-color: #222;
-  --accent-color: #4caf50;
-  --danger-color: #e53935;
-  --card-bg: #fff;
-  --input-bg: #fefefe;
-}
-
-body.dark {
-  --bg-color: #121212;
-  --text-color: #f0f0f0;
-  --accent-color: #81c784;
-  --card-bg: #1e1e1e;
-  --input-bg: #2a2a2a;
-}
-
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
   font-family: 'Segoe UI', sans-serif;
+  background: #f0f0f0;
   margin: 0;
-  padding: 0;
+  padding: 1em;
+  color: #333;
 }
 
 .container {
-  max-width: 700px;
+  max-width: 720px;
   margin: auto;
+  background: white;
   padding: 1em;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-section {
-  background-color: var(--card-bg);
-  padding: 1em;
-  border-radius: 12px;
-  margin-bottom: 1em;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: background-color 0.3s;
-}
-
-h1, h2, h3 {
-  text-align: center;
-}
-
-input[type="text"],
-input[type="number"],
-select {
+input, select {
   width: 100%;
-  padding: 0.8em;
-  margin: 0.5em 0;
-  border-radius: 8px;
+  padding: 0.6em;
+  margin: 0.5em 0 1em 0;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  background-color: var(--input-bg);
-  color: var(--text-color);
 }
 
 button {
-  background-color: var(--accent-color);
+  background: #4caf50;
   color: white;
   border: none;
-  padding: 0.75em 1.5em;
-  border-radius: 8px;
+  padding: 0.7em 1.2em;
+  border-radius: 6px;
   font-size: 1em;
-  margin-top: 1em;
   cursor: pointer;
-  width: 100%;
+  margin: 0.4em 0.2em;
 }
 
-button:hover {
-  opacity: 0.9;
-}
-
-button:disabled {
-  background-color: #aaa;
-}
-
-#timer {
-  font-size: 1.3em;
-  font-weight: bold;
+.fixed-buttons {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 1em 0;
   text-align: center;
-  color: var(--danger-color);
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
 }
 
-.ad {
-  text-align: center;
+#ad {
   margin-top: 1em;
   padding: 1em;
-  background-color: #e0e0e0;
-  border-radius: 6px;
+  background: #eee;
+  text-align: center;
+  border-radius: 5px;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-li {
-  padding: 0.5em 0;
-}
-
-@media (max-width: 480px) {
-  h1, h2, h3 {
-    font-size: 1.2em;
-  }
-
-  button {
-    font-size: 1em;
-    padding: 0.8em;
-  }
-
-  input, select {
-    font-size: 1em;
-  }
-}
-
-.dark-toggle {
-  float: right;
-  margin-top: -2em;
-  font-size: 0.9em;
-  cursor: pointer;
+#mvpDisplay {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: gold;
+  margin-top: 1em;
 }
