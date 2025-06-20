@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>肩車ゲーム</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
@@ -12,7 +12,7 @@
 
     <div id="setup">
       <h2>ペア設定</h2>
-      <p>プレイヤー数は偶数で入力（例：4人 → 2ペア）</p>
+      <p>偶数人数を入力してください（例：4 → 2ペア）</p>
       <input type="number" id="playerCount" min="2" step="2" placeholder="人数を入力 (偶数)">
       <button onclick="createPairInputs()">ペア入力へ進む</button>
     </div>
@@ -22,14 +22,15 @@
     <div id="game" style="display: none;">
       <h2>ラウンド <span id="roundNumber">1</span> / 3</h2>
       <p id="prompt"></p>
-      <div id="answers"></div>
-      <button id="submitAnswersBtn" onclick="submitAnswers()">回答を判定</button>
+      <div id="inputArea"></div>
     </div>
 
     <div id="result" style="display: none;">
       <h2>結果発表</h2>
       <div id="scoreBoard"></div>
       <h3 id="winner"></h3>
+      <h2>回答ログ</h2>
+      <div id="answerLog"></div>
       <button onclick="location.reload()">もう一度プレイ</button>
     </div>
   </div>
