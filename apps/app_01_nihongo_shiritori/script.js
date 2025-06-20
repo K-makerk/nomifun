@@ -1,11 +1,4 @@
-const topics = [
-  "立ち上がる", "寝る", "カーテンを開ける", "歯を磨く", "お辞儀", "くしゃみ", "ジャンプ", "ダンス",
-  "サッカー", "野球", "バスケ", "スキー", "水泳", "ボクシング", "卓球", "テニス",
-  "ピアノ", "ギター", "ドラム", "フルート", "三味線", "カスタネット",
-  "ゾウ", "犬", "ネコ", "ライオン", "ヘビ", "ペンギン", "カンガルー",
-  "医者", "警察官", "大工", "パイロット", "教師", "バーテンダー", "歌手"
-];
-
+const topics = ["ゾウ", "ライオン", "バナナ", "ギター", "寝る", "ジャンプ", "ドラム", "水泳", "先生", "カンガルー"];
 let players = [];
 let teams = { A: [], B: [] };
 let isTeamMode = false;
@@ -15,6 +8,10 @@ let scores = {};
 let currentPlayerIndex = 0;
 let timer;
 let timeLeft = 20;
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
 
 function setupGame() {
   const input = document.getElementById("playerInput").value;
@@ -61,12 +58,12 @@ function setupGame() {
 function updatePlayerDisplay() {
   const current = players[currentPlayerIndex];
   const next = players[(currentPlayerIndex + 1) % players.length];
-  const teamName = getTeamName(current);
+  const team = getTeamName(current);
 
   document.getElementById("currentPlayerDisplay").textContent = `現在のプレイヤー: ${current}`;
   document.getElementById("nextPlayerDisplay").textContent = `次のプレイヤー: ${next}`;
   document.getElementById("instructionText").textContent = `${current}さんは準備できたら「お題を表示」ボタンを押してください`;
-  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? `現在のチーム: チーム${teamName}` : "現在のチーム: なし";
+  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? `現在のチーム: チーム${team}` : "現在のチーム: -";
 
   speak(`${current}さん、準備ができたらスタートしてください`);
 }
@@ -82,7 +79,7 @@ function speak(text) {
   if ('speechSynthesis' in window) {
     const msg = new SpeechSynthesisUtterance(text);
     msg.lang = "ja-JP";
-    window.speechSynthesis.cancel(); // 前の発話をキャンセル
+    window.speechSynthesis.cancel();
     window.speechSynthesis.speak(msg);
   }
 }
@@ -98,6 +95,9 @@ function startGame() {
   timer = setInterval(() => {
     timeLeft--;
     document.getElementById("timer").textContent = `残り時間: ${timeLeft}秒`;
+    if (timeLeft <= 5) {
+      document.getElementById("timer").style.color = "red";
+    }
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById("timer").textContent = "時間終了！";
@@ -123,20 +123,10 @@ function showScoreInputs() {
 }
 
 function submitScores() {
-  let valid = true;
   players.forEach(p => {
     const val = parseInt(document.getElementById(`score_${p}`).value);
-    if (!isNaN(val)) {
-      scores[p] += val;
-    } else {
-      valid = false;
-    }
+    if (!isNaN(val)) scores[p] += val;
   });
-
-  if (!valid) {
-    alert("すべてのスコア欄に1〜10の数字を入力してください");
-    return;
-  }
 
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 
