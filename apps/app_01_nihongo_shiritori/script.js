@@ -1,15 +1,10 @@
 console.log("Loaded");
 
 const topics = [
-  // 動作・日常
   "立ち上がる", "寝る", "カーテンを開ける", "歯を磨く", "お辞儀", "くしゃみ", "ジャンプ", "ダンス",
-  // スポーツ
   "サッカー", "野球", "バスケ", "スキー", "水泳", "ボクシング", "卓球", "テニス",
-  // 楽器
   "ピアノ", "ギター", "ドラム", "フルート", "三味線", "カスタネット",
-  // 動物
   "ゾウ", "犬", "ネコ", "ライオン", "ヘビ", "ペンギン", "カンガルー",
-  // 職業
   "医者", "警察官", "大工", "パイロット", "教師", "バーテンダー", "歌手"
 ];
 
@@ -57,6 +52,9 @@ function setupGame() {
   document.getElementById("gameArea").style.display = "block";
   document.getElementById("scoreDisplay").style.display = "none";
   document.getElementById("roundNum").textContent = currentRound;
+
+  // テスト用：スコア欄を常に出す（不要なら削除）
+  // showScoreInputs();
 }
 
 function startGame() {
@@ -72,6 +70,8 @@ function startGame() {
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById("timer").textContent = "時間終了！";
+
+      // ✅ 修正：必ずスコア入力欄を出す
       showScoreInputs();
     }
   }, 1000);
@@ -83,21 +83,37 @@ function resetGame() {
   clearInterval(timer);
   document.getElementById("topicArea").textContent = "ここにお題が表示されます";
   document.getElementById("timer").textContent = "残り時間: --秒";
+  document.getElementById("scoreInputArea").innerHTML = "";
 }
 
 function showScoreInputs() {
   const area = document.getElementById("scoreInputArea");
   area.innerHTML = "";
   players.forEach(p => {
-    area.innerHTML += `<label>${p}のスコア（1〜10）:</label> <input type="number" id="score_${p}" min="1" max="10"><br>`;
+    area.innerHTML += `
+      <label>${p}のスコア（1〜10）:</label> 
+      <input type="number" id="score_${p}" min="1" max="10"><br>`;
   });
+
+  console.log("スコア入力欄を表示しました");
 }
 
 function submitScores() {
+  let valid = true;
+
   players.forEach(p => {
     const val = parseInt(document.getElementById(`score_${p}`).value);
-    if (!isNaN(val)) scores[p] += val;
+    if (!isNaN(val)) {
+      scores[p] += val;
+    } else {
+      valid = false;
+    }
   });
+
+  if (!valid) {
+    alert("すべてのスコア欄に1〜10の数字を入力してください");
+    return;
+  }
 
   if (currentRound < totalRounds) {
     currentRound++;
