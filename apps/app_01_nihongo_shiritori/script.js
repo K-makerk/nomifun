@@ -98,16 +98,22 @@ function showScoreInputs() {
   area.innerHTML = "";
   players.forEach(p => {
     if (!spectators.includes(p)) {
-      area.innerHTML += `<label>${p}のスコア:</label><input type="number" id="score_${p}" min="1" max="10"><br>`;
+      area.innerHTML += `
+        <label>${p} のジェスチャー成功:
+          <input type="checkbox" id="success_${p}">
+        </label>
+        <input type="number" id="score_${p}" min="1" max="10" placeholder="スコア"><br>
+      `;
     }
   });
 }
 
 function submitScores() {
   players.forEach(p => {
-    const input = document.getElementById(`score_${p}`);
-    if (input) {
-      const val = parseInt(input.value);
+    const scoreInput = document.getElementById(`score_${p}`);
+    const successInput = document.getElementById(`success_${p}`);
+    if (scoreInput && successInput && successInput.checked) {
+      const val = parseInt(scoreInput.value);
       if (!isNaN(val)) scores[p] += val;
     }
   });
@@ -146,4 +152,15 @@ function saveResultImage() {
     a.download = "result.png";
     a.click();
   });
+}
+function returnToTitle() {
+  clearInterval(timer);
+  document.getElementById("setupScreen").style.display = "block";
+  document.getElementById("gameArea").style.display = "none";
+  document.getElementById("scoreDisplay").style.display = "none";
+  document.getElementById("scoreInputArea").innerHTML = "";
+  document.getElementById("scoreBoard").innerHTML = "";
+  document.getElementById("mvpDisplay").innerHTML = "";
+  document.getElementById("topicArea").textContent = "ここにお題が表示されます";
+  document.getElementById("timer").textContent = "残り時間: --秒";
 }
