@@ -4,12 +4,12 @@ const topics = {
   actions: ["ジャンプ", "ダンス", "寝る", "お辞儀", "拍手"],
   hard: ["透明人間", "忍者", "宇宙飛行士", "マジシャン"]
 };
-
 const bonusRounds = ["音声禁止", "片手のみで表現", "逆立ちのフリをする"];
 const missions = ["5秒以内に正解", "2人同時に正解", "連続3回成功"];
 
 let players = [], spectators = [], scores = {}, currentPlayerIndex = 0;
 let totalRounds = 3, currentRound = 1, isTeamMode = false;
+let currentCategory = "animals";
 let teams = { A: [], B: [] };
 let timer, timeLeft = 20;
 
@@ -22,7 +22,6 @@ function setupGame() {
   currentRound = 1;
   currentPlayerIndex = 0;
 
-  // チーム設定
   const method = document.getElementById("teamMethod").value;
   if (method === "random") {
     teams.A = [], teams.B = [];
@@ -37,7 +36,6 @@ function setupGame() {
     isTeamMode = false;
   }
 
-  // BGM
   const bgm = document.getElementById("bgm");
   const choice = document.getElementById("bgmSelect").value;
   if (choice === "cafe") bgm.src = "https://example.com/cafe.mp3";
@@ -82,21 +80,8 @@ function startGame() {
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById("timer").textContent = "時間終了！";
-      //showScoreInputs();
     }
   }, 1000);
-}
-
-function forceEnd() {
-  clearInterval(timer);
-  document.getElementById("timer").textContent = "時間終了（手動）！";
-}
-
-function resetGame() {
-  document.getElementById("topicArea").textContent = "ここにお題が表示されます";
-  document.getElementById("bonusText").textContent = "";
-  document.getElementById("missionText").textContent = "";
-  document.getElementById("scoreInputArea").innerHTML = "";
 }
 
 function showScoreInputs() {
@@ -104,13 +89,8 @@ function showScoreInputs() {
   area.innerHTML = "";
 
   const currentPlayer = players[currentPlayerIndex];
-  let scoringTargets = [];
-
-  if (isTeamMode) {
-    scoringTargets = teams.A.includes(currentPlayer) ? teams.A : teams.B;
-  } else {
-    scoringTargets = [currentPlayer];
-  }
+  let scoringTargets = isTeamMode ? (teams.A.includes(currentPlayer) ? teams.A : teams.B) : [currentPlayer];
+  scoringTargets = scoringTargets.filter(p => !spectators.includes(p));
 
   scoringTargets.forEach(p => {
     area.innerHTML += `
@@ -126,39 +106,16 @@ function showScoreInputs() {
 
 function submitScores() {
   const currentPlayer = players[currentPlayerIndex];
-  let scoringTargets = isTeamMode
-    ? (teams.A.includes(currentPlayer) ? teams.A : teams.B)
-    : [currentPlayer];
+  const scoringTargets = isTeamMode ? (teams.A.includes(currentPlayer) ? teams.A : teams.B) : [currentPlayer];
 
   scoringTargets.forEach(p => {
+    if (spectators.includes(p)) return;
     const result = document.getElementById(`result_${p}`).value;
-    let base = 0;
-
-    switch (result) {
-      case "success": base = 5; break;
-      case "great": base = 7; break;
-      case "fail": default: base = 0;
-    }
-
-    let bonus = 0;
-
-    // 時間ボーナス（最大 5〜6点程度）
-    bonus += Math.min(Math.round(timeLeft * 0.2), 6);
-
-    // ミッション成功（タイマー5秒以内クリア）
+    let base = result === "fail" ? 0 : result === "success" ? 5 : 7;
+    let bonus = Math.min(Math.round(timeLeft * 0.2), 6);
     if (timeLeft >= (20 - 5)) bonus += 3;
-
     scores[p] += base + bonus;
   });
-
-  if (currentRound < totalRounds) {
-    currentRound++;
-    document.getElementById("roundNum").textContent = currentRound;
-    resetGame();
-  } else {
-    showScoreBoard();
-  }
-}
 
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   if (currentRound < totalRounds) {
@@ -169,6 +126,14 @@ function submitScores() {
   } else {
     showScoreBoard();
   }
+}
+
+function resetGame() {
+  clearInterval(timer);
+  document.getElementById("topicArea").textContent = "ここにお題が表示されます";
+  document.getElementById("bonusText").textContent = "";
+  document.getElementById("missionText").textContent = "";
+  document.getElementById("scoreInputArea").innerHTML = "";
 }
 
 function showScoreBoard() {
@@ -195,6 +160,7 @@ function saveResultImage() {
     a.click();
   });
 }
+
 function returnToTitle() {
   clearInterval(timer);
   document.getElementById("setupScreen").style.display = "block";
@@ -205,4 +171,9 @@ function returnToTitle() {
   document.getElementById("mvpDisplay").innerHTML = "";
   document.getElementById("topicArea").textContent = "ここにお題が表示されます";
   document.getElementById("timer").textContent = "残り時間: --秒";
+}
+
+function forceEnd() {
+  clearInterval(timer);
+  document.getElementById("timer").textContent = "時間終了（手動）！";
 }
