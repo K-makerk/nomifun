@@ -1,5 +1,3 @@
-console.log("Loaded");
-
 const topics = [
   "立ち上がる", "寝る", "カーテンを開ける", "歯を磨く", "お辞儀", "くしゃみ", "ジャンプ", "ダンス",
   "サッカー", "野球", "バスケ", "スキー", "水泳", "ボクシング", "卓球", "テニス",
@@ -14,6 +12,7 @@ let isTeamMode = false;
 let totalRounds = 3;
 let currentRound = 1;
 let scores = {};
+let currentPlayerIndex = 0;
 let timer;
 let timeLeft = 20;
 
@@ -49,15 +48,47 @@ function setupGame() {
   scores = {};
   players.forEach(p => scores[p] = 0);
   currentRound = 1;
+  currentPlayerIndex = 0;
 
-  // ✅ 画面切り替え
   document.getElementById("setupScreen").style.display = "none";
   document.getElementById("gameArea").style.display = "block";
   document.getElementById("scoreDisplay").style.display = "none";
   document.getElementById("roundNum").textContent = currentRound;
+
+  updatePlayerDisplay();
+}
+
+function updatePlayerDisplay() {
+  const current = players[currentPlayerIndex];
+  const next = players[(currentPlayerIndex + 1) % players.length];
+  const teamName = getTeamName(current);
+
+  document.getElementById("currentPlayerDisplay").textContent = `現在のプレイヤー: ${current}`;
+  document.getElementById("nextPlayerDisplay").textContent = `次のプレイヤー: ${next}`;
+  document.getElementById("instructionText").textContent = `${current}さんは準備できたら「お題を表示」ボタンを押してください`;
+  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? `現在のチーム: チーム${teamName}` : "現在のチーム: なし";
+
+  speak(`${current}さん、準備ができたらスタートしてください`);
+}
+
+function getTeamName(name) {
+  if (!isTeamMode) return "";
+  if (teams.A.includes(name)) return "A";
+  if (teams.B.includes(name)) return "B";
+  return "";
+}
+
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.lang = "ja-JP";
+    window.speechSynthesis.cancel(); // 前の発話をキャンセル
+    window.speechSynthesis.speak(msg);
+  }
 }
 
 function startGame() {
+  updatePlayerDisplay();
   const topic = topics[Math.floor(Math.random() * topics.length)];
   document.getElementById("topicArea").textContent = "お題: " + topic;
   timeLeft = 20;
@@ -73,8 +104,6 @@ function startGame() {
       showScoreInputs();
     }
   }, 1000);
-
-  console.log("アクセスログ: お題表示 - " + topic);
 }
 
 function resetGame() {
@@ -109,10 +138,13 @@ function submitScores() {
     return;
   }
 
+  currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+
   if (currentRound < totalRounds) {
     currentRound++;
     document.getElementById("roundNum").textContent = currentRound;
     resetGame();
+    updatePlayerDisplay();
   } else {
     showScoreBoard();
   }
@@ -130,5 +162,4 @@ function showScoreBoard() {
 
 function share() {
   alert("SNSで共有されました（模擬）");
-  console.log("SNS共有ログ記録");
 }
