@@ -96,15 +96,25 @@ function resetGame() {
 function showScoreInputs() {
   const area = document.getElementById("scoreInputArea");
   area.innerHTML = "";
-  players.forEach(p => {
-    if (!spectators.includes(p)) {
-      area.innerHTML += `
-        <label>${p} のジェスチャー成功:
-          <input type="checkbox" id="success_${p}">
-        </label>
-        <input type="number" id="score_${p}" min="1" max="10" placeholder="スコア"><br>
-      `;
-    }
+
+  const currentPlayer = players[currentPlayerIndex];
+  let scoringTargets = [];
+
+  if (isTeamMode) {
+    // チーム戦：同じチームのメンバーを全員対象
+    scoringTargets = teams.A.includes(currentPlayer) ? teams.A : teams.B;
+  } else {
+    // 個人戦：現在のプレイヤーのみ
+    scoringTargets = [currentPlayer];
+  }
+
+  scoringTargets.forEach(p => {
+    area.innerHTML += `
+      <label>${p} のジェスチャー成功:
+        <input type="checkbox" id="success_${p}">
+      </label>
+      <input type="number" id="score_${p}" min="1" max="10" placeholder="スコア"><br>
+    `;
   });
 }
 
