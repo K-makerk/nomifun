@@ -8,8 +8,9 @@ let players = [];
 let twins = [];
 let answers = [];
 let currentPlayer = 0;
-let timer;
-let timeLeft = 60;
+
+let timerInterval = null;
+let remainingSeconds = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   showPlayerForm();
@@ -57,7 +58,6 @@ function showNextAnswerInput() {
   main.innerHTML = `
     <h2>${p.name}さんのターン</h2>
     ${isTwin ? `<p style="color: red; font-weight: bold;">あなたは双子です！<br>もう1人の双子：<strong>${players[otherTwinIndex].name}</strong></p>` : ""}
-    <div class="timer" id="timer">制限時間: 60秒</div>
     <form id="answerForm">
       ${questions.map((q, i) => {
         const topic = isTwin ? q.twinTopic : q.othersTopic;
@@ -71,14 +71,8 @@ function showNextAnswerInput() {
     </form>
   `;
 
-  startTimer(() => {
-    alert("時間切れです！次のプレイヤーへ移ります。");
-    submitEmptyAnswers();
-  });
-
   document.getElementById("answerForm").addEventListener("submit", function (e) {
     e.preventDefault();
-    clearInterval(timer);
     const playerAnswers = [];
     for (let i = 0; i < questions.length; i++) {
       const val = document.getElementById(`q_${i}`).value.trim();
@@ -94,26 +88,6 @@ function showNextAnswerInput() {
   });
 }
 
-function startTimer(onTimeout) {
-  timeLeft = 60;
-  const timerDisplay = document.getElementById("timer");
-  timerDisplay.textContent = `制限時間: ${timeLeft}秒`;
-  timer = setInterval(() => {
-    timeLeft--;
-    timerDisplay.textContent = `制限時間: ${timeLeft}秒`;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      onTimeout();
-    }
-  }, 1000);
-}
-
-function submitEmptyAnswers() {
-  answers[currentPlayer] = ["（未回答）", "（未回答）", "（未回答）"];
-  currentPlayer++;
-  showNextAnswerInput();
-}
-
 function showAllAnswers() {
   const main = document.getElementById("main");
   main.innerHTML = "<h2>全員の回答</h2>";
@@ -122,7 +96,49 @@ function showAllAnswers() {
       answers[i].map(a => `<li>${a}</li>`).join("") +
       "</ul></div>";
   });
-  main.innerHTML += `<button onclick="showTwinGuessPhase()">双子を当てる</button>`;
+
+  // タイマー操作UI追加
+  main.innerHTML += `
+    <div class="timer-control">
+      <label>制限時間（分）: <input type="number" id="timeInput" value="3" min="1" /></label><br>
+      <button onclick="startGameTimer()">開始</button>
+      <button onclick="stopGameTimer()">終了</button>
+      <div id="timerDisplay" class="timer-display"></div>
+    </div>
+    <button onclick="showTwinGuessPhase()">双子を当てる</button>
+  `;
+}
+
+function startGameTimer() {
+  const inputMinutes = parseInt(document.getElementById("timeInput").value);
+  if (isNaN(inputMinutes) || inputMinutes <= 0) {
+    alert("1分以上の値を入力してください。");
+    return;
+  }
+
+  clearInterval(timerInterval);
+  remainingSeconds = inputMinutes * 60;
+  updateTimerDisplay();
+
+  timerInterval = setInterval(() => {
+    remainingSeconds--;
+    updateTimerDisplay();
+    if (remainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById("timerDisplay").textContent = "⏰ 時間切れ！";
+    }
+  }, 1000);
+}
+
+function stopGameTimer() {
+  clearInterval(timerInterval);
+  document.getElementById("timerDisplay").textContent = "🛑 タイマー終了";
+}
+
+function updateTimerDisplay() {
+  const mins = Math.floor(remainingSeconds / 60);
+  const secs = remainingSeconds % 60;
+  document.getElementById("timerDisplay").textContent = `残り時間: ${mins}分 ${secs}秒`;
 }
 
 function showTwinGuessPhase() {
@@ -159,3 +175,4 @@ function checkTwinGuess() {
     <button onclick="showPlayerForm()">もう一度遊ぶ</button>
   `;
 }
+
