@@ -3,24 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ジェスチャーゲーム 拡張版</title>
+  <title>ジェスチャーゲーム完全版</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>ジェスチャーゲーム</h1>
-    <div class="dark-toggle" onclick="toggleDarkMode()">🌙 ダークモード</div>
+    <h1>ジェスチャーゲーム完全版</h1>
+
+    <!-- BGM選択 -->
+    <section>
+      <label for="bgmSelect">🎵 BGMを選択:</label>
+      <select id="bgmSelect">
+        <option value="none">なし</option>
+        <option value="cafe">カフェ風</option>
+        <option value="anime">アニメ風</option>
+        <option value="party">パーティー風</option>
+      </select>
+    </section>
 
     <!-- プレイヤー設定 -->
     <section id="setupScreen">
       <label>プレイヤー名（カンマ区切り）:</label>
       <input type="text" id="playerInput" placeholder="例: あきら,さくら,たくみ">
 
+      <label>観客名（カンマ区切り）:</label>
+      <input type="text" id="spectatorInput" placeholder="例: かんきゃく1,かんきゃく2">
+
       <label>チーム分け方法:</label>
       <select id="teamMethod">
         <option value="none">個人戦（チームなし）</option>
         <option value="random">ランダム</option>
-        <option value="manual">手動（前半がA, 後半がB）</option>
+        <option value="manual">手動</option>
+      </select>
+
+      <label>お題ジャンル:</label>
+      <select id="topicCategory">
+        <option value="animals">動物</option>
+        <option value="jobs">職業</option>
+        <option value="actions">アクション</option>
+        <option value="hard">難問</option>
       </select>
 
       <label>ゲーム数:</label>
@@ -32,32 +53,45 @@
     <!-- ゲーム画面 -->
     <section id="gameArea" style="display:none;">
       <h2>Round <span id="roundNum">1</span> / <span id="totalRounds">3</span></h2>
-
       <p id="currentTeamDisplay">現在のチーム: -</p>
       <p id="currentPlayerDisplay">現在のプレイヤー: -</p>
       <p id="nextPlayerDisplay">次のプレイヤー: -</p>
-      <p id="instructionText">〇〇さんは準備できたら[お題を表示]を押してください</p>
+      <p id="instructionText">〇〇さんは準備できたら「お題を表示」ボタンを押してください</p>
+      <p id="bonusText"></p>
+      <p id="missionText"></p>
 
       <div id="topicArea">ここにお題が表示されます</div>
-      <button onclick="startGame()">お題を表示</button>
-      <div id="timer">残り時間: --秒</div>
-      <button onclick="resetGame()">次のお題へ</button>
 
-      <h3>スコア入力</h3>
+      <div class="fixed-buttons">
+        <button onclick="startGame()">お題を表示</button>
+        <button onclick="resetGame()">次のお題へ</button>
+        <button onclick="submitScores()">スコア確定</button>
+      </div>
+
+      <div id="timer">残り時間: --秒</div>
+
       <div id="scoreInputArea"></div>
-      <button onclick="submitScores()">スコア確定</button>
     </section>
 
     <!-- 結果画面 -->
     <section id="scoreDisplay" style="display:none;">
       <h2>スコア集計</h2>
       <ul id="scoreBoard"></ul>
+      <div id="mvpDisplay"></div>
+      <button onclick="saveResultImage()">📸 結果を画像保存</button>
     </section>
 
+    <!-- 広告エリア -->
     <div class="ad">[広告スペース]</div>
-    <button onclick="share()">SNSでシェア</button>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- BGM -->
+    <audio id="bgm" loop></audio>
+
+    <!-- Canvas生成 -->
+    <canvas id="resultCanvas" style="display:none;"></canvas>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+  </div>
 </body>
 </html>
