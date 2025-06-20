@@ -1,1 +1,42 @@
-body { font-family: sans-serif; }
+body {
+  font-family: sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 1em;
+}
+
+.container {
+  max-width: 720px;
+  margin: auto;
+  background: white;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input, button {
+  padding: 0.6em;
+  margin: 0.5em 0;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 600px) {
+  input, button {
+    font-size: 1em;
+  }
+}
