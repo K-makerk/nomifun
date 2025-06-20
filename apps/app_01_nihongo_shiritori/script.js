@@ -48,13 +48,13 @@ function setupGame() {
 
   scores = {};
   players.forEach(p => scores[p] = 0);
+  currentRound = 1;
 
+  // ✅ 画面切り替え
+  document.getElementById("setupScreen").style.display = "none";
   document.getElementById("gameArea").style.display = "block";
   document.getElementById("scoreDisplay").style.display = "none";
   document.getElementById("roundNum").textContent = currentRound;
-
-  // テスト用：スコア欄を常に出す（不要なら削除）
-  // showScoreInputs();
 }
 
 function startGame() {
@@ -70,8 +70,6 @@ function startGame() {
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById("timer").textContent = "時間終了！";
-
-      // ✅ 修正：必ずスコア入力欄を出す
       showScoreInputs();
     }
   }, 1000);
@@ -90,17 +88,13 @@ function showScoreInputs() {
   const area = document.getElementById("scoreInputArea");
   area.innerHTML = "";
   players.forEach(p => {
-    area.innerHTML += `
-      <label>${p}のスコア（1〜10）:</label> 
+    area.innerHTML += `<label>${p}のスコア（1〜10）:</label> 
       <input type="number" id="score_${p}" min="1" max="10"><br>`;
   });
-
-  console.log("スコア入力欄を表示しました");
 }
 
 function submitScores() {
   let valid = true;
-
   players.forEach(p => {
     const val = parseInt(document.getElementById(`score_${p}`).value);
     if (!isNaN(val)) {
@@ -130,6 +124,7 @@ function showScoreBoard() {
   Object.entries(scores).forEach(([name, score]) => {
     board.innerHTML += `<li>${name}: ${score} 点</li>`;
   });
+
   document.getElementById("scoreDisplay").style.display = "block";
 }
 
