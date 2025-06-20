@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>完全版ジェスチャーゲーム</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="setupScreen">
     <h1>完全版ジェスチャーゲーム</h1>
-    <label>プレイヤー名（カンマ区切り）:</label><br>
-    <input type="text" id="playerInput" placeholder="例: あきら,さくら,たくみ"><br><br>
+
+    <label>プレイヤー名（カンマ区切り）:</label><br />
+    <input type="text" id="playerInput" placeholder="例: あきら,さくら,たくみ" /><br /><br />
 
     <label>チーム分け:</label>
     <select id="teamMethod">
       <option value="none">個人戦</option>
       <option value="random">ランダム</option>
       <option value="manual">手動</option>
-    </select><br><br>
+    </select><br /><br />
 
     <label>ゲーム数:</label>
-    <input type="number" id="gameCount" value="3" min="1" max="10"><br><br>
+    <input type="number" id="gameCount" value="3" min="1" max="10" /><br /><br />
 
     <button onclick="setupGame()">ゲーム開始</button>
   </div>
 
-  <div id="gameArea" style="display:none;">
+  <div id="gameArea" style="display: none">
     <h2>Round <span id="roundNum">1</span> / <span id="totalRounds">3</span></h2>
     <p>現在のプレイヤー: <span id="currentPlayer"></span></p>
     <p>次のプレイヤー: <span id="nextPlayer"></span></p>
     <p><span id="promptMessage"></span></p>
+
     <div id="topicArea">ここにお題が表示されます</div>
 
     <div class="fixed-buttons">
@@ -45,7 +47,7 @@
     <div class="ad">[広告スペース]</div>
   </div>
 
-  <div id="scoreDisplay" style="display:none;">
+  <div id="scoreDisplay" style="display: none">
     <h2>スコア集計</h2>
     <ul id="scoreBoard"></ul>
     <div id="mvpDisplay"></div>
