@@ -1,1 +1,39 @@
-<html><body><h1>App 02 Kataguruma Game</h1></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>肩車ゲーム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>肩車ゲーム</h1>
+
+    <div id="setup">
+      <h2>ペア設定</h2>
+      <p>プレイヤー数は偶数で入力（例：4人 → 2ペア）</p>
+      <input type="number" id="playerCount" min="2" step="2" placeholder="人数を入力 (偶数)">
+      <button onclick="createPairInputs()">ペア入力へ進む</button>
+    </div>
+
+    <div id="pairInputs" style="display: none;"></div>
+
+    <div id="game" style="display: none;">
+      <h2>ラウンド <span id="roundNumber">1</span> / 3</h2>
+      <p id="prompt"></p>
+      <div id="answers"></div>
+      <button id="submitAnswersBtn" onclick="submitAnswers()">回答を判定</button>
+    </div>
+
+    <div id="result" style="display: none;">
+      <h2>結果発表</h2>
+      <div id="scoreBoard"></div>
+      <h3 id="winner"></h3>
+      <button onclick="location.reload()">もう一度プレイ</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
