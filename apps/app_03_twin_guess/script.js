@@ -17,11 +17,9 @@ let players = [];
 let twins = [];
 let answers = [];
 let currentPlayer = 0;
-let currentQuestion = 0;
 
 const main = document.getElementById("main");
 
-// グローバルスコープに登録
 window.registerPlayers = function() {
   const lines = document.getElementById("names").value.trim().split("\n").map(x => x.trim()).filter(x => x);
   if (lines.length < 5) {
@@ -32,7 +30,6 @@ window.registerPlayers = function() {
   twins = pickRandomTwins(players.length);
   answers = Array(players.length).fill(null).map(() => []);
   currentPlayer = 0;
-  currentQuestion = 0;
   showNextAnswerInput();
 };
 
@@ -50,42 +47,47 @@ function showPlayerForm() {
 }
 
 function showNextAnswerInput() {
-  if (currentQuestion >= questions.length) {
-    showAllAnswers();
-    return;
-  }
   if (currentPlayer >= players.length) {
-    currentPlayer = 0;
-    currentQuestion++;
-    showNextAnswerInput();
+    showAllAnswers();
     return;
   }
 
   const p = players[currentPlayer];
   const isTwin = twins.includes(currentPlayer);
   const otherTwinIndex = twins.find(i => i !== currentPlayer);
-  const topic = isTwin ? questions[currentQuestion].twinTopic : questions[currentQuestion].othersTopic;
-
   main.innerHTML = `
-    <h2>${p.name}さんの回答</h2>
-    <p>あなたのお題：<strong>${topic}</strong></p>
+    <h2>${p.name}さんのターン</h2>
+    <p>あなたのお題：<strong>${isTwin ? questions[0].twinTopic : questions[0].othersTopic}</strong>（←これは1つ目のお題の例です。他も同様に切り替わっています）</p>
     ${isTwin ? `<p>※もう1人の双子：<strong>${players[otherTwinIndex].name}</strong></p>` : ""}
-    <p>質問：${questions[currentQuestion].question}</p>
-    <input type="text" id="answerInput" placeholder="ここに回答を入力" />
-    <button onclick="submitAnswer()">送信</button>
+    <form id="answerForm">
+      ${questions.map((q, idx) => {
+        const topic = isTwin ? q.twinTopic : q.othersTopic;
+        return `
+          <p><strong>質問${idx + 1}:</strong> ${q.question}</p>
+          <p>お題（あなたに与えられた状況）: <strong>${topic}</strong></p>
+          <input type="text" id="q_${idx}" placeholder="この質問への回答を入力" required />
+        `;
+      }).join("")}
+      <button type="submit">送信</button>
+    </form>
   `;
-}
 
-window.submitAnswer = function() {
-  const input = document.getElementById("answerInput").value.trim();
-  if (!input) {
-    alert("回答を入力してください！");
-    return;
-  }
-  answers[currentPlayer][currentQuestion] = input;
-  currentPlayer++;
-  showNextAnswerInput();
-};
+  document.getElementById("answerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const playerAnswers = [];
+    for (let i = 0; i < questions.length; i++) {
+      const val = document.getElementById(`q_${i}`).value.trim();
+      if (!val) {
+        alert(`質問${i + 1}の回答が空白です！`);
+        return;
+      }
+      playerAnswers.push(val);
+    }
+    answers[currentPlayer] = playerAnswers;
+    currentPlayer++;
+    showNextAnswerInput();
+  });
+}
 
 function showAllAnswers() {
   main.innerHTML = "<h2>全員の回答</h2>";
@@ -97,37 +99,5 @@ function showAllAnswers() {
   main.innerHTML += `<button onclick="showTwinGuessPhase()">双子を当てる</button>`;
 }
 
-window.showTwinGuessPhase = function() {
-  main.innerHTML = `
-    <h2>推理タイム！</h2>
-    <p>誰が双子だったかを選んでください（2人）</p>
-    <select id="guess1"><option value="">--選択--</option>${players.map((p, i) => `<option value="${i}">${p.name}</option>`)}</select>
-    <select id="guess2"><option value="">--選択--</option>${players.map((p, i) => `<option value="${i}">${p.name}</option>`)}</select>
-    <button onclick="checkTwinGuess()">結果を見る</button>
-  `;
-};
+window.showTwi
 
-window.checkTwinGuess = function() {
-  const g1 = parseInt(document.getElementById("guess1").value);
-  const g2 = parseInt(document.getElementById("guess2").value);
-  if (isNaN(g1) || isNaN(g2) || g1 === g2) {
-    alert("異なる2人を選んでください！");
-    return;
-  }
-
-  const selected = [g1, g2].sort((a, b) => a - b).join(",");
-  const correct = [...twins].sort((a, b) => a - b).join(",");
-  const result = selected === correct
-    ? "🎉 正解！一般人チームの勝ち！"
-    : "😈 不正解…双子チームの勝ち！";
-
-  main.innerHTML = `
-    <h2>ゲーム終了！</h2>
-    <p>選んだ双子：${players[g1].name} & ${players[g2].name}</p>
-    <p>本当の双子：${players[twins[0]].name} & ${players[twins[1]].name}</p>
-    <h2>${result}</h2>
-    <button onclick="showPlayerForm()">もう一度遊ぶ</button>
-  `;
-};
-
-showPlayerForm();
