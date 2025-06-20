@@ -1,4 +1,6 @@
-console.log('Loaded');const topics = [
+console.log("Loaded");
+
+const topics = [
   // 動作・日常
   "立ち上がる", "寝る", "カーテンを開ける", "歯を磨く", "お辞儀", "くしゃみ", "ジャンプ", "ダンス",
   // スポーツ
@@ -49,7 +51,6 @@ function setupGame() {
     }
   }
 
-  // スコア初期化
   scores = {};
   players.forEach(p => scores[p] = 0);
 
