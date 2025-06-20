@@ -5,52 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>完全版ジェスチャーゲーム</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
   <div id="setupScreen">
     <h1>完全版ジェスチャーゲーム</h1>
-
     <label>プレイヤー名（カンマ区切り）:</label><br />
     <input type="text" id="playerInput" placeholder="例: あきら,さくら,たくみ" /><br /><br />
-
+    <label>観客名（カンマ区切り）:</label><br />
+    <input type="text" id="spectatorInput" placeholder="例: けん,なお" /><br /><br />
+    <label>ジャンル選択:</label>
+    <select id="topicCategory">
+      <option value="animals">動物</option>
+      <option value="jobs">職業</option>
+      <option value="actions">アクション</option>
+      <option value="hard">難問</option>
+    </select><br /><br />
     <label>チーム分け:</label>
     <select id="teamMethod">
       <option value="none">個人戦</option>
       <option value="random">ランダム</option>
       <option value="manual">手動</option>
     </select><br /><br />
-
     <label>ゲーム数:</label>
     <input type="number" id="gameCount" value="3" min="1" max="10" /><br /><br />
-
+    <label>BGM:</label>
+    <select id="bgmSelect">
+      <option value="none">なし</option>
+      <option value="cafe">カフェ風</option>
+      <option value="anime">アニメ風</option>
+      <option value="party">パーティー風</option>
+    </select><br /><br />
     <button onclick="setupGame()">ゲーム開始</button>
+    <audio id="bgm" loop></audio>
   </div>
 
-  <div id="gameArea" style="display: none">
+  <div id="gameArea" style="display:none;">
     <h2>Round <span id="roundNum">1</span> / <span id="totalRounds">3</span></h2>
-    <p>現在のプレイヤー: <span id="currentPlayer"></span></p>
-    <p>次のプレイヤー: <span id="nextPlayer"></span></p>
-    <p><span id="promptMessage"></span></p>
-
+    <div id="currentPlayerDisplay"></div>
+    <div id="nextPlayerDisplay"></div>
+    <div id="currentTeamDisplay"></div>
+    <p id="instructionText"></p>
     <div id="topicArea">ここにお題が表示されます</div>
+    <div id="bonusText"></div>
+    <div id="missionText"></div>
+    <div id="timer">残り時間: --秒</div>
+    <div id="scoreInputArea"></div>
 
     <div class="fixed-buttons">
-      <button onclick="startGame()">お題を表示</button>
-      <button onclick="resetGame()">次のお題へ</button>
-      <button onclick="submitScores()">スコア確定</button>
+      <button onclick="startGame()">🎲 お題を表示</button>
+      <button onclick="resetGame()">⏭️ 次のお題へ</button>
+      <button onclick="submitScores()">✅ スコア確定</button>
       <button onclick="forceEnd()">🛑 終了</button>
       <button onclick="returnToTitle()">🔙 タイトルに戻る</button>
     </div>
 
-    <div id="timer">残り時間: --秒</div>
-    <div id="scoreInputArea"></div>
     <div class="ad">[広告スペース]</div>
   </div>
 
-  <div id="scoreDisplay" style="display: none">
+  <div id="scoreDisplay" style="display:none;">
     <h2>スコア集計</h2>
     <ul id="scoreBoard"></ul>
     <div id="mvpDisplay"></div>
+    <button onclick="saveResultImage()">📸 結果を画像保存</button>
     <button onclick="returnToTitle()">🔙 タイトルに戻る</button>
   </div>
 
