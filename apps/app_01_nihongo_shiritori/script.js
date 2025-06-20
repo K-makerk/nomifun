@@ -87,6 +87,11 @@ function startGame() {
   }, 1000);
 }
 
+function forceEnd() {
+  clearInterval(timer);
+  document.getElementById("timer").textContent = "時間終了（手動）！";
+}
+
 function resetGame() {
   document.getElementById("topicArea").textContent = "ここにお題が表示されます";
   document.getElementById("bonusText").textContent = "";
@@ -102,32 +107,58 @@ function showScoreInputs() {
   let scoringTargets = [];
 
   if (isTeamMode) {
-    // チーム戦：同じチームのメンバーを全員対象
     scoringTargets = teams.A.includes(currentPlayer) ? teams.A : teams.B;
   } else {
-    // 個人戦：現在のプレイヤーのみ
     scoringTargets = [currentPlayer];
   }
 
   scoringTargets.forEach(p => {
     area.innerHTML += `
-      <label>${p} のジェスチャー成功:
-        <input type="checkbox" id="success_${p}">
-      </label>
-      <input type="number" id="score_${p}" min="1" max="10" placeholder="スコア"><br>
+      <label>${p} の結果：</label>
+      <select id="result_${p}">
+        <option value="fail">❌ 失敗</option>
+        <option value="success">✅ 成功</option>
+        <option value="great">🌟 大成功</option>
+      </select><br>
     `;
   });
 }
 
 function submitScores() {
-  players.forEach(p => {
-    const scoreInput = document.getElementById(`score_${p}`);
-    const successInput = document.getElementById(`success_${p}`);
-    if (scoreInput && successInput && successInput.checked) {
-      const val = parseInt(scoreInput.value);
-      if (!isNaN(val)) scores[p] += val;
+  const currentPlayer = players[currentPlayerIndex];
+  let scoringTargets = isTeamMode
+    ? (teams.A.includes(currentPlayer) ? teams.A : teams.B)
+    : [currentPlayer];
+
+  scoringTargets.forEach(p => {
+    const result = document.getElementById(`result_${p}`).value;
+    let base = 0;
+
+    switch (result) {
+      case "success": base = 5; break;
+      case "great": base = 7; break;
+      case "fail": default: base = 0;
     }
+
+    let bonus = 0;
+
+    // 時間ボーナス（最大 5〜6点程度）
+    bonus += Math.min(Math.round(timeLeft * 0.2), 6);
+
+    // ミッション成功（タイマー5秒以内クリア）
+    if (timeLeft >= (20 - 5)) bonus += 3;
+
+    scores[p] += base + bonus;
   });
+
+  if (currentRound < totalRounds) {
+    currentRound++;
+    document.getElementById("roundNum").textContent = currentRound;
+    resetGame();
+  } else {
+    showScoreBoard();
+  }
+}
 
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   if (currentRound < totalRounds) {
