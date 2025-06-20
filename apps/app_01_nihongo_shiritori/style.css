@@ -1,116 +1,121 @@
+:root {
+  --bg-color: #f9f9f9;
+  --text-color: #222;
+  --accent-color: #4caf50;
+  --danger-color: #e53935;
+  --card-bg: #fff;
+  --input-bg: #fefefe;
+}
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #f0f0f0;
+  --accent-color: #81c784;
+  --card-bg: #1e1e1e;
+  --input-bg: #2a2a2a;
+}
+
 body {
-  font-family: "Arial", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  padding: 20px;
-  background-color: #fdfdfd;
-  color: #333;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 0;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 1em;
+}
+
+section {
+  background-color: var(--card-bg);
+  padding: 1em;
+  border-radius: 12px;
+  margin-bottom: 1em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: background-color 0.3s;
 }
 
 h1, h2, h3 {
   text-align: center;
-  color: #222;
-}
-
-section {
-  margin-bottom: 30px;
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 input[type="text"],
 input[type="number"],
 select {
-  width: 90%;
-  max-width: 400px;
-  padding: 10px;
-  font-size: 1em;
-  margin: 5px auto;
-  display: block;
-  border: 1px solid #ccc;
+  width: 100%;
+  padding: 0.8em;
+  margin: 0.5em 0;
   border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: var(--input-bg);
+  color: var(--text-color);
 }
 
 button {
-  font-size: 1em;
-  margin: 10px 5px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: #4caf50;
+  background-color: var(--accent-color);
   color: white;
+  border: none;
+  padding: 0.75em 1.5em;
+  border-radius: 8px;
+  font-size: 1em;
+  margin-top: 1em;
   cursor: pointer;
+  width: 100%;
 }
 
 button:hover {
-  background-color: #45a049;
+  opacity: 0.9;
 }
 
-#topicArea {
-  font-size: 1.4em;
-  font-weight: bold;
-  margin: 15px 0;
-  padding: 10px;
-  background-color: #f0f8ff;
-  border-radius: 8px;
+button:disabled {
+  background-color: #aaa;
 }
 
 #timer {
-  font-size: 1.2em;
-  color: #e53935;
-  margin: 10px 0;
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+  color: var(--danger-color);
 }
 
-#ad {
-  margin: 20px 0;
-  background: #eee;
-  padding: 10px;
-  border-radius: 6px;
+.ad {
   text-align: center;
-  font-size: 0.9em;
+  margin-top: 1em;
+  padding: 1em;
+  background-color: #e0e0e0;
+  border-radius: 6px;
 }
 
 ul {
-  list-style-type: none;
+  list-style: none;
   padding-left: 0;
 }
 
 li {
-  font-size: 1.1em;
-  margin: 8px 0;
+  padding: 0.5em 0;
 }
 
-/* ✅ スマホ専用対応 */
-@media screen and (max-width: 480px) {
-  body {
-    padding: 10px;
-    font-size: 0.95em;
-  }
-
+@media (max-width: 480px) {
   h1, h2, h3 {
     font-size: 1.2em;
   }
 
   button {
-    width: 100%;
-    margin: 8px 0;
+    font-size: 1em;
+    padding: 0.8em;
   }
 
-  input[type="text"],
-  input[type="number"],
-  select {
-    width: 100%;
+  input, select {
+    font-size: 1em;
   }
+}
 
-  #topicArea {
-    font-size: 1.2em;
-  }
-
-  #timer {
-    font-size: 1.1em;
-  }
+.dark-toggle {
+  float: right;
+  margin-top: -2em;
+  font-size: 0.9em;
+  cursor: pointer;
 }
