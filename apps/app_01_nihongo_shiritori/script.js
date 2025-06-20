@@ -75,13 +75,14 @@ function startGame() {
   document.getElementById("timer").textContent = `残り時間: ${timeLeft}秒`;
 
   clearInterval(timer);
+  showScoreInputs();
   timer = setInterval(() => {
     timeLeft--;
     document.getElementById("timer").textContent = `残り時間: ${timeLeft}秒`;
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById("timer").textContent = "時間終了！";
-      showScoreInputs();
+      //showScoreInputs();
     }
   }, 1000);
 }
