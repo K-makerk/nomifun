@@ -1,1 +1,44 @@
-<html><body><h1>App 04 Word Chain Battle</h1></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ワードチェインバトル</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 ワードチェインバトル</h1>
+
+    <div id="setup">
+      <label>プレイヤー名（カンマ区切り）:</label>
+      <input type="text" id="playerInput" placeholder="例：たろう,はなこ,けんじ" />
+      <label>テーマ選択:</label>
+      <select id="themeSelect">
+        <option value="">ランダム</option>
+        <option value="食べ物">食べ物</option>
+        <option value="動物">動物</option>
+        <option value="地名">地名</option>
+      </select>
+      <button onclick="startGame()">ゲーム開始</button>
+    </div>
+
+    <div id="game" class="hidden">
+      <div id="themeDisplay"></div>
+      <div id="turnDisplay"></div>
+      <div id="usedWords"></div>
+      <div id="timer">制限時間: <span id="timeLeft">10</span> 秒</div>
+
+      <input type="text" id="wordInput" placeholder="単語を入力..." />
+      <button onclick="submitWord()">送信</button>
+    </div>
+
+    <div id="result" class="hidden">
+      <h2 id="winnerMessage"></h2>
+      <button onclick="location.reload()">もう一度プレイ</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
