@@ -1,93 +1,76 @@
-const topics = ["ゾウ", "ライオン", "バナナ", "ギター", "寝る", "ジャンプ", "ドラム", "水泳", "先生", "カンガルー"];
-let players = [];
-let teams = { A: [], B: [] };
-let isTeamMode = false;
-let totalRounds = 3;
-let currentRound = 1;
-let scores = {};
-let currentPlayerIndex = 0;
-let timer;
-let timeLeft = 20;
+const topics = {
+  animals: ["ゾウ", "ライオン", "犬", "ネコ", "カンガルー", "キリン"],
+  jobs: ["医者", "先生", "警察官", "歌手", "シェフ"],
+  actions: ["ジャンプ", "ダンス", "寝る", "お辞儀", "拍手"],
+  hard: ["透明人間", "忍者", "宇宙飛行士", "マジシャン"]
+};
 
-function toggleDarkMode() {
-  document.body.classList.toggle("dark");
-}
+const bonusRounds = ["音声禁止", "片手のみで表現", "逆立ちのフリをする"];
+const missions = ["5秒以内に正解", "2人同時に正解", "連続3回成功"];
+
+let players = [], spectators = [], scores = {}, currentPlayerIndex = 0;
+let totalRounds = 3, currentRound = 1, isTeamMode = false;
+let teams = { A: [], B: [] };
+let timer, timeLeft = 20;
 
 function setupGame() {
-  const input = document.getElementById("playerInput").value;
-  players = input.split(",").map(name => name.trim()).filter(name => name);
-  const method = document.getElementById("teamMethod").value;
+  players = document.getElementById("playerInput").value.split(",").map(s => s.trim()).filter(Boolean);
+  spectators = document.getElementById("spectatorInput").value.split(",").map(s => s.trim()).filter(Boolean);
+  currentCategory = document.getElementById("topicCategory").value;
   totalRounds = parseInt(document.getElementById("gameCount").value);
-  document.getElementById("totalRounds").textContent = totalRounds;
-
-  if (players.length === 0) {
-    alert("プレイヤーを入力してください");
-    return;
-  }
-
-  if (method === "none") {
-    isTeamMode = false;
-  } else {
-    isTeamMode = true;
-    if (method === "random") {
-      teams.A = [];
-      teams.B = [];
-      players.forEach((p, i) => {
-        (i % 2 === 0 ? teams.A : teams.B).push(p);
-      });
-    } else if (method === "manual") {
-      const mid = Math.ceil(players.length / 2);
-      teams.A = players.slice(0, mid);
-      teams.B = players.slice(mid);
-    }
-  }
-
-  scores = {};
   players.forEach(p => scores[p] = 0);
   currentRound = 1;
   currentPlayerIndex = 0;
 
+  // チーム設定
+  const method = document.getElementById("teamMethod").value;
+  if (method === "random") {
+    teams.A = [], teams.B = [];
+    players.forEach((p, i) => (i % 2 === 0 ? teams.A : teams.B).push(p));
+    isTeamMode = true;
+  } else if (method === "manual") {
+    const mid = Math.ceil(players.length / 2);
+    teams.A = players.slice(0, mid);
+    teams.B = players.slice(mid);
+    isTeamMode = true;
+  } else {
+    isTeamMode = false;
+  }
+
+  // BGM
+  const bgm = document.getElementById("bgm");
+  const choice = document.getElementById("bgmSelect").value;
+  if (choice === "cafe") bgm.src = "https://example.com/cafe.mp3";
+  if (choice === "anime") bgm.src = "https://example.com/anime.mp3";
+  if (choice === "party") bgm.src = "https://example.com/party.mp3";
+  if (choice !== "none") bgm.play();
+
   document.getElementById("setupScreen").style.display = "none";
   document.getElementById("gameArea").style.display = "block";
-  document.getElementById("scoreDisplay").style.display = "none";
-  document.getElementById("roundNum").textContent = currentRound;
-
+  document.getElementById("totalRounds").textContent = totalRounds;
   updatePlayerDisplay();
 }
 
 function updatePlayerDisplay() {
   const current = players[currentPlayerIndex];
   const next = players[(currentPlayerIndex + 1) % players.length];
-  const team = getTeamName(current);
-
   document.getElementById("currentPlayerDisplay").textContent = `現在のプレイヤー: ${current}`;
   document.getElementById("nextPlayerDisplay").textContent = `次のプレイヤー: ${next}`;
-  document.getElementById("instructionText").textContent = `${current}さんは準備できたら「お題を表示」ボタンを押してください`;
-  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? `現在のチーム: チーム${team}` : "現在のチーム: -";
-
-  speak(`${current}さん、準備ができたらスタートしてください`);
-}
-
-function getTeamName(name) {
-  if (!isTeamMode) return "";
-  if (teams.A.includes(name)) return "A";
-  if (teams.B.includes(name)) return "B";
-  return "";
-}
-
-function speak(text) {
-  if ('speechSynthesis' in window) {
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.lang = "ja-JP";
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(msg);
-  }
+  document.getElementById("instructionText").textContent = `${current}さんはお題を表示してください`;
+  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? (teams.A.includes(current) ? "チームA" : "チームB") : "-";
 }
 
 function startGame() {
-  updatePlayerDisplay();
-  const topic = topics[Math.floor(Math.random() * topics.length)];
+  const topicList = topics[currentCategory];
+  const topic = topicList[Math.floor(Math.random() * topicList.length)];
   document.getElementById("topicArea").textContent = "お題: " + topic;
+
+  const isBonus = Math.random() < 0.3;
+  document.getElementById("bonusText").textContent = isBonus ? "🎭 ボーナス: " + bonusRounds[Math.floor(Math.random() * bonusRounds.length)] : "";
+
+  const mission = missions[Math.floor(Math.random() * missions.length)];
+  document.getElementById("missionText").textContent = "🧩 チャレンジ: " + mission;
+
   timeLeft = 20;
   document.getElementById("timer").textContent = `残り時間: ${timeLeft}秒`;
 
@@ -95,9 +78,6 @@ function startGame() {
   timer = setInterval(() => {
     timeLeft--;
     document.getElementById("timer").textContent = `残り時間: ${timeLeft}秒`;
-    if (timeLeft <= 5) {
-      document.getElementById("timer").style.color = "red";
-    }
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById("timer").textContent = "時間終了！";
@@ -107,9 +87,9 @@ function startGame() {
 }
 
 function resetGame() {
-  clearInterval(timer);
   document.getElementById("topicArea").textContent = "ここにお題が表示されます";
-  document.getElementById("timer").textContent = "残り時間: --秒";
+  document.getElementById("bonusText").textContent = "";
+  document.getElementById("missionText").textContent = "";
   document.getElementById("scoreInputArea").innerHTML = "";
 }
 
@@ -117,19 +97,22 @@ function showScoreInputs() {
   const area = document.getElementById("scoreInputArea");
   area.innerHTML = "";
   players.forEach(p => {
-    area.innerHTML += `<label>${p}のスコア（1〜10）:</label> 
-      <input type="number" id="score_${p}" min="1" max="10"><br>`;
+    if (!spectators.includes(p)) {
+      area.innerHTML += `<label>${p}のスコア:</label><input type="number" id="score_${p}" min="1" max="10"><br>`;
+    }
   });
 }
 
 function submitScores() {
   players.forEach(p => {
-    const val = parseInt(document.getElementById(`score_${p}`).value);
-    if (!isNaN(val)) scores[p] += val;
+    const input = document.getElementById(`score_${p}`);
+    if (input) {
+      const val = parseInt(input.value);
+      if (!isNaN(val)) scores[p] += val;
+    }
   });
 
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-
   if (currentRound < totalRounds) {
     currentRound++;
     document.getElementById("roundNum").textContent = currentRound;
@@ -141,15 +124,26 @@ function submitScores() {
 }
 
 function showScoreBoard() {
+  document.getElementById("gameArea").style.display = "none";
   const board = document.getElementById("scoreBoard");
   board.innerHTML = "";
+  let max = -1, mvp = "";
   Object.entries(scores).forEach(([name, score]) => {
     board.innerHTML += `<li>${name}: ${score} 点</li>`;
+    if (score > max) {
+      max = score;
+      mvp = name;
+    }
   });
-
+  document.getElementById("mvpDisplay").textContent = `👑 MVP: ${mvp} さん おめでとう！`;
   document.getElementById("scoreDisplay").style.display = "block";
 }
 
-function share() {
-  alert("SNSで共有されました（模擬）");
+function saveResultImage() {
+  html2canvas(document.querySelector("#scoreDisplay")).then(canvas => {
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL();
+    a.download = "result.png";
+    a.click();
+  });
 }
