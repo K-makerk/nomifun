@@ -8,6 +8,8 @@ let players = [];
 let twins = [];
 let answers = [];
 let currentPlayer = 0;
+let timer;
+let timeLeft = 60;
 
 document.addEventListener("DOMContentLoaded", () => {
   showPlayerForm();
@@ -54,22 +56,29 @@ function showNextAnswerInput() {
 
   main.innerHTML = `
     <h2>${p.name}さんのターン</h2>
-    ${isTwin ? `<p>※もう1人の双子：<strong>${players[otherTwinIndex].name}</strong></p>` : ""}
+    ${isTwin ? `<p style="color: red; font-weight: bold;">あなたは双子です！<br>もう1人の双子：<strong>${players[otherTwinIndex].name}</strong></p>` : ""}
+    <div class="timer" id="timer">制限時間: 60秒</div>
     <form id="answerForm">
       ${questions.map((q, i) => {
         const topic = isTwin ? q.twinTopic : q.othersTopic;
         return `
           <p><strong>質問${i + 1}:</strong> ${q.question}</p>
-          <p>お題（あなたへの質問の背景）: <strong>${topic}</strong></p>
-          <input type="text" id="q_${i}" placeholder="この質問への回答を入力" required />
+          <p>お題（あなたへの背景）: <strong>${topic}</strong></p>
+          <input type="text" id="q_${i}" autocomplete="off" placeholder="この質問への回答を入力" required />
         `;
       }).join("")}
       <button type="submit">送信</button>
     </form>
   `;
 
+  startTimer(() => {
+    alert("時間切れです！次のプレイヤーへ移ります。");
+    submitEmptyAnswers();
+  });
+
   document.getElementById("answerForm").addEventListener("submit", function (e) {
     e.preventDefault();
+    clearInterval(timer);
     const playerAnswers = [];
     for (let i = 0; i < questions.length; i++) {
       const val = document.getElementById(`q_${i}`).value.trim();
@@ -83,6 +92,26 @@ function showNextAnswerInput() {
     currentPlayer++;
     showNextAnswerInput();
   });
+}
+
+function startTimer(onTimeout) {
+  timeLeft = 60;
+  const timerDisplay = document.getElementById("timer");
+  timerDisplay.textContent = `制限時間: ${timeLeft}秒`;
+  timer = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = `制限時間: ${timeLeft}秒`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      onTimeout();
+    }
+  }, 1000);
+}
+
+function submitEmptyAnswers() {
+  answers[currentPlayer] = ["（未回答）", "（未回答）", "（未回答）"];
+  currentPlayer++;
+  showNextAnswerInput();
 }
 
 function showAllAnswers() {
