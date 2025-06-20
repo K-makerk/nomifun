@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ジェスチャーゲーム完全版</title>
+  <title>完全版ジェスチャーゲーム</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>ジェスチャーゲーム完全版</h1>
+    <h1>完全版ジェスチャーゲーム</h1>
 
     <!-- BGM選択 -->
     <section>
@@ -24,14 +24,14 @@
     <!-- プレイヤー設定 -->
     <section id="setupScreen">
       <label>プレイヤー名（カンマ区切り）:</label>
-      <input type="text" id="playerInput" placeholder="例: あきら,さくら,たくみ">
+      <input type="text" id="playerInput" placeholder="例: あきら,さくら,たくみ" />
 
       <label>観客名（カンマ区切り）:</label>
-      <input type="text" id="spectatorInput" placeholder="例: かんきゃく1,かんきゃく2">
+      <input type="text" id="spectatorInput" placeholder="例: かんきゃく1,かんきゃく2" />
 
       <label>チーム分け方法:</label>
       <select id="teamMethod">
-        <option value="none">個人戦（チームなし）</option>
+        <option value="none">個人戦</option>
         <option value="random">ランダム</option>
         <option value="manual">手動</option>
       </select>
@@ -45,7 +45,7 @@
       </select>
 
       <label>ゲーム数:</label>
-      <input type="number" id="gameCount" value="3" min="1" max="10">
+      <input type="number" id="gameCount" value="3" min="1" max="10" />
 
       <button onclick="setupGame()">ゲーム開始</button>
     </section>
@@ -56,7 +56,7 @@
       <p id="currentTeamDisplay">現在のチーム: -</p>
       <p id="currentPlayerDisplay">現在のプレイヤー: -</p>
       <p id="nextPlayerDisplay">次のプレイヤー: -</p>
-      <p id="instructionText">〇〇さんは準備できたら「お題を表示」ボタンを押してください</p>
+      <p id="instructionText">〇〇さんは「お題を表示」を押してください</p>
       <p id="bonusText"></p>
       <p id="missionText"></p>
 
@@ -69,7 +69,6 @@
       </div>
 
       <div id="timer">残り時間: --秒</div>
-
       <div id="scoreInputArea"></div>
     </section>
 
@@ -81,15 +80,9 @@
       <button onclick="saveResultImage()">📸 結果を画像保存</button>
     </section>
 
-    <!-- 広告エリア -->
     <div class="ad">[広告スペース]</div>
-
-    <!-- BGM -->
     <audio id="bgm" loop></audio>
-
-    <!-- Canvas生成 -->
     <canvas id="resultCanvas" style="display:none;"></canvas>
-
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
   </div>
