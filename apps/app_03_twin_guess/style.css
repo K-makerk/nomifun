@@ -23,6 +23,10 @@ input, button, select, textarea {
   box-sizing: border-box;
 }
 
+input {
+  autocomplete: off;
+}
+
 button {
   background-color: #4caf50;
   color: white;
@@ -40,4 +44,12 @@ h1, h2 {
   margin-top: 2em;
   font-size: 0.9em;
   color: #666;
+}
+
+.timer {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #d9534f;
+  text-align: center;
+  margin-bottom: 1em;
 }
