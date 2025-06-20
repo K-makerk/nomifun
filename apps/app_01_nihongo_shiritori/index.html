@@ -31,6 +31,12 @@
   <!-- ゲーム画面 -->
   <section id="gameArea" style="display:none;">
     <h2>Round <span id="roundNum">1</span> / <span id="totalRounds">3</span></h2>
+
+    <p id="currentTeamDisplay">現在のチーム: -</p>
+    <p id="currentPlayerDisplay">現在のプレイヤー: -</p>
+    <p id="nextPlayerDisplay">次のプレイヤー: -</p>
+    <p id="instructionText">○○さんは準備できたら「お題を表示」ボタンを押してください</p>
+
     <div id="topicArea">ここにお題が表示されます</div>
     <button onclick="startGame()">お題を表示</button>
     <div id="timer">残り時間: --秒</div>
