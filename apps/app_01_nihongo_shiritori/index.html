@@ -3,63 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ジェスチャーゲーム</title>
+  <title>ジェスチャーゲーム 拡張版</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
 </head>
 <body>
-  <div id="titleScreen">
+  <div class="container">
     <h1>ジェスチャーゲーム</h1>
-    <input type="text" id="playerName" placeholder="あなたの名前" />
-    <select id="teamMode">
-      <option value="solo">ソロ</option>
-      <option value="team">チーム</option>
-      <option value="match">総当たり</option>
-    </select>
-    <select id="difficulty">
-      <option value="easy">Easy（30秒）</option>
-      <option value="normal">Normal（20秒）</option>
-      <option value="hard">Hard（10秒）</option>
-    </select>
-    <button id="startBtn">ゲームに参加</button>
+    <div class="dark-toggle" onclick="toggleDarkMode()">🌙 ダークモード</div>
+
+    <!-- プレイヤー設定 -->
+    <section id="setupScreen">
+      <label>プレイヤー名（カンマ区切り）:</label>
+      <input type="text" id="playerInput" placeholder="例: あきら,さくら,たくみ">
+
+      <label>チーム分け方法:</label>
+      <select id="teamMethod">
+        <option value="none">個人戦（チームなし）</option>
+        <option value="random">ランダム</option>
+        <option value="manual">手動（前半がA, 後半がB）</option>
+      </select>
+
+      <label>ゲーム数:</label>
+      <input type="number" id="gameCount" value="3" min="1" max="10">
+
+      <button onclick="setupGame()">ゲーム開始</button>
+    </section>
+
+    <!-- ゲーム画面 -->
+    <section id="gameArea" style="display:none;">
+      <h2>Round <span id="roundNum">1</span> / <span id="totalRounds">3</span></h2>
+
+      <p id="currentTeamDisplay">現在のチーム: -</p>
+      <p id="currentPlayerDisplay">現在のプレイヤー: -</p>
+      <p id="nextPlayerDisplay">次のプレイヤー: -</p>
+      <p id="instructionText">〇〇さんは準備できたら[お題を表示]を押してください</p>
+
+      <div id="topicArea">ここにお題が表示されます</div>
+      <button onclick="startGame()">お題を表示</button>
+      <div id="timer">残り時間: --秒</div>
+      <button onclick="resetGame()">次のお題へ</button>
+
+      <h3>スコア入力</h3>
+      <div id="scoreInputArea"></div>
+      <button onclick="submitScores()">スコア確定</button>
+    </section>
+
+    <!-- 結果画面 -->
+    <section id="scoreDisplay" style="display:none;">
+      <h2>スコア集計</h2>
+      <ul id="scoreBoard"></ul>
+    </section>
+
+    <div class="ad">[広告スペース]</div>
+    <button onclick="share()">SNSでシェア</button>
   </div>
-  <div id="gameScreen" class="hidden">
-    <h2 id="roundLabel"></h2>
-    <div id="currentPlayerArea">
-      <p id="currentPlayerText"></p>
-      <img id="currentAvatar" src="default-avatar.png" alt="avatar" />
-    </div>
-    <p id="instructionText"></p>
-    <p id="teamDisplay"></p>
-    <div id="topicArea">お題がここに表示されます</div>
-    <button id="showTopicBtn">お題を表示</button>
-    <div id="timer">残り時間: --秒</div>
-    <div id="scoreInputArea"></div>
-    <button id="submitScoreBtn">スコア確定</button>
-    <button id="skipTurnBtn">スキップ</button>
-    <div class="ad">[広告枠]</div>
-    <button id="shareBtn">SNSでシェア</button>
-  </div>
-  <div id="resultScreen" class="hidden">
-    <h2>スコア結果</h2>
-    <ul id="scoreBoard"></ul>
-    <button id="downloadCSV">CSV保存</button>
-    <button id="restartBtn">もう一度遊ぶ</button>
-  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
