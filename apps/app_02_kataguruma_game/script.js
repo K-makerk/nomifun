@@ -1,13 +1,40 @@
 const prompts = [
-  "好きな季節は？", "朝ごはんといえば？", "好きな色は？", "休日の過ごし方は？",
-  "好きな動物は？", "憧れの旅行先は？", "子供の頃の夢は？", "テンションが上がる食べ物は？"
+  {
+    question: "好きな季節は？",
+    choices: ["春", "夏", "秋", "冬"]
+  },
+  {
+    question: "朝ごはんといえば？",
+    choices: ["ごはん", "パン", "シリアル", "食べない"]
+  },
+  {
+    question: "好きな色は？",
+    choices: ["赤", "青", "緑", "黒"]
+  },
+  {
+    question: "休日の過ごし方は？",
+    choices: ["寝る", "出かける", "ゲーム", "家事"]
+  },
+  {
+    question: "好きな動物は？",
+    choices: ["犬", "猫", "うさぎ", "パンダ"]
+  },
+  {
+    question: "憧れの旅行先は？",
+    choices: ["パリ", "ハワイ", "北海道", "沖縄"]
+  }
 ];
 
 let round = 1;
-let totalRounds = 3;
-let currentPrompt = "";
+const totalRounds = 3;
+let usedPrompts = [];
+let currentPrompt = {};
 let pairs = [];
 let scores = [];
+let answers = [];
+let logs = [];
+let currentPairIndex = 0;
+let currentMemberIndex = 0;
 
 function createPairInputs() {
   const count = parseInt(document.getElementById('playerCount').value);
@@ -21,7 +48,7 @@ function createPairInputs() {
   for (let i = 0; i < count / 2; i++) {
     pairInputs.innerHTML += `
       <div>
-        <label>ペア${i + 1}（上の人 / 下の人）</label><br>
+        <label>ペア${i + 1}（上 / 下）</label><br>
         <input type="text" id="upper${i}" placeholder="上の人の名前">
         <input type="text" id="lower${i}" placeholder="下の人の名前">
       </div>
@@ -34,7 +61,8 @@ function createPairInputs() {
 
 function startGame(pairCount) {
   pairs = [];
-  scores = [];
+  scores = new Array(pairCount).fill(0);
+  logs = new Array(pairCount).fill(null).map(() => []);
 
   for (let i = 0; i < pairCount; i++) {
     const upper = document.getElementById(`upper${i}`).value.trim();
@@ -44,7 +72,6 @@ function startGame(pairCount) {
       return;
     }
     pairs.push({ upper, lower });
-    scores.push(0);
   }
 
   document.getElementById('pairInputs').style.display = 'none';
@@ -53,42 +80,84 @@ function startGame(pairCount) {
 }
 
 function loadRound() {
-  currentPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-  document.getElementById('prompt').textContent = `お題：「${currentPrompt}」`;
-  document.getElementById('roundNumber').textContent = round;
+  let available = prompts.filter(p => !usedPrompts.includes(p.question));
+  currentPrompt = available[Math.floor(Math.random() * available.length)];
+  usedPrompts.push(currentPrompt.question);
 
-  const answerDiv = document.getElementById('answers');
-  answerDiv.innerHTML = "";
-  pairs.forEach((pair, i) => {
-    answerDiv.innerHTML += `
-      <div>
-        <strong>${pair.upper} の回答</strong>
-        <input type="text" id="upperAnswer${i}">
-        <strong>${pair.lower} の回答</strong>
-        <input type="text" id="lowerAnswer${i}">
-      </div>
-    `;
-  });
+  document.getElementById('prompt').textContent = `お題：「${currentPrompt.question}」`;
+  document.getElementById('roundNumber').textContent = round;
+  answers = new Array(pairs.length).fill(null).map(() => ({ upper: "", lower: "" }));
+  currentPairIndex = 0;
+  currentMemberIndex = 0;
+  showInput();
 }
 
-function submitAnswers() {
-  pairs.forEach((pair, i) => {
-    const upperAns = document.getElementById(`upperAnswer${i}`).value.trim();
-    const lowerAns = document.getElementById(`lowerAnswer${i}`).value.trim();
-    if (upperAns && lowerAns && upperAns === lowerAns) {
+function showInput() {
+  const pair = pairs[currentPairIndex];
+  const role = currentMemberIndex === 0 ? "upper" : "lower";
+  const name = pair[role];
+  const inputArea = document.getElementById('inputArea');
+
+  inputArea.innerHTML = `
+    <h3>${name} の回答</h3>
+    <div class="select-area">
+      ${currentPrompt.choices.map(choice => `
+        <label>
+          <input type="radio" name="choice" value="${choice}"> ${choice}
+        </label>
+      `).join("")}
+    </div>
+    <button onclick="submitSingleAnswer()">完了</button>
+  `;
+}
+
+function submitSingleAnswer() {
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if (!selected) {
+    alert("選択肢を選んでください");
+    return;
+  }
+
+  const role = currentMemberIndex === 0 ? "upper" : "lower";
+  answers[currentPairIndex][role] = selected.value;
+
+  if (currentMemberIndex === 0) {
+    currentMemberIndex = 1;
+    showInput();
+  } else {
+    currentMemberIndex = 0;
+    currentPairIndex++;
+    if (currentPairIndex < pairs.length) {
+      showInput();
+    } else {
+      evaluateRound();
+    }
+  }
+}
+
+function evaluateRound() {
+  for (let i = 0; i < pairs.length; i++) {
+    const { upper, lower } = answers[i];
+    logs[i].push({
+      question: currentPrompt.question,
+      upper,
+      lower,
+      match: upper === lower
+    });
+    if (upper === lower) {
       scores[i]++;
     }
-  });
+  }
 
   if (round < totalRounds) {
     round++;
     loadRound();
   } else {
-    endGame();
+    showResult();
   }
 }
 
-function endGame() {
+function showResult() {
   document.getElementById('game').style.display = 'none';
   document.getElementById('result').style.display = 'block';
 
@@ -104,9 +173,25 @@ function endGame() {
     }
   });
 
-  const winnerText = winners.length > 1 ?
-    `勝者（同点）：${winners.join(' / ')}` :
-    `勝者：${winners[0]}`;
+  document.getElementById('winner').textContent =
+    winners.length > 1
+      ? `勝者（同点）：${winners.join(' / ')}`
+      : `勝者：${winners[0]}`;
 
-  document.getElementById('winner').textContent = winnerText;
+  const logArea = document.getElementById('answerLog');
+  logArea.innerHTML = "";
+  logs.forEach((log, i) => {
+    logArea.innerHTML += `<h4>ペア${i + 1}：${pairs[i].upper} & ${pairs[i].lower}</h4><ul>`;
+    log.forEach((entry, r) => {
+      logArea.innerHTML += `
+        <li>
+          <strong>Q${r + 1}：${entry.question}</strong><br>
+          ${pairs[i].upper}：${entry.upper}<br>
+          ${pairs[i].lower}：${entry.lower}<br>
+          一致：${entry.match ? "〇" : "×"}
+        </li>
+      `;
+    });
+    logArea.innerHTML += `</ul>`;
+  });
 }
