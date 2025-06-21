@@ -1,4 +1,3 @@
-// script.js
 const themeMap = {
   "食べ物": "Q2095",
   "動物": "Q729",
@@ -124,11 +123,13 @@ function endGame(winner) {
   document.getElementById('winnerMessage').innerText = `🏆 勝者: ${winner}`;
 }
 
+// ==================== 多重テーマ判定ロジック ====================
+
 async function validateWord(word, themeId, themeName) {
   const id = await getEntityIdFromWikidata(word);
   if (!id) return false;
   if (await hasInstanceOf(id, themeId)) return true;
-  if (await isSubclassOf(id, themeId)) return true;
+  if (await isSubclassOf(id, themeId, 5)) return true;
   if (await isInWikipediaCategory(word, themeName)) return true;
   return false;
 }
@@ -148,16 +149,20 @@ async function hasInstanceOf(entityId, themeId) {
   return instances?.includes(themeId) || false;
 }
 
-async function isSubclassOf(entityId, targetId, depth = 2) {
-  if (depth === 0) return false;
-  const res = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${entityId}.json`);
-  const data = await res.json();
-  const claims = data.entities[entityId].claims;
-  const subclasses = claims.P279?.map(c => c.mainsnak.datavalue?.value?.id);
-  if (!subclasses) return false;
-  if (subclasses.includes(targetId)) return true;
-  for (const subclass of subclasses) {
-    if (await isSubclassOf(subclass, targetId, depth - 1)) return true;
+async function isSubclassOf(entityId, targetId, depth = 5) {
+  if (depth <= 0) return false;
+  try {
+    const res = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${entityId}.json`);
+    const data = await res.json();
+    const claims = data.entities[entityId].claims;
+    const subclasses = claims.P279?.map(c => c.mainsnak.datavalue?.value?.id);
+    if (!subclasses) return false;
+    if (subclasses.includes(targetId)) return true;
+    for (const subclass of subclasses) {
+      if (await isSubclassOf(subclass, targetId, depth - 1)) return true;
+    }
+  } catch (e) {
+    console.warn("P279 subclass check error:", e);
   }
   return false;
 }
