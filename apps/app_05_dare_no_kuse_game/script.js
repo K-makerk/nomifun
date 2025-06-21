@@ -1,14 +1,14 @@
 let players = [];
 let habits = [];
-let currentHabitIndex = 0;
-let shuffledHabits = [];
-let votes = [];
-let scores = {};
-let habitMap = {}; // クセ→誰のクセか
+let habitMap = {};
+let gameMode = 1;
+let revealedHabit = "";
+let voteResult = {};
+let guessForm = document.getElementById("guessForm");
 
 function addPlayerInput() {
   const div = document.createElement("div");
-  div.innerHTML = `<input placeholder="プレイヤー名"/>`;
+  div.innerHTML = `<input placeholder="プレイヤー名" />`;
   document.getElementById("playerInputs").appendChild(div);
 }
 
@@ -24,16 +24,18 @@ function confirmPlayers() {
     return;
   }
 
-  players.forEach(p => scores[p] = 0);
+  gameMode = parseInt(document.querySelector("input[name='gameMode']:checked").value);
+  players.forEach(p => voteResult[p] = {});
   document.getElementById("setup").classList.add("hidden");
 
   const habitDiv = document.getElementById("habitInputs");
-  players.forEach((p, i) => {
+  habitDiv.innerHTML = "";
+  players.forEach(p => {
     const div = document.createElement("div");
-    div.innerHTML = `<label>${p} のクセ：</label><input data-player="${p}" placeholder="例: 寝る前に絶対チョコを食べる"/>`;
+    div.innerHTML = `<label>${p} の暴露：</label><input data-player="${p}" />`;
     habitDiv.appendChild(div);
   });
-  document.getElementById("habitEntry").classList.remove("hidden");
+  document.getElementById("questionPhase").classList.remove("hidden");
 }
 
 function submitHabits() {
@@ -43,87 +45,97 @@ function submitHabits() {
   inputs.forEach(input => {
     const text = input.value.trim();
     const owner = input.dataset.player;
-    if (text === "") return;
+    if (!text) return;
     habits.push(text);
     habitMap[text] = owner;
   });
 
   if (habits.length !== players.length) {
-    alert("全員がクセを入力してください！");
+    alert("全員の暴露を入力してください！");
     return;
   }
 
-  shuffledHabits = shuffle([...habits]);
-  document.getElementById("habitEntry").classList.add("hidden");
-  startNextGuess();
-}
+  document.getElementById("questionPhase").classList.add("hidden");
 
-function startNextGuess() {
-  if (currentHabitIndex >= shuffledHabits.length) {
-    showFinalResult();
-    return;
+  if (gameMode === 1) {
+    revealedHabit = habits[Math.floor(Math.random() * habits.length)];
+    document.getElementById("revealedHabit").textContent = `"${revealedHabit}"`;
+    const voteDiv = document.getElementById("voteOptions");
+    voteDiv.innerHTML = "";
+    players.forEach(p => {
+      const btn = document.createElement("button");
+      btn.textContent = p;
+      btn.onclick = () => {
+        document.querySelectorAll("#voteOptions button").forEach(b => b.disabled = false);
+        btn.disabled = true;
+        btn.dataset.selected = "true";
+      };
+      voteDiv.appendChild(btn);
+    });
+    document.getElementById("guessPhase1").classList.remove("hidden");
+  } else {
+    guessForm.innerHTML = "";
+    habits.forEach((h, i) => {
+      const field = document.createElement("div");
+      field.innerHTML = `<p>${i + 1}. ${h}</p><select name="guess${i}">
+        <option value="">-- 誰の暴露？ --</option>
+        ${players.map(p => `<option value="${p}">${p}</option>`).join("")}
+      </select>`;
+      guessForm.appendChild(field);
+    });
+    document.getElementById("guessPhase2").classList.remove("hidden");
   }
-
-  const habit = shuffledHabits[currentHabitIndex];
-  document.getElementById("currentHabit").textContent = `"${habit}"`;
-  document.getElementById("voteOptions").innerHTML = "";
-
-  players.forEach(p => {
-    const btn = document.createElement("button");
-    btn.textContent = p;
-    btn.classList.add("vote-btn");
-    btn.onclick = () => {
-      document.querySelectorAll(".vote-btn").forEach(b => b.disabled = true);
-      btn.dataset.selected = "true";
-    };
-    document.getElementById("voteOptions").appendChild(btn);
-  });
-
-  document.getElementById("guessPhase").classList.remove("hidden");
 }
 
-function submitVote() {
-  const selected = document.querySelector(".vote-btn[data-selected='true']");
+function submitVoteMode1() {
+  const selected = document.querySelector("#voteOptions button[data-selected='true']");
   if (!selected) {
     alert("誰か1人に投票してください！");
     return;
   }
-
   const voted = selected.textContent;
-  const actual = habitMap[shuffledHabits[currentHabitIndex]];
+  const actual = habitMap[revealedHabit];
+
+  const detail = document.getElementById("resultDetails");
   if (voted === actual) {
-    scores[voted]++;
+    detail.innerHTML = `正解！<strong>${actual}</strong> の暴露でした。<br>みんなの勝ち！`;
+  } else {
+    detail.innerHTML = `不正解...<strong>${actual}</strong> の暴露でした。<br>${actual} の勝ち！`;
   }
 
-  document.getElementById("guessPhase").classList.add("hidden");
+  document.getElementById("guessPhase1").classList.add("hidden");
   document.getElementById("resultPhase").classList.remove("hidden");
-  document.getElementById("revealAnswer").innerHTML = `正解は <strong>${actual}</strong> でした！`;
 }
 
-function nextRound() {
-  currentHabitIndex++;
-  document.getElementById("resultPhase").classList.add("hidden");
-  startNextGuess();
-}
+function submitVoteMode2() {
+  const selects = document.querySelectorAll("#guessForm select");
+  const results = [];
+  let incomplete = false;
+  selects.forEach((sel, i) => {
+    const selected = sel.value;
+    const habit = habits[i];
+    const correct = habitMap[habit];
+    if (!selected) incomplete = true;
+    results.push({ guesser: players[i], target: selected, correct });
+  });
 
-function showFinalResult() {
-  document.getElementById("scoreboard").innerHTML = "<h3>正解数ランキング</h3><ul>" +
-    Object.entries(scores)
-      .sort((a, b) => b[1] - a[1])
-      .map(([name, score]) => `<li>${name}: ${score}回 正解</li>`).join("") +
-    "</ul>";
-
-  document.getElementById("revealAllHabits").innerHTML = "<h3>暴露リスト</h3><ul>" +
-    habits.map(h => `<li>${h} → ${habitMap[h]}</li>`).join("") +
-    "</ul>";
-
-  document.getElementById("finalResult").classList.remove("hidden");
-}
-
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  if (incomplete) {
+    alert("全ての暴露に対して誰かを選んでください");
+    return;
   }
-  return array;
+
+  const detail = document.getElementById("resultDetails");
+  detail.innerHTML = results.map(r =>
+    `<p><strong>${r.guesser}</strong> の回答：${r.target} → ${r.target === r.correct ? '✅ 正解！' : '❌ 不正解（正解は ' + r.correct + '）'}</p>`
+  ).join("");
+
+  document.getElementById("guessPhase2").classList.add("hidden");
+  document.getElementById("resultPhase").classList.remove("hidden");
+}
+
+function revealAnswers() {
+  const list = document.getElementById("revealList");
+  list.innerHTML = habits.map(h => `<li>${h} → ${habitMap[h]}</li>`).join("");
+  document.getElementById("resultPhase").classList.add("hidden");
+  document.getElementById("finalResult").classList.remove("hidden");
 }
