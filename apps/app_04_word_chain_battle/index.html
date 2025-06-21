@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ワードチェインバトル（自動テーマ判定）</title>
+  <title>ワードチェインバトル（多重判定対応）</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -19,7 +19,6 @@
         <option value="食べ物">食べ物</option>
         <option value="動物">動物</option>
         <option value="地名">地名</option>
-        <option value="楽器">楽器</option>
       </select>
       <button onclick="startGame()">ゲーム開始</button>
     </div>
@@ -37,8 +36,8 @@
       <h2 id="winnerMessage"></h2>
       <button onclick="location.reload()">もう一度プレイ</button>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
+  </div>
 </body>
 </html>
