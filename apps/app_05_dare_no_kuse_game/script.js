@@ -56,36 +56,28 @@ function submitIndividualHabit() {
 function startGuessPhase1() {
   revealedHabit = habits[Math.floor(Math.random() * habits.length)];
   document.getElementById("revealedHabit").textContent = revealedHabit;
-  const container = document.getElementById("guessForm1");
-  container.innerHTML = "";
-  players.forEach(p => {
-    const select = document.createElement("select");
-    select.setAttribute("data-player", p);
-    select.innerHTML = `<option value="">${p} の予想</option>` +
-      players.map(opt => `<option value="${opt}">${opt}</option>`).join("");
-    container.appendChild(select);
-  });
+
+  const select = document.getElementById("groupGuessSelect");
+  select.innerHTML = `<option value="">-- 選択してください --</option>` +
+    players.map(p => `<option value="${p}">${p}</option>`).join("");
+
   document.getElementById("guessPhase1").classList.remove("hidden");
 }
 
 function submitVoteMode1() {
-  const selects = document.querySelectorAll("#guessForm1 select");
-  let actual = habitMap[revealedHabit];
-  let winners = [];
+  const selected = document.getElementById("groupGuessSelect").value;
+  if (!selected) return alert("誰の暴露かを選んでください");
 
-  selects.forEach(sel => {
-    const player = sel.getAttribute("data-player");
-    const guess = sel.value;
-    if (!guess) return alert("全員の回答を入力してください");
-    answerLogs[player] = guess;
-    if (guess !== actual) winners.push(player);
-  });
+  const actual = habitMap[revealedHabit];
+  const isCorrect = selected === actual;
+  answerLogs["話し合いの回答"] = selected;
 
-  const result = winners.length === players.length ? `${actual} の勝ち！` :
-    `勝者：${winners.join("、")}（${actual} を当てなかった人）`;
+  const result = isCorrect
+    ? `正解！<strong>${actual}</strong> の暴露でした。<br>勝者：${players.filter(p => p !== actual).join("、")}`
+    : `不正解... 正解は <strong>${actual}</strong> でした。<br>勝者：${actual}`;
 
-  document.getElementById("resultDetails").innerHTML = `正解：${actual}<br>${result}`;
   document.getElementById("guessPhase1").classList.add("hidden");
+  document.getElementById("resultDetails").innerHTML = result;
   document.getElementById("resultPhase").classList.remove("hidden");
 }
 
