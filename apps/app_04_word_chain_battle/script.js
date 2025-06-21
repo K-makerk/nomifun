@@ -1,3 +1,4 @@
+// script.js
 const themeMap = {
   "食べ物": "Q2095",
   "動物": "Q729",
@@ -122,8 +123,6 @@ function endGame(winner) {
   document.getElementById('result').classList.remove('hidden');
   document.getElementById('winnerMessage').innerText = `🏆 勝者: ${winner}`;
 }
-
-// ＝＝＝＝＝ テーマ判定ロジック（多重判定）＝＝＝＝＝
 
 async function validateWord(word, themeId, themeName) {
   const id = await getEntityIdFromWikidata(word);
