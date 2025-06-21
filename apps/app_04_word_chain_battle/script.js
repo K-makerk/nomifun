@@ -1,7 +1,8 @@
-const themes = {
-  食べ物: ['りんご', 'ごはん', 'なっとう', 'うどん', 'んまんじゅう'],
-  動物: ['ねこ', 'こいぬ', 'うま', 'まんとひひ', 'ひつじ'],
-  地名: ['とうきょう', 'うつのみや', 'やまがた', 'たいぺい']
+const themeMap = {
+  "食べ物": "Q2095",
+  "動物": "Q729",
+  "地名": "Q515",
+  "楽器": "Q34379"
 };
 
 let players = [];
@@ -21,7 +22,7 @@ function startGame() {
   }
 
   const selectedTheme = document.getElementById('themeSelect').value;
-  const themeKeys = Object.keys(themes);
+  const themeKeys = Object.keys(themeMap);
   currentTheme = selectedTheme || themeKeys[Math.floor(Math.random() * themeKeys.length)];
 
   currentPlayerIndex = Math.floor(Math.random() * players.length);
@@ -43,19 +44,13 @@ function updateTurnDisplay() {
   document.getElementById('usedWords').innerText = `使用済み単語: ${usedWords.join(', ')}`;
 }
 
-function submitWord() {
+async function submitWord() {
   const input = document.getElementById('wordInput').value.trim().toLowerCase();
   if (!input) return;
 
   const isHiragana = /^[\u3040-\u309Fー]+$/.test(input);
   if (!isHiragana) {
     alert("ひらがなで入力してください。");
-    return;
-  }
-
-  const words = themes[currentTheme];
-  if (!words.some(w => w.startsWith(input[0]))) {
-    alert("この単語はテーマに合っていない可能性があります。");
     return;
   }
 
@@ -66,6 +61,13 @@ function submitWord() {
 
   if (currentWord && input[0] !== currentWord.slice(-1)) {
     alert(`「${currentWord.slice(-1)}」から始まる単語を入力してください。`);
+    eliminatePlayer();
+    return;
+  }
+
+  const valid = await checkWordAgainstTheme(input, themeMap[currentTheme]);
+  if (!valid) {
+    alert("この単語はテーマに合っていません！");
     eliminatePlayer();
     return;
   }
@@ -120,4 +122,23 @@ function endGame(winner) {
   document.getElementById('game').classList.add('hidden');
   document.getElementById('result').classList.remove('hidden');
   document.getElementById('winnerMessage').innerText = `🏆 勝者: ${winner}`;
+}
+
+async function checkWordAgainstTheme(word, themeId) {
+  try {
+    const searchUrl = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${word}&language=ja&format=json&origin=*`;
+    const res = await fetch(searchUrl);
+    const data = await res.json();
+    if (!data.search || data.search.length === 0) return false;
+
+    const entityId = data.search[0].id;
+    const detailRes = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${entityId}.json`);
+    const detailData = await detailRes.json();
+    const claims = detailData.entities[entityId].claims;
+    const instances = claims.P31?.map(claim => claim.mainsnak.datavalue?.value?.id);
+    return instances?.includes(themeId);
+  } catch (err) {
+    console.error("判定中にエラーが発生:", err);
+    return false;
+  }
 }
