@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>モノマネチャレンジ</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="container" id="setupScreen">
     <h1>モノマネチャレンジ</h1>
+
+    <label>カテゴリ選択：</label>
+    <select id="categorySelect">
+      <option value="animal">動物</option>
+      <option value="celebrity">有名人</option>
+      <option value="anime">アニメ</option>
+      <option value="free">フリーテーマ</option>
+    </select>
+
+    <label>チャレンジ縛り：</label>
+    <select id="challengeSelect">
+      <option value="on">ON（ランダム縛りあり）</option>
+      <option value="off">OFF（縛りなし）</option>
+    </select>
+
     <div id="playerInputs">
-      <input type="text" placeholder="プレイヤー名">
-      <input type="text" placeholder="プレイヤー名">
-      <input type="text" placeholder="プレイヤー名">
+      <input type="text" placeholder="プレイヤー名"/>
+      <input type="text" placeholder="プレイヤー名"/>
+      <input type="text" placeholder="プレイヤー名"/>
     </div>
     <button onclick="addPlayer()">プレイヤー追加</button>
     <button onclick="removePlayer()">プレイヤー削除</button>
@@ -20,20 +35,23 @@
   </div>
 
   <div class="container hidden" id="mimicScreen">
-    <h2 id="currentPlayerName">○○さんの番です！</h2>
-    <p>お題：</p>
-    <h3 id="mimicTopic">？？？</h3>
+    <h2 id="currentPlayerName"></h2>
+    <p>お題：<span id="mimicTopic"></span></p>
+    <p>縛り：<span id="challengeText"></span></p>
+    <p>残り時間：<span id="timer">30</span>秒</p>
     <button onclick="nextPlayer()">モノマネ完了！次へ</button>
   </div>
 
   <div class="container hidden" id="voteScreen">
     <h2>誰が一番うまかった？</h2>
-    <div id="voteButtons"></div>
+    <div id="voteSection"></div>
   </div>
 
   <div class="container hidden" id="resultScreen">
     <h2>結果発表！</h2>
-    <p id="winnerText">○○さんが勝者です！</p>
+    <p id="winnerText"></p>
+    <h3>プレイ履歴</h3>
+    <ul id="historyLog"></ul>
     <button onclick="location.reload()">もう一度プレイ</button>
   </div>
 
