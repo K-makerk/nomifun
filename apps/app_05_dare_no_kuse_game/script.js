@@ -114,6 +114,7 @@ function submitVoteMode2() {
     const habit = sel.getAttribute("data-habit");
     const guess = sel.value;
     if (!guess) complete = false;
+    if (!answerLogs[player]) answerLogs[player] = [];
     answerLogs[player].push({ habit, guess });
     if (guess === habitMap[habit]) correctCount[player]++;
   });
@@ -121,8 +122,15 @@ function submitVoteMode2() {
   if (!complete) return alert("すべての回答を入力してください");
 
   let resultHTML = "";
-  Object.entries(correctCount).forEach(([p, count]) => {
-    resultHTML += `<p>${p} の正解数：${count}</p>`;
+
+  Object.entries(answerLogs).forEach(([player, guesses]) => {
+    resultHTML += `<h3>${player} の予想</h3><ul>`;
+    guesses.forEach(({ habit, guess }) => {
+      const correct = habitMap[habit];
+      const isCorrect = guess === correct;
+      resultHTML += `<li>「${habit}」 → ${guess} ： ${isCorrect ? '✅ 正解' : `❌ 不正解（正解は ${correct}）`}</li>`;
+    });
+    resultHTML += "</ul>";
   });
 
   document.getElementById("guessPhase2").classList.add("hidden");
