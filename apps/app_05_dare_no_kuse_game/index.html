@@ -21,23 +21,23 @@
       <button onclick="confirmPlayers()">決定</button>
     </div>
 
-    <div id="questionPhase" class="hidden">
-      <h2>お題：<span id="questionText">あなたのクセを暴露してください</span></h2>
-      <div id="habitInputs"></div>
-      <button onclick="submitHabits()">暴露を登録</button>
+    <div id="individualInputPhase" class="hidden">
+      <h2><span id="currentPlayerName"></span> の番です</h2>
+      <p>自分のクセを1つ入力してください</p>
+      <input id="individualHabitInput" placeholder="例：寝る前にチョコを食べる" />
+      <button onclick="submitIndividualHabit()">決定</button>
     </div>
 
     <div id="guessPhase1" class="hidden">
-      <h2>暴露：<span id="revealedHabit"></span></h2>
-      <p>全員の回答を入力してください：</p>
-      <div id="groupVoteInputs"></div>
+      <h2>暴露：「<span id="revealedHabit"></span>」</h2>
+      <p>このクセは誰のものか？</p>
+      <div id="guessForm1"></div>
       <button onclick="submitVoteMode1()">回答を集計</button>
     </div>
 
     <div id="guessPhase2" class="hidden">
       <h2>みんなの暴露</h2>
-      <div id="anonymousHabits"></div>
-      <form id="guessForm"></form>
+      <form id="guessForm2"></form>
       <button onclick="submitVoteMode2()">全員の回答を送信</button>
     </div>
 
@@ -48,12 +48,13 @@
     </div>
 
     <div id="finalResult" class="hidden">
-      <h2>暴露リスト</h2>
+      <h2>暴露リストと回答履歴</h2>
       <ul id="revealList"></ul>
       <div id="answerLog"></div>
       <button onclick="location.reload()">もう一度遊ぶ</button>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
-</html
+</html>
