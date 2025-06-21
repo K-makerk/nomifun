@@ -35,9 +35,14 @@ button:hover {
 }
 
 input, select {
-  margin: 0.4em;
+  margin: 0.4em 0;
   padding: 0.5em;
-  width: 90%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
 }
 
 .hidden {
