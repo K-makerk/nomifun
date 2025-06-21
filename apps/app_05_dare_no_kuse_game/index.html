@@ -1,1 +1,48 @@
-<html><body><h1>App 05 Dare No Kuse Game</h1></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>誰のクセゲーム</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>誰のクセゲーム</h1>
+
+    <div id="setup">
+      <h2>① プレイヤー名を入力（4人以上）</h2>
+      <div id="playerInputs"></div>
+      <button onclick="addPlayerInput()">プレイヤー追加</button>
+      <button onclick="confirmPlayers()">決定</button>
+    </div>
+
+    <div id="habitEntry" class="hidden">
+      <h2>② それぞれ自分のクセを匿名で入力</h2>
+      <div id="habitInputs"></div>
+      <button onclick="submitHabits()">クセを登録</button>
+    </div>
+
+    <div id="guessPhase" class="hidden">
+      <h2>③ このクセ、誰のクセ？</h2>
+      <p id="currentHabit"></p>
+      <div id="voteOptions"></div>
+      <button onclick="submitVote()">投票する</button>
+    </div>
+
+    <div id="resultPhase" class="hidden">
+      <h2>④ 投票結果</h2>
+      <p id="revealAnswer"></p>
+      <button onclick="nextRound()">次のクセへ</button>
+    </div>
+
+    <div id="finalResult" class="hidden">
+      <h2>🎉 最終結果 🎉</h2>
+      <div id="scoreboard"></div>
+      <div id="revealAllHabits"></div>
+      <button onclick="location.reload()">もう一度遊ぶ</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
