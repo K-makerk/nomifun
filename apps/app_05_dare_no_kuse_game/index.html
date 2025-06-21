@@ -12,8 +12,9 @@
 
     <div id="setup">
       <h2>ゲームパターン選択</h2>
-      <label><input type="radio" name="gameMode" value="1" checked /> その暴露はだれか当てろ！</label><br>
-      <label><input type="radio" name="gameMode" value="2" /> みんなでその暴露はだれか考えよう！</label>
+      <label><input type="radio" name="gameMode" value="1" checked /> その暴露はだれか当てろ！（1回）</label><br>
+      <label><input type="radio" name="gameMode" value="2" /> みんなでその暴露はだれか考えよう！（全体推理）</label><br>
+      <label><input type="radio" name="gameMode" value="3" /> 全員分を人狼風に繰り返し当てろ！（繰り返し推理）</label>
 
       <h2>プレイヤー名を入力（4人以上）</h2>
       <div id="playerInputs"></div>
@@ -41,6 +42,15 @@
       <h2>みんなの暴露</h2>
       <form id="guessForm2"></form>
       <button onclick="submitVoteMode2()">全員の回答を送信</button>
+    </div>
+
+    <div id="guessPhase3" class="hidden">
+      <h2>暴露 <span id="currentHabitIndex"></span> / <span id="totalHabits"></span></h2>
+      <p>暴露：「<span id="currentHabitText"></span>」<br>このクセは誰のものかを話し合って、1つだけ選んでください：</p>
+      <select id="groupGuessRepeat">
+        <option value="">-- 誰のクセ？ --</option>
+      </select>
+      <button onclick="submitVoteMode3()">決定</button>
     </div>
 
     <div id="resultPhase" class="hidden">
