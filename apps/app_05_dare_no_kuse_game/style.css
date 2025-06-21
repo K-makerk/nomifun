@@ -21,7 +21,7 @@ h1, h2 {
 button {
   display: block;
   padding: 0.6em 1em;
-  margin: 1em auto;
+  margin: 0.5em auto;
   font-size: 1em;
   background-color: #007bff;
   color: white;
