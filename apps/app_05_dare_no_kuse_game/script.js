@@ -1,54 +1,129 @@
-body {
-  font-family: sans-serif;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 1em;
+let players = [];
+let habits = [];
+let currentHabitIndex = 0;
+let shuffledHabits = [];
+let votes = [];
+let scores = {};
+let habitMap = {}; // クセ→誰のクセか
+
+function addPlayerInput() {
+  const div = document.createElement("div");
+  div.innerHTML = `<input placeholder="プレイヤー名"/>`;
+  document.getElementById("playerInputs").appendChild(div);
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  padding: 1em;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+function confirmPlayers() {
+  const inputs = document.querySelectorAll("#playerInputs input");
+  players = [];
+  inputs.forEach(input => {
+    if (input.value.trim()) players.push(input.value.trim());
+  });
+
+  if (players.length < 4) {
+    alert("4人以上必要です！");
+    return;
+  }
+
+  players.forEach(p => scores[p] = 0);
+  document.getElementById("setup").classList.add("hidden");
+
+  const habitDiv = document.getElementById("habitInputs");
+  players.forEach((p, i) => {
+    const div = document.createElement("div");
+    div.innerHTML = `<label>${p} のクセ：</label><input data-player="${p}" placeholder="例: 寝る前に絶対チョコを食べる"/>`;
+    habitDiv.appendChild(div);
+  });
+  document.getElementById("habitEntry").classList.remove("hidden");
 }
 
-h1, h2 {
-  text-align: center;
+function submitHabits() {
+  const inputs = document.querySelectorAll("#habitInputs input");
+  habits = [];
+  habitMap = {};
+  inputs.forEach(input => {
+    const text = input.value.trim();
+    const owner = input.dataset.player;
+    if (text === "") return;
+    habits.push(text);
+    habitMap[text] = owner;
+  });
+
+  if (habits.length !== players.length) {
+    alert("全員がクセを入力してください！");
+    return;
+  }
+
+  shuffledHabits = shuffle([...habits]);
+  document.getElementById("habitEntry").classList.add("hidden");
+  startNextGuess();
 }
 
-button {
-  padding: 0.5em 1em;
-  margin: 0.5em;
-  font-size: 1em;
-  border: none;
-  border-radius: 6px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
+function startNextGuess() {
+  if (currentHabitIndex >= shuffledHabits.length) {
+    showFinalResult();
+    return;
+  }
+
+  const habit = shuffledHabits[currentHabitIndex];
+  document.getElementById("currentHabit").textContent = `"${habit}"`;
+  document.getElementById("voteOptions").innerHTML = "";
+
+  players.forEach(p => {
+    const btn = document.createElement("button");
+    btn.textContent = p;
+    btn.classList.add("vote-btn");
+    btn.onclick = () => {
+      document.querySelectorAll(".vote-btn").forEach(b => b.disabled = true);
+      btn.dataset.selected = "true";
+    };
+    document.getElementById("voteOptions").appendChild(btn);
+  });
+
+  document.getElementById("guessPhase").classList.remove("hidden");
 }
 
-button:hover {
-  background-color: #0056b3;
+function submitVote() {
+  const selected = document.querySelector(".vote-btn[data-selected='true']");
+  if (!selected) {
+    alert("誰か1人に投票してください！");
+    return;
+  }
+
+  const voted = selected.textContent;
+  const actual = habitMap[shuffledHabits[currentHabitIndex]];
+  if (voted === actual) {
+    scores[voted]++;
+  }
+
+  document.getElementById("guessPhase").classList.add("hidden");
+  document.getElementById("resultPhase").classList.remove("hidden");
+  document.getElementById("revealAnswer").innerHTML = `正解は <strong>${actual}</strong> でした！`;
 }
 
-input {
-  margin: 0.2em;
-  padding: 0.4em;
-  width: 90%;
+function nextRound() {
+  currentHabitIndex++;
+  document.getElementById("resultPhase").classList.add("hidden");
+  startNextGuess();
 }
 
-.hidden {
-  display: none;
+function showFinalResult() {
+  document.getElementById("scoreboard").innerHTML = "<h3>正解数ランキング</h3><ul>" +
+    Object.entries(scores)
+      .sort((a, b) => b[1] - a[1])
+      .map(([name, score]) => `<li>${name}: ${score}回 正解</li>`).join("") +
+    "</ul>";
+
+  document.getElementById("revealAllHabits").innerHTML = "<h3>暴露リスト</h3><ul>" +
+    habits.map(h => `<li>${h} → ${habitMap[h]}</li>`).join("") +
+    "</ul>";
+
+  document.getElementById("finalResult").classList.remove("hidden");
 }
 
-.vote-btn {
-  display: block;
-  margin: 0.4em 0;
-  background-color: #28a745;
-}
-
-.vote-btn:hover {
-  background-color: #1e7e34;
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
