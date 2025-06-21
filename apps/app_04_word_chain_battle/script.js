@@ -10,7 +10,7 @@ let usedWords = [];
 let currentTheme = '';
 let currentWord = '';
 let timer;
-let timeLimit = 10;
+let timeLimit = 20;
 const validationCache = {}; // 高速化キャッシュ
 
 function startGame() {
