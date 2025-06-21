@@ -9,9 +9,17 @@ let correctCount = {};
 let shuffledHabits = [];
 let currentHabitIndex = 0;
 
+document.addEventListener("DOMContentLoaded", () => {
+  for (let i = 0; i < 3; i++) addPlayerInput();
+});
+
 function addPlayerInput() {
   const div = document.createElement("div");
-  div.innerHTML = `<input placeholder="プレイヤー名" />`;
+  div.className = "player-input";
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "プレイヤー名";
+  div.appendChild(input);
   document.getElementById("playerInputs").appendChild(div);
 }
 
@@ -31,24 +39,6 @@ function confirmPlayers() {
     if (input.value.trim()) players.push(input.value.trim());
   });
   if (players.length < 3) return alert("3人以上必要です");
-
-  gameMode = parseInt(document.querySelector("input[name='gameMode']:checked").value);
-  document.getElementById("setup").classList.add("hidden");
-  currentInputIndex = 0;
-  habits = [];
-  habitMap = {};
-  answerLogs = {};
-  document.getElementById("individualInputPhase").classList.remove("hidden");
-  document.getElementById("currentPlayerName").textContent = players[currentInputIndex];
-}
-
-window.onload = () => {
-  // 初期表示で3人分の欄を出す
-  for (let i = 0; i < 3; i++) addPlayerInput();
-};
-
-
-  if (players.length < 4) return alert("4人以上必要です");
 
   gameMode = parseInt(document.querySelector("input[name='gameMode']:checked").value);
   document.getElementById("setup").classList.add("hidden");
