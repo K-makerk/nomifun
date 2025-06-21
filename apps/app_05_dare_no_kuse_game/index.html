@@ -30,9 +30,11 @@
 
     <div id="guessPhase1" class="hidden">
       <h2>暴露：「<span id="revealedHabit"></span>」</h2>
-      <p>このクセは誰のものか？</p>
-      <div id="guessForm1"></div>
-      <button onclick="submitVoteMode1()">回答を集計</button>
+      <p>みんなで話し合った後、このクセは誰のものかを1つ選んでください：</p>
+      <select id="groupGuessSelect">
+        <option value="">-- 選択してください --</option>
+      </select>
+      <button onclick="submitVoteMode1()">回答を送信</button>
     </div>
 
     <div id="guessPhase2" class="hidden">
@@ -58,3 +60,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
