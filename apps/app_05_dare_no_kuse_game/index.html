@@ -29,13 +29,14 @@
 
     <div id="guessPhase1" class="hidden">
       <h2>暴露：<span id="revealedHabit"></span></h2>
-      <p>話し合った後、誰の暴露かを選んでください：</p>
-      <div id="voteOptions"></div>
-      <button onclick="submitVoteMode1()">回答を登録</button>
+      <p>全員の回答を入力してください：</p>
+      <div id="groupVoteInputs"></div>
+      <button onclick="submitVoteMode1()">回答を集計</button>
     </div>
 
     <div id="guessPhase2" class="hidden">
       <h2>みんなの暴露</h2>
+      <div id="anonymousHabits"></div>
       <form id="guessForm"></form>
       <button onclick="submitVoteMode2()">全員の回答を送信</button>
     </div>
@@ -49,10 +50,10 @@
     <div id="finalResult" class="hidden">
       <h2>暴露リスト</h2>
       <ul id="revealList"></ul>
+      <div id="answerLog"></div>
       <button onclick="location.reload()">もう一度遊ぶ</button>
     </div>
   </div>
   <script src="script.js"></script>
 </body>
-</html>
-
+</html
