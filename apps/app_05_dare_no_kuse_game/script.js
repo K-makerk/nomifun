@@ -1,10 +1,12 @@
 let players = [];
+let currentInputIndex = 0;
 let habits = [];
 let habitMap = {};
 let gameMode = 1;
 let revealedHabit = "";
-let voteLogs = [];
 let answerLogs = {};
+let correctCount = {};
+let shuffledHabits = [];
 
 function addPlayerInput() {
   const div = document.createElement("div");
@@ -19,144 +21,120 @@ function confirmPlayers() {
     if (input.value.trim()) players.push(input.value.trim());
   });
 
-  if (players.length < 4) {
-    alert("4人以上必要です！");
-    return;
-  }
+  if (players.length < 4) return alert("4人以上必要です");
 
   gameMode = parseInt(document.querySelector("input[name='gameMode']:checked").value);
   document.getElementById("setup").classList.add("hidden");
-
-  const habitDiv = document.getElementById("habitInputs");
-  habitDiv.innerHTML = "";
-  players.forEach(p => {
-    const div = document.createElement("div");
-    div.innerHTML = `<label>${p} の暴露：</label><input data-player="${p}" />`;
-    habitDiv.appendChild(div);
-  });
-  document.getElementById("questionPhase").classList.remove("hidden");
-}
-
-function submitHabits() {
-  const inputs = document.querySelectorAll("#habitInputs input");
+  currentInputIndex = 0;
   habits = [];
   habitMap = {};
   answerLogs = {};
-  inputs.forEach(input => {
-    const text = input.value.trim();
-    const owner = input.dataset.player;
-    if (!text) return;
-    habits.push(text);
-    habitMap[text] = owner;
-  });
+  document.getElementById("individualInputPhase").classList.remove("hidden");
+  document.getElementById("currentPlayerName").textContent = players[currentInputIndex];
+}
 
-  if (habits.length !== players.length) {
-    alert("全員の暴露を入力してください！");
-    return;
-  }
-
-  document.getElementById("questionPhase").classList.add("hidden");
-
-  if (gameMode === 1) {
-    revealedHabit = habits[Math.floor(Math.random() * habits.length)];
-    document.getElementById("revealedHabit").textContent = `"${revealedHabit}"`;
-    const container = document.getElementById("groupVoteInputs");
-    container.innerHTML = "";
-    players.forEach(p => {
-      const div = document.createElement("div");
-      div.innerHTML = `<label>${p} の回答：</label>
-        <select data-player="${p}">
-          <option value="">-- 誰の暴露だと思う？ --</option>
-          ${players.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
-        </select>`;
-      container.appendChild(div);
-    });
-    document.getElementById("guessPhase1").classList.remove("hidden");
+function submitIndividualHabit() {
+  const input = document.getElementById("individualHabitInput").value.trim();
+  if (!input) return alert("クセを入力してください");
+  const player = players[currentInputIndex];
+  habits.push(input);
+  habitMap[input] = player;
+  document.getElementById("individualHabitInput").value = "";
+  currentInputIndex++;
+  if (currentInputIndex < players.length) {
+    document.getElementById("currentPlayerName").textContent = players[currentInputIndex];
   } else {
-    const shuffledHabits = [...habits].sort(() => Math.random() - 0.5);
-    const container = document.getElementById("anonymousHabits");
-    const form = document.getElementById("guessForm");
-    container.innerHTML = "";
-    form.innerHTML = "";
-    shuffledHabits.forEach((habit, i) => {
-      const section = document.createElement("div");
-      section.innerHTML = `<h4>暴露 ${i + 1}: ${habit}</h4>`;
-      players.forEach(p => {
-        section.innerHTML += `<label>${p} の予想：
-          <select data-player="${p}" data-habit="${habit}">
-            <option value="">-- 選択 --</option>
-            ${players.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
-          </select></label><br>`;
-      });
-      form.appendChild(section);
-    });
-    document.getElementById("guessPhase2").classList.remove("hidden");
+    document.getElementById("individualInputPhase").classList.add("hidden");
+    if (gameMode === 1) {
+      startGuessPhase1();
+    } else {
+      startGuessPhase2();
+    }
   }
 }
 
+function startGuessPhase1() {
+  revealedHabit = habits[Math.floor(Math.random() * habits.length)];
+  document.getElementById("revealedHabit").textContent = revealedHabit;
+  const container = document.getElementById("guessForm1");
+  container.innerHTML = "";
+  players.forEach(p => {
+    const select = document.createElement("select");
+    select.setAttribute("data-player", p);
+    select.innerHTML = `<option value="">${p} の予想</option>` +
+      players.map(opt => `<option value="${opt}">${opt}</option>`).join("");
+    container.appendChild(select);
+  });
+  document.getElementById("guessPhase1").classList.remove("hidden");
+}
+
 function submitVoteMode1() {
-  const selects = document.querySelectorAll("#groupVoteInputs select");
-  const votes = [];
-  const actual = habitMap[revealedHabit];
-  let correctCount = 0;
+  const selects = document.querySelectorAll("#guessForm1 select");
+  let actual = habitMap[revealedHabit];
+  let winners = [];
 
   selects.forEach(sel => {
-    const p = sel.dataset.player;
+    const player = sel.getAttribute("data-player");
     const guess = sel.value;
-    if (!guess) return alert("全員分の入力が必要です");
-    votes.push({ player: p, guess });
-    answerLogs[p] = guess;
-    if (guess === actual) correctCount++;
+    if (!guess) return alert("全員の回答を入力してください");
+    answerLogs[player] = guess;
+    if (guess !== actual) winners.push(player);
   });
 
-  const detail = document.getElementById("resultDetails");
-  if (correctCount === 0) {
-    detail.innerHTML = `誰も当てられなかった！<strong>${actual}</strong> の勝ち！`;
-  } else {
-    const winners = votes.filter(v => v.guess !== actual).map(v => v.player);
-    detail.innerHTML = `正解は <strong>${actual}</strong><br>
-      勝者：${winners.join('、') || '(なし)'}`;
-  }
+  const result = winners.length === players.length ? `${actual} の勝ち！` :
+    `勝者：${winners.join("、")}（${actual} を当てなかった人）`;
 
+  document.getElementById("resultDetails").innerHTML = `正解：${actual}<br>${result}`;
   document.getElementById("guessPhase1").classList.add("hidden");
   document.getElementById("resultPhase").classList.remove("hidden");
 }
 
+function startGuessPhase2() {
+  shuffledHabits = [...habits].sort(() => Math.random() - 0.5);
+  const form = document.getElementById("guessForm2");
+  form.innerHTML = "";
+  players.forEach(player => {
+    answerLogs[player] = [];
+    form.innerHTML += `<h4>${player} の予想</h4>`;
+    shuffledHabits.forEach(h => {
+      const select = document.createElement("select");
+      select.setAttribute("data-player", player);
+      select.setAttribute("data-habit", h);
+      select.innerHTML = `<option value="">${h} →</option>` +
+        players
+          .filter(p => habitMap[h] !== p)
+          .map(p => `<option value="${p}">${p}</option>`)
+          .join("");
+      form.appendChild(select);
+    });
+  });
+  document.getElementById("guessPhase2").classList.remove("hidden");
+}
+
 function submitVoteMode2() {
-  const selects = document.querySelectorAll("#guessForm select");
+  const selects = document.querySelectorAll("#guessForm2 select");
   let complete = true;
-  let grouped = {};
+  correctCount = {};
+  players.forEach(p => correctCount[p] = 0);
 
   selects.forEach(sel => {
-    const player = sel.dataset.player;
-    const habit = sel.dataset.habit;
+    const player = sel.getAttribute("data-player");
+    const habit = sel.getAttribute("data-habit");
     const guess = sel.value;
     if (!guess) complete = false;
-    if (!grouped[player]) grouped[player] = [];
-    grouped[player].push({ habit, guess });
+    answerLogs[player].push({ habit, guess });
+    if (guess === habitMap[habit]) correctCount[player]++;
   });
 
-  if (!complete) {
-    alert("すべての選択肢を埋めてください。");
-    return;
-  }
+  if (!complete) return alert("すべての回答を入力してください");
 
-  answerLogs = grouped;
-
-  const detail = document.getElementById("resultDetails");
-  detail.innerHTML = "";
-
-  Object.entries(grouped).forEach(([player, answers]) => {
-    detail.innerHTML += `<h4>${player} の回答</h4><ul>`;
-    answers.forEach(({ habit, guess }) => {
-      const correct = habitMap[habit];
-      const isCorrect = guess === correct;
-      detail.innerHTML += `<li>${habit} → ${guess}：${isCorrect ? '✅ 正解' : `❌ 不正解（正解：${correct}）`}</li>`;
-    });
-    detail.innerHTML += `</ul>`;
+  let resultHTML = "";
+  Object.entries(correctCount).forEach(([p, count]) => {
+    resultHTML += `<p>${p} の正解数：${count}</p>`;
   });
 
   document.getElementById("guessPhase2").classList.add("hidden");
+  document.getElementById("resultDetails").innerHTML = resultHTML;
   document.getElementById("resultPhase").classList.remove("hidden");
 }
 
@@ -165,17 +143,14 @@ function revealAnswers() {
   list.innerHTML = habits.map(h => `<li>${h} → ${habitMap[h]}</li>`).join("");
 
   const logDiv = document.getElementById("answerLog");
-  logDiv.innerHTML = `<h3>みんなの回答</h3>`;
-  if (gameMode === 1) {
-    logDiv.innerHTML += `<ul>${Object.entries(answerLogs).map(([p, g]) =>
-      `<li>${p} の回答：${g}</li>`).join("")}</ul>`;
-  } else {
-    Object.entries(answerLogs).forEach(([p, answers]) => {
-      logDiv.innerHTML += `<h4>${p}</h4><ul>` +
-        answers.map(a => `<li>${a.habit} → ${a.guess}</li>`).join("") +
-        `</ul>`;
-    });
-  }
+  logDiv.innerHTML = `<h3>回答ログ</h3>`;
+  Object.entries(answerLogs).forEach(([p, logs]) => {
+    logDiv.innerHTML += `<h4>${p}</h4><ul>` + (
+      Array.isArray(logs)
+        ? logs.map(a => `<li>${a.habit} → ${a.guess}</li>`).join("")
+        : `<li>${logs}</li>`
+    ) + `</ul>`;
+  });
 
   document.getElementById("resultPhase").classList.add("hidden");
   document.getElementById("finalResult").classList.remove("hidden");
