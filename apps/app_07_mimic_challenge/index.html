@@ -1,1 +1,42 @@
-<html><body><h1>App 07 Mimic Challenge</h1></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>モノマネチャレンジ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container" id="setupScreen">
+    <h1>モノマネチャレンジ</h1>
+    <div id="playerInputs">
+      <input type="text" placeholder="プレイヤー名">
+      <input type="text" placeholder="プレイヤー名">
+      <input type="text" placeholder="プレイヤー名">
+    </div>
+    <button onclick="addPlayer()">プレイヤー追加</button>
+    <button onclick="removePlayer()">プレイヤー削除</button>
+    <button onclick="startGame()">ゲーム開始</button>
+  </div>
+
+  <div class="container hidden" id="mimicScreen">
+    <h2 id="currentPlayerName">○○さんの番です！</h2>
+    <p>お題：</p>
+    <h3 id="mimicTopic">？？？</h3>
+    <button onclick="nextPlayer()">モノマネ完了！次へ</button>
+  </div>
+
+  <div class="container hidden" id="voteScreen">
+    <h2>誰が一番うまかった？</h2>
+    <div id="voteButtons"></div>
+  </div>
+
+  <div class="container hidden" id="resultScreen">
+    <h2>結果発表！</h2>
+    <p id="winnerText">○○さんが勝者です！</p>
+    <button onclick="location.reload()">もう一度プレイ</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
