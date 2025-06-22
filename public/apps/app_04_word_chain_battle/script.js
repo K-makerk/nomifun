@@ -13,13 +13,29 @@ let timer;
 let timeLimit = 20;
 const validationCache = {};
 
-function startGame() {
-  const playerInput = document.getElementById('playerInput').value.trim();
-  players = playerInput.split(',').map(p => p.trim()).filter(p => p);
-  if (players.length < 2) {
-    alert("2人以上のプレイヤーを入力してください。");
-    return;
+function addPlayerInput() {
+  const div = document.createElement("div");
+  div.innerHTML = `<input type="text" placeholder="プレイヤー名" />`;
+  document.getElementById("playerInputs").appendChild(div);
+}
+
+function removePlayerInput() {
+  const container = document.getElementById("playerInputs");
+  if (container.children.length > 2) {
+    container.removeChild(container.lastElementChild);
+  } else {
+    alert("最低2人必要です");
   }
+}
+
+function confirmPlayers() {
+  const inputs = document.querySelectorAll("#playerInputs input");
+  players = [];
+  inputs.forEach(input => {
+    const name = input.value.trim();
+    if (name) players.push(name);
+  });
+  if (players.length < 2) return alert("2人以上のプレイヤー名を入力してください");
 
   const selectedTheme = document.getElementById('themeSelect').value;
   const themeKeys = Object.keys(themeMap);
