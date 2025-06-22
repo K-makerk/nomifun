@@ -11,7 +11,7 @@ let currentTheme = '';
 let currentWord = '';
 let timer;
 let timeLimit = 20;
-const validationCache = {}; // 高速化キャッシュ
+const validationCache = {};
 
 function startGame() {
   const playerInput = document.getElementById('playerInput').value.trim();
@@ -48,8 +48,7 @@ async function submitWord() {
   const input = document.getElementById('wordInput').value.trim().toLowerCase();
   if (!input) return;
 
-  const isHiragana = /^[\u3040-\u309Fー]+$/.test(input);
-  if (!isHiragana) {
+  if (!/^[\u3040-\u309Fー]+$/.test(input)) {
     alert("ひらがなで入力してください。");
     return;
   }
@@ -124,7 +123,7 @@ function endGame(winner) {
   document.getElementById('winnerMessage').innerText = `🏆 勝者: ${winner}`;
 }
 
-// ==================== 高速化対応・多重判定 ====================
+// ==================== Wikidata 多重検証 ====================
 
 async function validateWord(word, themeId, themeName) {
   const key = `${word}_${themeName}`;
@@ -160,7 +159,7 @@ async function hasInstanceOf(entityId, themeId) {
     const claims = data.entities[entityId].claims;
     const instances = claims.P31?.map(c => c.mainsnak.datavalue?.value?.id);
     return instances?.includes(themeId) || false;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -174,25 +173,24 @@ async function isSubclassOf(entityId, targetId, depth = 5) {
     const subclasses = claims.P279?.map(c => c.mainsnak.datavalue?.value?.id);
     if (!subclasses) return false;
     if (subclasses.includes(targetId)) return true;
-    for (const subclass of subclasses) {
-      if (await isSubclassOf(subclass, targetId, depth - 1)) return true;
+    for (const sub of subclasses) {
+      if (await isSubclassOf(sub, targetId, depth - 1)) return true;
     }
-  } catch (e) {
-    console.warn("P279 subclass check error:", e);
+  } catch {
+    return false;
   }
   return false;
 }
 
-async function isInWikipediaCategory(word, themeKeyword) {
+async function isInWikipediaCategory(word, keyword) {
   try {
     const url = `https://ja.wikipedia.org/w/api.php?action=query&prop=categories&titles=${encodeURIComponent(word)}&format=json&origin=*`;
     const res = await fetch(url);
     const data = await res.json();
-    const pages = data.query?.pages;
-    const page = Object.values(pages)[0];
-    const categories = page.categories?.map(c => c.title);
-    return categories?.some(cat => cat.includes(themeKeyword)) || false;
-  } catch (e) {
+    const page = Object.values(data.query.pages)[0];
+    const cats = page.categories?.map(c => c.title);
+    return cats?.some(cat => cat.includes(keyword)) || false;
+  } catch {
     return false;
   }
 }
