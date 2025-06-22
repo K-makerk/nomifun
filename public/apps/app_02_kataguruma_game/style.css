@@ -1,44 +1,70 @@
 body {
-  font-family: sans-serif;
-  background: #f0f0f0;
   margin: 0;
-  padding: 1em;
+  font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+  background: #fff0f5;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #ffe4e1;
+  border-bottom: 2px solid #e91e63;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #880e4f;
 }
 
 .container {
+  padding: 20px;
   max-width: 720px;
   margin: auto;
-  background: white;
-  padding: 1.5em;
-  border-radius: 10px;
+  background: #fff;
+  border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-input, button, select {
-  padding: 0.7em;
-  margin: 0.5em 0;
+input, select, button {
   width: 100%;
-  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  margin: 10px 0;
+  border-radius: 10px;
   border: 1px solid #ccc;
-  font-size: 1em;
   box-sizing: border-box;
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: #f06292;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #388e3c;
+  background-color: #ec407a;
 }
 
 .select-area {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+}
+
+.card {
+  background-color: #fff8e1;
+  border: 2px dashed #f48fb1;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.ad-box {
+  margin: 20px 0;
+  text-align: center;
 }
 
 @media (max-width: 600px) {
