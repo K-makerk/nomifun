@@ -49,14 +49,17 @@ button:hover {
   background-color: #ec407a;
 }
 
-h2, h3 {
+.card {
+  background-color: #fff8e1;
+  border: 2px dashed #f48fb1;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 12px;
   text-align: center;
 }
 
-.select-area {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
+h2, h3 {
+  text-align: center;
 }
 
 .timer-control {
@@ -70,7 +73,7 @@ h2, h3 {
   font-weight: bold;
 }
 
-#ad-box, .ad-box {
+.ad-box {
   margin: 20px 0;
   text-align: center;
 }
