@@ -92,12 +92,11 @@ function showAllAnswers() {
   const main = document.getElementById("main");
   main.innerHTML = "<h2>全員の回答</h2>";
   players.forEach((p, i) => {
-    main.innerHTML += `<div><strong>${p.name}</strong><ul>` +
+    main.innerHTML += `<div class="card"><strong>${p.name}</strong><ul>` +
       answers[i].map(a => `<li>${a}</li>`).join("") +
       "</ul></div>";
   });
 
-  // タイマー操作UI追加
   main.innerHTML += `
     <div class="timer-control">
       <label>制限時間（分）: <input type="number" id="timeInput" value="3" min="1" /></label><br>
@@ -175,4 +174,3 @@ function checkTwinGuess() {
     <button onclick="showPlayerForm()">もう一度遊ぶ</button>
   `;
 }
-
