@@ -11,25 +11,38 @@
 <body>
   <header>
     <h1>App03 双子当てゲーム</h1>
-    <p>「お題」を元に、双子のペアを当てよう！</p>
+    <p>回答の傾向から「双子」を当てよう！</p>
   </header>
 
   <main class="container">
+
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <div>
+      <label>BGM選択:</label>
+      <select id="bgmSelect" onchange="changeBGM()">
+        <option value="none">なし</option>
+        <option value="cafe">カフェ風</option>
+        <option value="anime">アニメ風</option>
+        <option value="party">パーティー風</option>
+      </select>
+      <audio id="bgm" loop autoplay></audio>
+    </div>
+
     <div id="main"></div>
 
     <div id="footer">
-      <p>※「自分のお題」を口に出すのは禁止です！個別に表示される内容を元に、推理してください。</p>
+      <p>※「お題内容」を口に出すのは禁止！</p>
     </div>
 
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+
   </main>
 
   <script src="script.js" defer></script>
