@@ -3,120 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ジェスチャーゲーム</title>
+  <title>App01 ジェスチャーゲーム</title>
   <link rel="stylesheet" href="style.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
   <header>
-    <h1>App 01 ジェスチャーゲーム</h1>
-    <p>お題をジェスチャーで当て合うゲーム！</p>
+    <h1>App01 ジェスチャーゲーム</h1>
+    <p>お題をジェスチャーで当て合おう！</p>
   </header>
 
-  <div class="container">
+  <main class="container">
 
-    <!-- 広告1 -->
+    <!-- 広告① -->
     <div class="ad-box">
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-1643561503893272"
-        data-ad-slot="1234567890"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- タイトル画面 -->
-    <section id="titleScreen">
-      <img src="title-gesture.png" alt="ジェスチャーゲーム" class="title-image" />
-      <button onclick="showSetup()">ゲームをはじめる</button>
-      <div>
-        <label>BGM選択：</label>
-        <select id="bgmSelect" onchange="changeBGM()">
-          <option value="cafe">カフェ風</option>
-          <option value="anime">アニメ風</option>
-          <option value="party">パーティー風</option>
-        </select>
-        <audio id="bgm" loop autoplay></audio>
-      </div>
-    </section>
-
     <!-- セットアップ画面 -->
-    <section id="setupScreen" class="hidden">
-      <h2>プレイヤーと観客を設定</h2>
-      <input id="playerInput" placeholder="プレイヤー名（例: あきら,さくら）" />
-      <input id="audienceInput" placeholder="観客名（任意）" />
-      <label>チーム分け：</label>
-      <select id="teamMode">
+    <section id="setupScreen">
+      <label>プレイヤー名（カンマ区切り）:</label>
+      <input type="text" id="playerInput" placeholder="例: さくら,たけし">
+      <label>観客名（任意）:</label>
+      <input type="text" id="spectatorInput" placeholder="例: しん,けん">
+      <label>ジャンル:</label>
+      <select id="topicCategory">
+        <option value="animals">動物</option>
+        <option value="jobs">職業</option>
+        <option value="actions">アクション</option>
+        <option value="hard">難問</option>
+      </select>
+      <label>チーム分け:</label>
+      <select id="teamMethod">
         <option value="solo">個人戦</option>
         <option value="random">ランダム</option>
         <option value="manual">手動</option>
       </select>
-      <label>ジャンル選択：</label>
-      <select id="genreSelect">
-        <option value="animal">動物</option>
-        <option value="job">職業</option>
-        <option value="action">アクション</option>
-        <option value="hard">難問</option>
+      <label>ゲーム回数（ラウンド数）:</label>
+      <input type="number" id="gameCount" value="3" min="1">
+      <label>BGM選択:</label>
+      <select id="bgmSelect">
+        <option value="none">なし</option>
+        <option value="cafe">カフェ風</option>
+        <option value="anime">アニメ風</option>
+        <option value="party">パーティー風</option>
       </select>
-      <button onclick="startGame()">ゲーム開始</button>
-      <button onclick="goToTitle()">タイトルに戻る</button>
+      <audio id="bgm" loop autoplay></audio>
+      <button onclick="setupGame()">ゲーム開始</button>
     </section>
-
-    <!-- 広告2 -->
-    <div class="ad-box">
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-1643561503893272"
-        data-ad-slot="0987654321"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
 
     <!-- ゲーム画面 -->
-    <section id="gameScreen" class="hidden">
-      <h2 id="turnInfo"></h2>
-      <div id="teamInfo"></div>
+    <section id="gameArea" style="display: none;">
+      <h2 id="instructionText">準備中...</h2>
       <div class="card">
-        <p id="promptDisplay"></p>
-        <p id="bonusDisplay"></p>
-        <p id="missionDisplay"></p>
-        <p id="timer">残り時間：<span id="timeLeft">20</span>秒</p>
+        <p id="currentPlayerDisplay"></p>
+        <p id="nextPlayerDisplay"></p>
+        <p id="currentTeamDisplay"></p>
+        <p id="topicArea">ここにお題が表示されます</p>
+        <p id="bonusText"></p>
+        <p id="missionText"></p>
+        <p id="timer">残り時間: --秒</p>
       </div>
-      <div id="scoreSection" class="hidden">
-        <label>スコアを選んでください：</label><br />
-        <button onclick="submitScore('fail')">❌ 失敗</button>
-        <button onclick="submitScore('success')">⭕ 成功</button>
-        <button onclick="submitScore('great')">🌟 大成功</button>
+
+      <!-- 広告② -->
+      <div class="ad-box">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
-      <button onclick="endTurn()" class="end-button">手動終了</button>
-      <button onclick="goToTitle()">タイトルに戻る</button>
+
+      <div id="scoreInputArea"></div>
+      <button onclick="startGame()">お題を出す</button>
+      <button onclick="submitScores()">スコア送信</button>
+      <button onclick="forceEnd()">手動終了</button>
+      <button onclick="returnToTitle()">タイトルに戻る</button>
+      <p>ラウンド <span id="roundNum">1</span> / <span id="totalRounds">3</span></p>
     </section>
 
-    <!-- 広告3 -->
+    <!-- 結果画面 -->
+    <section id="scoreDisplay" style="display: none;">
+      <h2>🎉 結果発表 🎉</h2>
+      <ul id="scoreBoard"></ul>
+      <p id="mvpDisplay"></p>
+      <button onclick="saveResultImage()">結果を画像保存</button>
+      <button onclick="returnToTitle()">タイトルに戻る</button>
+    </section>
+
+    <!-- 広告③ -->
     <div class="ad-box">
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-1643561503893272"
-        data-ad-slot="1122334455"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- 結果画面 -->
-    <section id="resultScreen" class="hidden">
-      <h2>🎉 結果発表 🎉</h2>
-      <div id="scoreBoard"></div>
-      <button onclick="saveResult()">結果を画像保存</button>
-      <button onclick="goToTitle()">タイトルに戻る</button>
-    </section>
-
-  </div>
-
+  </main>
   <script src="script.js"></script>
 </body>
 </html>
+
