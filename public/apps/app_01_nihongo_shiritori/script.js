@@ -13,14 +13,55 @@ let currentCategory = "animals";
 let teams = { A: [], B: [] };
 let timer, timeLeft = 20;
 
+function addPlayerInput() {
+  const div = document.createElement("div");
+  div.innerHTML = `<input type="text" placeholder="プレイヤー名" />`;
+  document.getElementById("playerInputs").appendChild(div);
+}
+
+function removePlayerInput() {
+  const container = document.getElementById("playerInputs");
+  if (container.children.length > 3) {
+    container.removeChild(container.lastElementChild);
+  } else {
+    alert("最低3人必要です");
+  }
+}
+
+function addAudienceInput() {
+  const div = document.createElement("div");
+  div.innerHTML = `<input type="text" placeholder="観客名" />`;
+  document.getElementById("audienceInputs").appendChild(div);
+}
+
+function removeAudienceInput() {
+  const container = document.getElementById("audienceInputs");
+  if (container.children.length > 0) {
+    container.removeChild(container.lastElementChild);
+  }
+}
+
 function setupGame() {
-  players = document.getElementById("playerInput").value.split(",").map(s => s.trim()).filter(Boolean);
-  spectators = document.getElementById("spectatorInput").value.split(",").map(s => s.trim()).filter(Boolean);
+  const playerInputs = document.querySelectorAll("#playerInputs input");
+  const audienceInputs = document.querySelectorAll("#audienceInputs input");
+
+  players = [];
+  spectators = [];
+
+  playerInputs.forEach(input => {
+    if (input.value.trim()) players.push(input.value.trim());
+  });
+  audienceInputs.forEach(input => {
+    if (input.value.trim()) spectators.push(input.value.trim());
+  });
+
+  if (players.length < 3) return alert("プレイヤーは3人以上必要です");
+
   currentCategory = document.getElementById("topicCategory").value;
   totalRounds = parseInt(document.getElementById("gameCount").value);
-  players.forEach(p => scores[p] = 0);
   currentRound = 1;
   currentPlayerIndex = 0;
+  players.forEach(p => scores[p] = 0);
 
   const method = document.getElementById("teamMethod").value;
   if (method === "random") {
