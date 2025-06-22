@@ -11,8 +11,14 @@
     <h1>🎯 ワードチェインバトル</h1>
 
     <div id="setup">
-      <label>プレイヤー名（カンマ区切り）:</label>
-      <input type="text" id="playerInput" placeholder="例：たろう,はなこ,けんじ" />
+      <label>プレイヤー名（最低2人）:</label>
+      <div id="playerInputs">
+        <div><input type="text" placeholder="プレイヤー名" /></div>
+        <div><input type="text" placeholder="プレイヤー名" /></div>
+      </div>
+      <button onclick="addPlayerInput()">プレイヤー追加</button>
+      <button onclick="removePlayerInput()">プレイヤー削除</button>
+
       <label>テーマ選択:</label>
       <select id="themeSelect">
         <option value="">ランダム</option>
@@ -20,7 +26,8 @@
         <option value="動物">動物</option>
         <option value="地名">地名</option>
       </select>
-      <button onclick="startGame()">ゲーム開始</button>
+
+      <button onclick="confirmPlayers()">ゲーム開始</button>
     </div>
 
     <div id="game" class="hidden">
