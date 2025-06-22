@@ -38,14 +38,20 @@ function setupGame() {
 
   const bgm = document.getElementById("bgm");
   const choice = document.getElementById("bgmSelect").value;
-  if (choice === "cafe") bgm.src = "https://example.com/cafe.mp3";
-  if (choice === "anime") bgm.src = "https://example.com/anime.mp3";
-  if (choice === "party") bgm.src = "https://example.com/party.mp3";
-  if (choice !== "none") bgm.play();
+  const srcMap = {
+    cafe: "https://example.com/cafe.mp3",
+    anime: "https://example.com/anime.mp3",
+    party: "https://example.com/party.mp3"
+  };
+  if (choice !== "none" && srcMap[choice]) {
+    bgm.src = srcMap[choice];
+    bgm.play();
+  }
 
   document.getElementById("setupScreen").style.display = "none";
   document.getElementById("gameArea").style.display = "block";
   document.getElementById("totalRounds").textContent = totalRounds;
+  document.getElementById("roundNum").textContent = currentRound;
   updatePlayerDisplay();
 }
 
@@ -113,7 +119,7 @@ function submitScores() {
     const result = document.getElementById(`result_${p}`).value;
     let base = result === "fail" ? 0 : result === "success" ? 5 : 7;
     let bonus = Math.min(Math.round(timeLeft * 0.2), 6);
-    if (timeLeft >= (20 - 5)) bonus += 3;
+    if (timeLeft >= 15) bonus += 3;
     scores[p] += base + bonus;
   });
 
