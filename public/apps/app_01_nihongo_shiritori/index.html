@@ -15,31 +15,41 @@
   </header>
 
   <main class="container">
-
-    <!-- 広告① -->
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- セットアップ画面 -->
     <section id="setupScreen">
-      <label>プレイヤー名（カンマ区切り）:</label>
-      <input type="text" id="playerInput" placeholder="例: さくら,たけし">
-      <label>観客名（任意）:</label>
-      <input type="text" id="spectatorInput" placeholder="例: しん,けん">
-      <label>ジャンル:</label>
+      <h2>プレイヤーと観客を設定</h2>
+      <h3>プレイヤー名を入力（3人以上）</h3>
+      <div id="playerInputs">
+        <input type="text" placeholder="プレイヤー名" />
+        <input type="text" placeholder="プレイヤー名" />
+        <input type="text" placeholder="プレイヤー名" />
+      </div>
+      <button onclick="addPlayerInput()">プレイヤー追加</button>
+      <button onclick="removePlayerInput()">プレイヤー削除</button>
+
+      <h3>観客名（任意）</h3>
+      <div id="audienceInputs">
+        <input type="text" placeholder="観客名" />
+      </div>
+      <button onclick="addAudienceInput()">観客追加</button>
+      <button onclick="removeAudienceInput()">観客削除</button>
+
+      <label>チーム分け：</label>
+      <select id="teamMethod">
+        <option value="solo">個人戦</option>
+        <option value="random">ランダム</option>
+        <option value="manual">手動</option>
+      </select>
+      <label>ジャンル選択：</label>
       <select id="topicCategory">
         <option value="animals">動物</option>
         <option value="jobs">職業</option>
         <option value="actions">アクション</option>
         <option value="hard">難問</option>
-      </select>
-      <label>チーム分け:</label>
-      <select id="teamMethod">
-        <option value="solo">個人戦</option>
-        <option value="random">ランダム</option>
-        <option value="manual">手動</option>
       </select>
       <label>ゲーム回数（ラウンド数）:</label>
       <input type="number" id="gameCount" value="3" min="1">
@@ -54,7 +64,6 @@
       <button onclick="setupGame()">ゲーム開始</button>
     </section>
 
-    <!-- ゲーム画面 -->
     <section id="gameArea" style="display: none;">
       <h2 id="instructionText">準備中...</h2>
       <div class="card">
@@ -67,7 +76,6 @@
         <p id="timer">残り時間: --秒</p>
       </div>
 
-      <!-- 広告② -->
       <div class="ad-box">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
@@ -81,7 +89,6 @@
       <p>ラウンド <span id="roundNum">1</span> / <span id="totalRounds">3</span></p>
     </section>
 
-    <!-- 結果画面 -->
     <section id="scoreDisplay" style="display: none;">
       <h2>🎉 結果発表 🎉</h2>
       <ul id="scoreBoard"></ul>
@@ -90,14 +97,12 @@
       <button onclick="returnToTitle()">タイトルに戻る</button>
     </section>
 
-    <!-- 広告③ -->
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
-
   </main>
+
   <script src="script.js"></script>
 </body>
 </html>
-
