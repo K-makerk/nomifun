@@ -31,6 +31,7 @@ input, select {
   font-size: 1em;
   border: 1px solid #ccc;
   border-radius: 8px;
+  box-sizing: border-box;
 }
 
 button {
@@ -58,4 +59,14 @@ button:hover {
   margin: 1em 0;
   font-size: 1.2em;
   color: #d32f2f;
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    padding: 1em;
+  }
+
+  input, select, button {
+    font-size: 1em;
+  }
 }
