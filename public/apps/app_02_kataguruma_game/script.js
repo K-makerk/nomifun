@@ -1,40 +1,33 @@
 const prompts = [
-  {
-    question: "好きな季節は？",
-    choices: ["春", "夏", "秋", "冬"]
-  },
-  {
-    question: "朝ごはんといえば？",
-    choices: ["ごはん", "パン", "シリアル", "食べない"]
-  },
-  {
-    question: "好きな色は？",
-    choices: ["赤", "青", "緑", "黒"]
-  },
-  {
-    question: "休日の過ごし方は？",
-    choices: ["寝る", "出かける", "ゲーム", "家事"]
-  },
-  {
-    question: "好きな動物は？",
-    choices: ["犬", "猫", "うさぎ", "パンダ"]
-  },
-  {
-    question: "憧れの旅行先は？",
-    choices: ["パリ", "ハワイ", "北海道", "沖縄"]
-  }
+  { question: "好きな季節は？", choices: ["春", "夏", "秋", "冬"] },
+  { question: "朝ごはんといえば？", choices: ["ごはん", "パン", "シリアル", "食べない"] },
+  { question: "好きな色は？", choices: ["赤", "青", "緑", "黒"] },
+  { question: "休日の過ごし方は？", choices: ["寝る", "出かける", "ゲーム", "家事"] },
+  { question: "好きな動物は？", choices: ["犬", "猫", "うさぎ", "パンダ"] },
+  { question: "憧れの旅行先は？", choices: ["パリ", "ハワイ", "北海道", "沖縄"] }
 ];
 
 let round = 1;
 const totalRounds = 3;
-let usedPrompts = [];
-let currentPrompt = {};
-let pairs = [];
-let scores = [];
-let answers = [];
-let logs = [];
-let currentPairIndex = 0;
-let currentMemberIndex = 0;
+let usedPrompts = [], currentPrompt = {}, pairs = [], scores = [], answers = [], logs = [];
+let currentPairIndex = 0, currentMemberIndex = 0;
+
+function changeBGM() {
+  const audio = document.getElementById("bgm");
+  const val = document.getElementById("bgmSelect").value;
+  const srcMap = {
+    cafe: "https://example.com/cafe.mp3",
+    anime: "https://example.com/anime.mp3",
+    party: "https://example.com/party.mp3"
+  };
+  if (srcMap[val]) {
+    audio.src = srcMap[val];
+    audio.play();
+  } else {
+    audio.pause();
+    audio.removeAttribute("src");
+  }
+}
 
 function createPairInputs() {
   const count = parseInt(document.getElementById('playerCount').value);
@@ -47,7 +40,7 @@ function createPairInputs() {
   pairInputs.innerHTML = `<h2>ペア入力</h2>`;
   for (let i = 0; i < count / 2; i++) {
     pairInputs.innerHTML += `
-      <div>
+      <div class="card">
         <label>ペア${i + 1}（上 / 下）</label><br>
         <input type="text" id="upper${i}" placeholder="上の人の名前">
         <input type="text" id="lower${i}" placeholder="下の人の名前">
@@ -193,5 +186,14 @@ function showResult() {
       `;
     });
     logArea.innerHTML += `</ul>`;
+  });
+}
+
+function saveResultImage() {
+  html2canvas(document.querySelector("#result")).then(canvas => {
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL();
+    a.download = "kataguruma_result.png";
+    a.click();
   });
 }
