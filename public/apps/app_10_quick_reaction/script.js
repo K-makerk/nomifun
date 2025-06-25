@@ -1,18 +1,21 @@
-let startButton = document.getElementById("startButton");
-let message = document.getElementById("message");
-let result = document.getElementById("result");
+const startButton = document.getElementById("startButton");
+const message = document.getElementById("message");
+const result = document.getElementById("result");
 
 let startTime = 0;
 let goTimeout = null;
 let waitingForClick = false;
+let gameActive = false;
 
 startButton.addEventListener("click", () => {
+  if (gameActive) return;
+  gameActive = true;
   startButton.disabled = true;
   message.textContent = "Ready...";
   result.textContent = "";
   waitingForClick = false;
 
-  const delay = Math.random() * 3000 + 2000; // 2〜5秒後にGo!
+  const delay = Math.floor(Math.random() * 3000) + 2000;
 
   goTimeout = setTimeout(() => {
     message.textContent = "Go!";
@@ -21,19 +24,24 @@ startButton.addEventListener("click", () => {
   }, delay);
 });
 
-document.body.addEventListener("click", () => {
-  if (!startButton.disabled) return; // ゲームが始まっていない
+document.body.addEventListener("click", (e) => {
+  if (!gameActive) return;
 
   if (!waitingForClick) {
     clearTimeout(goTimeout);
     message.textContent = "フライング！失格！";
     result.textContent = "";
-    startButton.disabled = false;
+    resetGame();
   } else {
     const reactionTime = (performance.now() - startTime).toFixed(2);
     message.textContent = "成功！";
     result.textContent = `反応時間：${reactionTime} ms`;
-    waitingForClick = false;
-    startButton.disabled = false;
+    resetGame();
   }
 });
+
+function resetGame() {
+  startButton.disabled = false;
+  waitingForClick = false;
+  gameActive = false;
+}
