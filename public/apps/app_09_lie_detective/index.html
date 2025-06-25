@@ -1,1 +1,69 @@
-<html><body><h1>App 09 Lie Detective</h1></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App09 嘘探偵</title>
+  <link rel="stylesheet" href="style.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🕵️‍♂️ 嘘探偵</h1>
+      <p>1人だけ嘘をついています。質問して嘘つきを見抜こう！</p>
+      <audio id="bgm" src="bgm.mp3" loop autoplay></audio>
+      <div class="controls">
+        <button onclick="toggleBGM()">🔊 BGM切替</button>
+        <button onclick="saveScreenshot()">📸 保存</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="setup">
+        <h2>プレイヤー設定</h2>
+        <p>プレイヤー名を4人以上入力してください</p>
+        <div id="playerInputs" class="input-area"></div>
+        <div class="btn-row">
+          <button onclick="addPlayerInput()">＋プレイヤー追加</button>
+          <button onclick="startGame()">🎲 ゲーム開始</button>
+        </div>
+      </section>
+
+      <section id="questionSection" class="hidden">
+        <h2>🗨️ 質問入力</h2>
+        <input type="text" id="questionInput" placeholder="例：好きな食べ物は？" />
+        <button onclick="submitQuestion()">質問を出す</button>
+      </section>
+
+      <section id="answerSection" class="hidden">
+        <h2>✍️ 回答フェーズ</h2>
+        <p id="currentAnswerPlayer">◯◯さんの番です</p>
+        <input type="text" id="answerInput" placeholder="回答を入力" />
+        <button onclick="submitAnswer()">回答する</button>
+      </section>
+
+      <section id="voteSection" class="hidden">
+        <h2>🕵️ 投票タイム</h2>
+        <p>誰が嘘をついていると思う？</p>
+        <div id="voteButtons" class="btn-column"></div>
+      </section>
+
+      <section id="resultSection" class="hidden">
+        <h2>🎉 結果発表</h2>
+        <div id="voteResult" class="result-box"></div>
+        <div id="correctAnswer" class="result-box"></div>
+        <button onclick="location.reload()">🔄 もう一度遊ぶ</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 飲み会アプリシリーズ</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
