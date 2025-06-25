@@ -23,8 +23,8 @@ function startGame() {
     return;
   }
   liarIndex = Math.floor(Math.random() * players.length);
-  document.getElementById("setup").style.display = "none";
-  document.getElementById("questionSection").style.display = "block";
+  document.getElementById("setup").classList.add("hidden");
+  document.getElementById("questionSection").classList.remove("hidden");
 }
 
 function submitQuestion() {
@@ -34,14 +34,14 @@ function submitQuestion() {
     return;
   }
   question = q;
-  document.getElementById("questionSection").style.display = "none";
-  document.getElementById("answerSection").style.display = "block";
+  document.getElementById("questionSection").classList.add("hidden");
+  document.getElementById("answerSection").classList.remove("hidden");
   showNextAnswerInput();
 }
 
 function showNextAnswerInput() {
   if (currentAnswerIndex >= players.length) {
-    document.getElementById("answerSection").style.display = "none";
+    document.getElementById("answerSection").classList.add("hidden");
     showVoting();
     return;
   }
@@ -66,7 +66,7 @@ function submitAnswer() {
 }
 
 function showVoting() {
-  document.getElementById("voteSection").style.display = "block";
+  document.getElementById("voteSection").classList.remove("hidden");
   const voteArea = document.getElementById("voteButtons");
   voteArea.innerHTML = "";
   players.forEach(name => {
@@ -87,8 +87,8 @@ function castVote(name) {
 }
 
 function showResult() {
-  document.getElementById("voteSection").style.display = "none";
-  document.getElementById("resultSection").style.display = "block";
+  document.getElementById("voteSection").classList.add("hidden");
+  document.getElementById("resultSection").classList.remove("hidden");
 
   let maxVote = 0;
   let topCandidates = [];
@@ -113,4 +113,24 @@ function showResult() {
   } else {
     correct.innerHTML += `<p>😈 嘘つきの勝ち！</p>`;
   }
+}
+
+// BGM切り替え
+function toggleBGM() {
+  const bgm = document.getElementById("bgm");
+  if (bgm.paused) {
+    bgm.play();
+  } else {
+    bgm.pause();
+  }
+}
+
+// 結果画面保存
+function saveScreenshot() {
+  html2canvas(document.body).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "result.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
 }
