@@ -1,42 +1,98 @@
 body {
-  font-family: sans-serif;
+  font-family: 'DotGothic16', sans-serif;
   margin: 0;
   padding: 0;
-  background: #f4f4f4;
+  background: #f0f0f8;
 }
 
 .container {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  padding: 1em;
 }
 
-h1, h2 {
+.card-ui {
+  background: linear-gradient(to bottom right, #fdf5f5, #f0f0ff);
+  border: 3px solid #333;
+}
+
+.card-header, .card-footer {
   text-align: center;
+  padding: 1em 0;
 }
 
-input, button {
+.card-header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+.card-section {
+  margin: 1.5em 0;
+}
+
+.input-area input {
   width: 100%;
+  margin-bottom: 0.5em;
   padding: 10px;
-  margin: 10px 0;
   font-size: 1em;
-  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid #999;
 }
 
 button {
-  background-color: #4caf50;
-  color: white;
+  padding: 10px;
+  font-size: 1em;
+  background-color: #ff8a80;
   border: none;
-  border-radius: 5px;
+  color: white;
+  border-radius: 6px;
+  margin: 0.3em 0;
+  cursor: pointer;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #e53935;
 }
 
-#playerInputs div {
-  margin-bottom: 5px;
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.btn-column button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.result-box {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+@media screen and (max-width: 600px) {
+  .btn-row {
+    flex-direction: column;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
 }
