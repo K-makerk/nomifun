@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>飲み会Webアプリ ポータルサイト</title>
-  <meta name="description" content="飲み会やパーティーで盛り上がる無料Webゲーム集。スマホ対応・登録不要ですぐ遊べます。全10種類の飲み会専用ミニゲームを収録。">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+  <meta name="description" content="飲み会やパーティーで盛り上がる無料Webゲーム集。スマホ対応・登録不要ですぐ遊べます。全10種類の飲み会専用ミニゲームを収録。" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
@@ -89,7 +89,8 @@
       text-align: center;
       margin: 30px 0;
     }
-    .share-buttons a, .share-buttons button {
+    .share-buttons a,
+    .share-buttons button {
       margin: 5px;
       text-decoration: none;
     }
@@ -129,11 +130,11 @@
     </nav>
     <div class="ad-area">
       <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1643561503893272"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+        style="display:block"
+        data-ad-client="ca-pub-1643561503893272"
+        data-ad-slot="1234567890"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </header>
@@ -146,7 +147,7 @@
     <p style="margin-top: 10px;">まずは気になるゲームをタップして、試してみてください🎉</p>
   </section>
 
-  <main class="grid">
+ <main class="grid">
  <div class="app-card">
     <a href="/apps/app_01_nihongo_shiritori/index.html">
       <img src="/images/icons/app01.jpg" alt="ジェスチャーゲーム">
@@ -239,13 +240,14 @@
   </div>
   </main>
 
+
   <div class="ad-area">
     <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1643561503893272"
-         data-ad-slot="9876543210"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
+      style="display:block"
+      data-ad-client="ca-pub-1643561503893272"
+      data-ad-slot="9876543210"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
@@ -266,10 +268,30 @@
   <script>
     function captureAndSave() {
       html2canvas(document.body).then(function(canvas) {
-        const link = document.createElement('a');
-        link.download = 'nomikai_webapp_share.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        const logo = new Image();
+        const qr = new Image();
+        let loaded = 0;
+
+        logo.src = '/images/logo.png';
+        qr.src = '/images/qrcode.png';
+
+        logo.onload = qr.onload = function () {
+          loaded++;
+          if (loaded === 2) {
+            const ctx = canvas.getContext('2d');
+
+            const logoW = 100, logoH = 40;
+            const qrW = 80, qrH = 80;
+
+            ctx.drawImage(logo, canvas.width - logoW - 20, canvas.height - qrH - logoH - 40, logoW, logoH);
+            ctx.drawImage(qr, canvas.width - qrW - 20, canvas.height - qrH - 20, qrW, qrH);
+
+            const link = document.createElement('a');
+            link.download = 'nomikai_webapp_share.png';
+            link.href = canvas.toDataURL();
+            link.click();
+          }
+        };
       });
     }
   </script>
