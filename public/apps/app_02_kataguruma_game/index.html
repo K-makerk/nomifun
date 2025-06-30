@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>App02 肩車ゲーム</title>
+  <meta name="description" content="ペアの以心伝心度を試す飲み会向けミニゲーム。お題に対して上下の回答が一致すれば成功！" />
   <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
@@ -23,7 +25,7 @@
     <section id="setup">
       <h2>ペア設定</h2>
       <p>偶数人数を入力してください（例：4 → 2ペア）</p>
-      <input type="number" id="playerCount" min="2" step="2" placeholder="人数を入力 (偶数)">
+      <input type="number" id="playerCount" min="2" step="2" placeholder="人数を入力 (偶数)" />
       <button onclick="createPairInputs()">ペア入力へ進む</button>
       <label>BGM選択：</label>
       <select id="bgmSelect" onchange="changeBGM()">
@@ -57,8 +59,47 @@
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+
+    <div class="share-buttons">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=肩車ゲームで盛り上がろう！%20%23飲み会ゲーム" target="_blank">
+        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+      </a>
+      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
+        <button><i class="fab fa-line"></i> LINEでシェア</button>
+      </a>
+      <button onclick="saveResultImage()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
+    </div>
   </main>
 
+  <script>
+    function saveResultImage() {
+      html2canvas(document.body).then(function(canvas) {
+        const logo = new Image();
+        const qr = new Image();
+        let loaded = 0;
+
+        logo.src = '/images/logo.png';
+        qr.src = '/images/qrcode.png';
+
+        logo.onload = qr.onload = function () {
+          loaded++;
+          if (loaded === 2) {
+            const ctx = canvas.getContext('2d');
+            const logoW = 100, logoH = 40;
+            const qrW = 80, qrH = 80;
+
+            ctx.drawImage(logo, canvas.width - logoW - 20, canvas.height - qrH - logoH - 40, logoW, logoH);
+            ctx.drawImage(qr, canvas.width - qrW - 20, canvas.height - qrH - 20, qrW, qrH);
+
+            const link = document.createElement('a');
+            link.download = 'kataguruma_result.png';
+            link.href = canvas.toDataURL();
+            link.click();
+          }
+        };
+      });
+    }
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
