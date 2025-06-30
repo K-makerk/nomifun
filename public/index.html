@@ -265,35 +265,35 @@
     &copy; 2025 飲み会アプリプロジェクト. All Rights Reserved.
   </footer>
 
-  <script>
-    function captureAndSave() {
-      html2canvas(document.body).then(function(canvas) {
-        const logo = new Image();
-        const qr = new Image();
-        let loaded = 0;
+ <script>
+  function captureAndSave() {
+    html2canvas(document.body).then(function(canvas) {
+      const ctx = canvas.getContext('2d');
+      const logo = new Image();
+      const qr = new Image();
 
-        logo.src = '/images/logo.png';
-        qr.src = '/images/qrcode.png';
+      logo.crossOrigin = 'anonymous';
+      qr.crossOrigin = 'anonymous';
+      logo.src = '/images/logo.png';
+      qr.src = '/images/qrcode.png';
 
-        logo.onload = qr.onload = function () {
-          loaded++;
-          if (loaded === 2) {
-            const ctx = canvas.getContext('2d');
+      Promise.all([
+        new Promise(resolve => logo.onload = resolve),
+        new Promise(resolve => qr.onload = resolve)
+      ]).then(() => {
+        const logoW = 100, logoH = 40;
+        const qrW = 80, qrH = 80;
 
-            const logoW = 100, logoH = 40;
-            const qrW = 80, qrH = 80;
+        ctx.drawImage(qr, canvas.width - qrW - 20, canvas.height - qrH - 20, qrW, qrH);
+        ctx.drawImage(logo, canvas.width - logoW - 20, canvas.height - qrH - logoH - 40, logoW, logoH);
 
-            ctx.drawImage(logo, canvas.width - logoW - 20, canvas.height - qrH - logoH - 40, logoW, logoH);
-            ctx.drawImage(qr, canvas.width - qrW - 20, canvas.height - qrH - 20, qrW, qrH);
-
-            const link = document.createElement('a');
-            link.download = 'nomikai_webapp_share.png';
-            link.href = canvas.toDataURL();
-            link.click();
-          }
-        };
+        const link = document.createElement('a');
+        link.download = 'nomikai_webapp_share.png';
+        link.href = canvas.toDataURL();
+        link.click();
       });
-    }
-  </script>
+    });
+  }
+</script>
 </body>
 </html>
