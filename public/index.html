@@ -240,27 +240,6 @@
     <button onclick="captureAndSave()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
   </div>
 
-<section class="contact-section">
-  <h2>📩 お問い合わせ</h2>
-  <form id="secure-contact-form">
-    <input type="text" name="name" placeholder="お名前（任意）">
-    <input type="email" name="email" placeholder="メールアドレス（任意）">
-    <textarea name="message" rows="5" placeholder="お問い合わせ内容を入力してください" required></textarea>
-    <button type="submit">送信する</button>
-    <p id="form-status"></p>
-  </form>
-</section>
-  
-  <footer>
-    <nav>
-      <a href="/terms.html">利用規約</a>｜
-      <a href="/privacy.html">プライバシーポリシー</a>｜
-      <a href="/sitemap.html">サイトマップ</a>
-    </nav>
-    <p>運営者：飲み会アプリプロジェクト｜<a href="mailto:contact@example.com">お問い合わせ</a></p>
-    <p>&copy; 2025 Nomikai App Project. All rights reserved.</p>
-  </footer>
-
   <script>
     function captureAndSave() {
       html2canvas(document.body).then(function(canvas) {
