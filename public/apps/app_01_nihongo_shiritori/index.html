@@ -4,28 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>App01 ジェスチャーゲーム | 飲み会Webアプリ</title>
-  <meta name="description" content="みんなで盛り上がる定番のジェスチャーゲーム！お題を身振り手振りで表現して、チームで当てよう。スマホ1つでプレイ可能。">
+  <meta name="description" content="みんなで盛り上がる定番のジェスチャーゲーム！お題を身振り手振りで表現して、チームで当てよう。スマホ1つでプレイ可能。" />
   <link rel="stylesheet" href="style.css" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
   <header>
-    <h1>App01 ジェスチャーゲーム</h1>
-    <p>お題をジェスチャーで当て合おう！スマホだけで即スタート！</p>
+    <h1>App01：ジェスチャーゲーム</h1>
+    <p>出されたお題を「ジェスチャーだけ」で伝えてみよう！スマホ1つですぐ遊べる、盛り上がり必至の飲み会向けゲームです。</p>
   </header>
 
   <section class="description-section">
-    <h2>ルール＆遊び方</h2>
-    <p>このゲームは、出されたお題を<strong>ジェスチャーだけ</strong>で表現し、他のプレイヤーが当てるシンプルで盛り上がる定番パーティーゲームです。</p>
-    <p>声や口に出すのは禁止！身振り手振りだけで伝えるのがポイントです。</p>
+    <h2>🎮 このゲームって？</h2>
+    <p>チームや個人で出された「お題」を、<strong>声を出さずに</strong>身振り手振りで表現して、他のプレイヤーに当ててもらうゲームです。演技力や発想力で笑いが起こる鉄板ゲーム！</p>
+
+    <h3>📝 遊び方＆ルール</h3>
     <ul>
-      <li>ジャンルは「動物」「職業」「アクション」「難問」から選べます</li>
-      <li>個人戦・チーム戦（ランダム／手動）どちらにも対応</li>
-      <li>観客としての参加も可能！</li>
-      <li>得点入力・MVP・画像保存機能つき！</li>
+      <li>出されたお題は「声に出さずに」ジェスチャーで表現！</li>
+      <li>見ている側は制限時間内に正解を当てよう！</li>
+      <li>テーマジャンルは「動物／職業／アクション／難問」</li>
+      <li>個人戦・チーム戦どちらにも対応</li>
+      <li>BGMや観客モード、スコア機能、MVP判定もあり</li>
     </ul>
-    <p>「全力で演じて笑わせる」か「ガチで当てにいく」か…あなた次第！</p>
+
+    <p>たとえば…「ペンギン」や「美容師」なんてお題も。恥ずかしがらずに体で表現しよう！<br>盛り上がりたい夜に、笑いを呼びたい時にピッタリです。</p>
   </section>
 
   <main class="container">
@@ -35,8 +38,8 @@
     </div>
 
     <section id="setupScreen">
-      <h2>プレイヤーと観客を設定</h2>
-      <h3>プレイヤー名を入力（3人以上）</h3>
+      <h2>プレイヤー・観客を設定</h2>
+      <h3>プレイヤー名（3人以上）</h3>
       <div id="playerInputs">
         <input type="text" placeholder="プレイヤー名" />
         <input type="text" placeholder="プレイヤー名" />
@@ -45,7 +48,7 @@
       <button onclick="addPlayerInput()">プレイヤー追加</button>
       <button onclick="removePlayerInput()">プレイヤー削除</button>
 
-      <h3>観客名（任意）</h3>
+      <h3>観客（任意）</h3>
       <div id="audienceInputs">
         <input type="text" placeholder="観客名" />
       </div>
@@ -65,7 +68,7 @@
         <option value="actions">アクション</option>
         <option value="hard">難問</option>
       </select>
-      <label>ゲーム回数（ラウンド数）:</label>
+      <label>ラウンド数：</label>
       <input type="number" id="gameCount" value="3" min="1">
       <label>BGM選択:</label>
       <select id="bgmSelect">
@@ -116,6 +119,11 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </main>
+
+  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
+    <p>&copy; 2025 飲み会アプリプロジェクト</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
