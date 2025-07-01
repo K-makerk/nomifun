@@ -45,6 +45,46 @@
     }
     footer nav a { margin: 0 8px; color: #666; text-decoration: none; }
     footer nav a:hover { text-decoration: underline; }
+    .contact-section {
+  background: #fff;
+  padding: 30px 20px;
+  margin: 30px auto;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.contact-section h2 {
+  margin-bottom: 20px;
+  font-size: 1.4em;
+  text-align: center;
+}
+.contact-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.contact-section input,
+.contact-section textarea {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+.contact-section button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.contact-section button:hover {
+  background-color: #0056b3;
+}
+
   </style>
 </head>
 <body>
@@ -196,6 +236,18 @@
     <button onclick="captureAndSave()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
   </div>
 
+<section class="contact-section">
+  <h2>📩 お問い合わせ</h2>
+  <form action="https://formsubmit.co/makeappk@email.com" method="POST">
+    <input type="text" name="name" placeholder="お名前（任意）" />
+    <input type="email" name="email" placeholder="メールアドレス（返信用）" required />
+    <textarea name="message" rows="5" placeholder="お問い合わせ内容を入力してください" required></textarea>
+    <button type="submit">送信する</button>
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+  </form>
+</section>
+  
   <footer>
     <nav>
       <a href="/terms.html">利用規約</a>｜
