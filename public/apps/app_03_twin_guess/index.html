@@ -3,19 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>App03 双子当てゲーム</title>
+  <title>App03 双子当てゲーム | 飲み会Webアプリ</title>
+  <meta name="description" content="5人以上で遊べる心理推理ゲーム。全員の回答から「本物の双子ペア」を見抜け！飲み会や合コンで盛り上がる定番ネタ。" />
   <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
   <header>
-    <h1>App03 双子当てゲーム</h1>
-    <p>回答の傾向から「双子」を当てよう！</p>
+    <h1>App03：双子当てゲーム</h1>
+    <p>参加者の回答から「本物の双子」を見抜け！</p>
   </header>
 
-  <main class="container">
+  <section class="description-section">
+    <h2>🧠 どんなゲーム？</h2>
+    <p>参加者の中に1組だけ存在する「本物のペア（双子）」を、<strong>回答の傾向や一致具合から推理</strong>する心理戦ゲームです。</p>
+    <p>双子ペアだけは「事前に相談して」ある程度の一致を狙って回答。他の人は「知らずに」個別に答えます。</p>
 
+    <h3>🎮 ルール</h3>
+    <ul>
+      <li>プレイヤーは5人以上推奨（奇数OK）</li>
+      <li>ゲーム開始時にランダムで1組が「双子ペア」として設定</li>
+      <li>お題に対して、全員が匿名で回答</li>
+      <li>最後に誰が双子かを全員で推理・投票</li>
+      <li>見破れたら村人（一般人）の勝ち、逃げ切れば双子の勝ち！</li>
+    </ul>
+
+    <p>「えっ、この回答合わせにきてる!?」「こっちは偶然じゃ!?」など、予想外の展開で盛り上がること間違いなし。</p>
+  </section>
+
+  <main class="container">
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
@@ -35,7 +53,7 @@
     <div id="main"></div>
 
     <div id="footer">
-      <p>※「お題内容」を口に出すのは禁止！</p>
+      <p>※「お題内容」を口に出すのは禁止！回答は画面上で個別に入力しましょう。</p>
     </div>
 
     <div class="ad-box">
@@ -43,8 +61,46 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <div class="share-buttons" style="text-align:center; margin: 20px;">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=双子はどのペア!?%20飲み会で盛り上がる心理推理ゲーム！%20%23双子当てゲーム" target="_blank">
+        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+      </a>
+      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
+        <button><i class="fab fa-line"></i> LINEでシェア</button>
+      </a>
+      <button onclick="saveResultImage()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
+    </div>
   </main>
 
+  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
+    <p>&copy; 2025 飲み会アプリプロジェクト</p>
+  </footer>
+
+  <script>
+    function saveResultImage() {
+      html2canvas(document.body).then(function(canvas) {
+        const ctx = canvas.getContext('2d');
+        const logo = new Image();
+        const qr = new Image();
+        logo.crossOrigin = 'anonymous';
+        qr.crossOrigin = 'anonymous';
+        logo.src = '/images/logo.png';
+        qr.src = '/images/qrcode.png';
+        Promise.all([
+          new Promise(resolve => logo.onload = resolve),
+          new Promise(resolve => qr.onload = resolve)
+        ]).then(() => {
+          ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
+          ctx.drawImage(logo, canvas.width - 100, canvas.height - 160, 100, 40);
+          const link = document.createElement('a');
+          link.download = 'twin_guess_result.png';
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      });
+    }
+  </script>
   <script src="script.js" defer></script>
 </body>
 </html>
