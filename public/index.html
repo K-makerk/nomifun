@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <style>
+    /* すべてのCSS（元コード＋問い合わせフォーム）を含む */
     body { margin: 0; font-family: 'Noto Sans JP', sans-serif; background-color: #f8f8f8; color: #333; }
     header { background-color: #fff0f5; padding: 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     header h1 { font-size: 2em; margin: 0; }
@@ -46,49 +47,30 @@
     footer nav a { margin: 0 8px; color: #666; text-decoration: none; }
     footer nav a:hover { text-decoration: underline; }
     .contact-section {
-  background: #fff;
-  padding: 30px 20px;
-  margin: 30px auto;
-  max-width: 700px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.contact-section h2 {
-  margin-bottom: 20px;
-  font-size: 1.4em;
-  text-align: center;
-}
-.contact-section form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.contact-section input,
-.contact-section textarea {
-  padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 100%;
-}
-.contact-section button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 12px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-.contact-section button:hover {
-  background-color: #0056b3;
-}
-
+      background: #fff; padding: 30px 20px; margin: 30px auto;
+      max-width: 700px; border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .contact-section h2 { margin-bottom: 20px; font-size: 1.4em; text-align: center; }
+    .contact-section form { display: flex; flex-direction: column; gap: 15px; }
+    .contact-section input,
+    .contact-section textarea {
+      padding: 10px; font-size: 1em;
+      border: 1px solid #ccc; border-radius: 6px; width: 100%;
+    }
+    .contact-section button {
+      background-color: #007bff; color: white;
+      border: none; border-radius: 6px;
+      padding: 12px; font-size: 1em;
+      cursor: pointer; transition: background-color 0.3s;
+    }
+    .contact-section button:hover { background-color: #0056b3; }
+    #form-status { font-size: 0.95em; color: green; text-align: center; }
   </style>
 </head>
 <body>
-  <header>
+
+ <header>
     <h1>飲み会Webアプリ ポータルサイト</h1>
     <nav>
       <a href="/terms.html">利用規約</a>
@@ -130,7 +112,7 @@
       <li>3位：双子当て（地味に心理戦がアツい）</li>
     </ul>
   </section>
-
+  
 <main class="grid">
  <div class="app-card">
     <a href="/apps/app_01_nihongo_shiritori/index.html">
@@ -224,8 +206,30 @@
   </div>
   </main>
 
+  <!-- お問い合わせフォーム -->
+  <section class="contact-section">
+    <h2>\ud83d\udce9 お問い合わせ</h2>
+    <form id="secure-contact-form">
+      <input type="text" name="name" placeholder="お名前（任意）">
+      <input type="email" name="email" placeholder="メールアドレス（任意）">
+      <textarea name="message" rows="5" placeholder="お問い合わせ内容を入力してください" required></textarea>
+      <button type="submit">送信する</button>
+      <p id="form-status"></p>
+    </form>
+  </section>
 
-  <div class="ad-area">
+  <!-- フッター -->
+  <footer>
+    <nav>
+      <a href="/terms.html">利用規約</a>｜
+      <a href="/privacy.html">プライバシーポリシー</a>｜
+      <a href="/sitemap.html">サイトマップ</a>
+    </nav>
+    <p>運営者：飲み会アプリプロジェクト｜<a href="mailto:contact@example.com">お問い合わせ</a></p>
+    <p>&copy; 2025 Nomikai App Project. All rights reserved.</p>
+  </footer>
+
+ <div class="ad-area">
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="9876543210" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
@@ -238,13 +242,12 @@
 
 <section class="contact-section">
   <h2>📩 お問い合わせ</h2>
-  <form action="https://formsubmit.co/makeappk@email.com" method="POST">
-    <input type="text" name="name" placeholder="お名前（任意）" />
-    <input type="email" name="email" placeholder="メールアドレス（返信用）" required />
+  <form id="secure-contact-form">
+    <input type="text" name="name" placeholder="お名前（任意）">
+    <input type="email" name="email" placeholder="メールアドレス（任意）">
     <textarea name="message" rows="5" placeholder="お問い合わせ内容を入力してください" required></textarea>
     <button type="submit">送信する</button>
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_template" value="table">
+    <p id="form-status"></p>
   </form>
 </section>
   
@@ -281,6 +284,29 @@
         });
       });
     }
+
+    document.getElementById("secure-contact-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+      };
+      fetch("https://script.google.com/macros/s/AKfycbwTrRqF32Ab-aWuGTjwtgVPvAaSlx3du569d8DSeWsZm57rA0-AGRRNKoPm0zkJaGuc/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.text())
+      .then(response => {
+        document.getElementById("form-status").textContent = response === "success" ? "送信されました。ありがとうございます！" : "送信に失敗しました。";
+        if (response === "success") form.reset();
+      })
+      .catch(() => {
+        document.getElementById("form-status").textContent = "エラーが発生しました。";
+      });
+    });
   </script>
 </body>
 </html>
