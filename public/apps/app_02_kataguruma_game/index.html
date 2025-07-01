@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>App02 肩車ゲーム</title>
-  <meta name="description" content="ペアの以心伝心度を試す飲み会向けミニゲーム。お題に対して上下の回答が一致すれば成功！" />
+  <title>App02 肩車ゲーム | 飲み会Webアプリ</title>
+  <meta name="description" content="以心伝心ペアチャレンジ！肩車ゲームは、上下の回答が一致すれば勝利の盛り上がり系ミニゲーム。飲み会や合コンで大人気！" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
@@ -12,9 +12,26 @@
 </head>
 <body>
   <header>
-    <h1>App02 肩車ゲーム</h1>
-    <p>ペアの回答を一致させよう！</p>
+    <h1>App02：肩車ゲーム</h1>
+    <p>上の人と下の人、気持ちは通じてる？以心伝心で答えを揃えよう！</p>
   </header>
+
+  <section class="description-section">
+    <h2>📝 ゲーム概要</h2>
+    <p>このゲームはペアで協力し、お題に対して<strong>上下それぞれが同時に回答</strong>し、一致すればポイント獲得！</p>
+    <p>見ているだけでも楽しい＆カップル・友達同士・初対面のアイスブレイクにも最適な、盛り上がり度MAXの爆笑系ミニゲームです。</p>
+
+    <h3>🎮 遊び方</h3>
+    <ul>
+      <li>偶数人数でプレイ（例：4人で2ペア）</li>
+      <li>各ラウンドで1つのお題が出題されます</li>
+      <li>ペアごとに「上の人」「下の人」がそれぞれ回答します</li>
+      <li>回答が一致すれば成功！（以心伝心度アップ）</li>
+      <li>結果はログに記録され、最後にMVP発表も！</li>
+    </ul>
+
+    <p>飲み会・合コン・サークルイベント・修学旅行など、チーム対抗で盛り上がりたい場面におすすめ！</p>
+  </section>
 
   <main class="container">
     <div class="ad-box">
@@ -23,10 +40,11 @@
     </div>
 
     <section id="setup">
-      <h2>ペア設定</h2>
-      <p>偶数人数を入力してください（例：4 → 2ペア）</p>
+      <h2>🎯 プレイ準備</h2>
+      <p>偶数人数を入力してペアを作ろう（例：4人 → 2ペア）</p>
       <input type="number" id="playerCount" min="2" step="2" placeholder="人数を入力 (偶数)" />
       <button onclick="createPairInputs()">ペア入力へ進む</button>
+
       <label>BGM選択：</label>
       <select id="bgmSelect" onchange="changeBGM()">
         <option value="none">なし</option>
@@ -40,16 +58,16 @@
     <section id="pairInputs" style="display: none;"></section>
 
     <section id="game" style="display: none;">
-      <h2>ラウンド <span id="roundNumber">1</span> / 3</h2>
+      <h2>🕹️ ラウンド <span id="roundNumber">1</span> / 3</h2>
       <p id="prompt"></p>
       <div id="inputArea"></div>
     </section>
 
     <section id="result" style="display: none;">
-      <h2>結果発表</h2>
+      <h2>🎉 結果発表 🎉</h2>
       <div id="scoreBoard"></div>
       <h3 id="winner"></h3>
-      <h2>回答ログ</h2>
+      <h2>📝 回答ログ</h2>
       <div id="answerLog"></div>
       <button onclick="saveResultImage()">結果を画像保存</button>
       <button onclick="location.reload()">タイトルに戻る</button>
@@ -61,7 +79,7 @@
     </div>
 
     <div class="share-buttons">
-      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=肩車ゲームで盛り上がろう！%20%23飲み会ゲーム" target="_blank">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=以心伝心！肩車ゲームで盛り上がろう！%20%23飲み会ゲーム" target="_blank">
         <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
       </a>
       <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
@@ -71,26 +89,27 @@
     </div>
   </main>
 
+  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
+    <p>&copy; 2025 飲み会アプリプロジェクト</p>
+  </footer>
+
   <script>
     function saveResultImage() {
       html2canvas(document.body).then(function(canvas) {
         const logo = new Image();
         const qr = new Image();
         let loaded = 0;
-
         logo.src = '/images/logo.png';
         qr.src = '/images/qrcode.png';
-
         logo.onload = qr.onload = function () {
           loaded++;
           if (loaded === 2) {
             const ctx = canvas.getContext('2d');
             const logoW = 100, logoH = 40;
             const qrW = 80, qrH = 80;
-
             ctx.drawImage(logo, canvas.width - logoW - 20, canvas.height - qrH - logoH - 40, logoW, logoH);
             ctx.drawImage(qr, canvas.width - qrW - 20, canvas.height - qrH - 20, qrW, qrH);
-
             const link = document.createElement('a');
             link.download = 'kataguruma_result.png';
             link.href = canvas.toDataURL();
