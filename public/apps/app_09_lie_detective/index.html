@@ -3,18 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>App09 嘘探偵</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>嘘探偵 | 飲み会Webアプリ</title>
+  <meta name="description" content="1人だけ嘘をついているプレイヤーを見抜こう！質問と回答で推理する、盛り上がる飲み会ゲーム。">
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="container card-ui">
-    <header class="card-header">
-      <h1>🕵️‍♂️ 嘘探偵</h1>
+  <div class="container card-ui" style="max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); font-family: 'DotGothic16', sans-serif;">
+
+    <!-- 広告上 -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <header style="text-align:center;">
+      <h1 style="color:#c2185b;">🕵️‍♂️ 嘘探偵</h1>
       <p>1人だけ嘘をついています。質問して見破れ！</p>
-      <div class="controls">
+      <div class="controls" style="margin: 10px 0;">
         <button onclick="toggleBGM()">🔊 BGM切替</button>
         <button onclick="saveScreenshot()">📸 保存</button>
       </div>
@@ -59,10 +74,32 @@
       </section>
     </main>
 
-    <footer class="card-footer">
-      <p>&copy; 2025 飲み会アプリシリーズ</p>
+    <!-- SNSシェア -->
+    <div class="share-buttons" style="text-align:center; margin-top:30px;">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=誰が嘘をついている？推理で盛り上がろう！%20%23飲み会ゲーム" target="_blank" rel="noopener">
+        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+      </a>
+      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank" rel="noopener">
+        <button><i class="fab fa-line"></i> LINEでシェア</button>
+      </a>
+    </div>
+
+    <!-- 広告下 -->
+    <div style="text-align:center; margin-top:40px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="0987654321"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- フッター -->
+    <footer style="text-align:center; margin-top:40px; font-size:0.9em;">
+      <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
+      <p>&copy; 2025 飲み会アプリプロジェクト</p>
     </footer>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
