@@ -7,74 +7,62 @@
   <meta name="description" content="しりとりにテーマ縛りを追加！制限時間付きのスリル満点しりとりバトル。飲み会・合コン・学生イベントにぴったり！" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    body {
-      background: #ffeeee;
-      font-family: "Noto Sans JP", sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #c40064;
-    }
-    h2 {
-      color: #000;
-    }
-    .section {
-      margin-top: 40px;
-    }
-    .section h2 {
-      border-bottom: 2px solid #c40064;
-      padding-bottom: 5px;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-    }
-    ul {
-      line-height: 1.8;
-    }
-    .share-buttons {
-      text-align: center;
-      margin-top: 30px;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.9em;
-      padding: 20px;
-      background: #f5f5f5;
-      margin-top: 40px;
-    }
-  </style>
+  <script defer src="script.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>App04 : ワードチェインバトル</h1>
-    <p style="text-align: center;">出されたテーマにそって「しりとり」で勝負！時間切れやルール違反で脱落するスリル満点の飲み会向けゲームです。</p>
 
-    <div class="section">
-      <h2>🧠 このゲームって？</h2>
-      <p>
-        出されたテーマに沿った単語を、<strong>制限時間内に「しりとり」</strong>で出していくゲームです。<br>
-        回答がテーマ外だったり、時間を超えると<strong>その場で脱落</strong>！<br>
-        笑いと緊張のせめぎ合い。盛り上がり必至のバトルゲーム！
-      </p>
-    </div>
+    <section>
+      <h2><i class="fas fa-brain"></i> このゲームって？</h2>
+      <p>出されたテーマに沿った単語を、<strong>制限時間内に「しりとり」</strong>で出していくゲームです。<br>
+      回答がテーマ外だったり、時間を超えると<strong>その場で脱落！</strong><br>
+      笑いと緊張のせめぎ合い。盛り上がり必至のバトルゲーム！</p>
+    </section>
 
-    <div class="section">
-      <h2>🎮 遊び方＆ルール</h2>
+    <section>
+      <h2><i class="fas fa-gamepad"></i> 遊び方＆ルール</h2>
       <ul>
         <li>最低2人以上で交互に回答します</li>
         <li><strong>テーマ</strong>は「食べ物」「動物」「地名」などを選択</li>
         <li><strong>20秒以内</strong>に「しりとり」で次の単語を言えなければ脱落！</li>
         <li>テーマから外れた単語や、同じ単語の繰り返しは<strong>NG</strong></li>
-        <li>最後まで残った人が<strong>勝利</strong>！</li>
+        <li>最後まで残った人が<strong>勝利！</strong></li>
       </ul>
-      <p>テンポのよいバトル形式で、飲み会・休み時間・オンラインでも大盛り上がり！</p>
+    </section>
+
+    <div id="setup">
+      <label>プレイヤー名を入力（2人以上）:</label>
+      <div id="playerInputs">
+        <input type="text" placeholder="プレイヤー名" />
+        <input type="text" placeholder="プレイヤー名" />
+      </div>
+      <button onclick="addPlayerInput()">＋ プレイヤー追加</button>
+      <button onclick="removePlayerInput()">− プレイヤー削除</button>
+      <label>テーマを選択:</label>
+      <select id="themeSelect">
+        <option value="食べ物">食べ物</option>
+        <option value="動物">動物</option>
+        <option value="地名">地名</option>
+      </select>
+      <button onclick="confirmPlayers()">ゲーム開始</button>
     </div>
 
-    <div class="share-buttons">
+    <div id="game" class="hidden">
+      <div id="themeDisplay"></div>
+      <div id="turnDisplay"></div>
+      <input id="wordInput" type="text" placeholder="単語を入力（ひらがな）" />
+      <button onclick="submitWord()">送信</button>
+      <div id="usedWords"></div>
+      <div id="timer">残り時間: <span id="timeLeft"></span>秒</div>
+    </div>
+
+    <div id="result" class="hidden">
+      <h2 id="winnerMessage"></h2>
+      <button onclick="location.reload()">もう一度遊ぶ</button>
+    </div>
+
+    <div class="share-buttons" style="text-align:center; margin-top:20px;">
       <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=しりとりバトルで盛り上がろう！%20%23飲み会ゲーム" target="_blank">
         <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
       </a>
