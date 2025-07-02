@@ -61,6 +61,39 @@ button:hover {
   color: #d32f2f;
 }
 
+#themeDisplay, #turnDisplay, #usedWords, #winnerMessage {
+  margin-top: 1em;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+footer {
+  text-align: center;
+  margin-top: 2em;
+  font-size: 0.9em;
+  color: #666;
+}
+
+footer a {
+  color: #880e4f;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+  margin-top: 1.5em;
+}
+
+.share-buttons button {
+  font-size: 0.95em;
+}
+
 @media screen and (max-width: 600px) {
   .container {
     padding: 1em;
@@ -68,5 +101,9 @@ button:hover {
 
   input, select, button {
     font-size: 1em;
+  }
+
+  .share-buttons {
+    flex-direction: column;
   }
 }
