@@ -6,16 +6,29 @@
   <title>App01 ジェスチャーゲーム | 飲み会Webアプリ</title>
   <meta name="description" content="お題を身振り手振りで表現して当て合う、爆笑必至の定番ジェスチャーゲーム！チーム戦も個人戦もOK！">
   <link rel="stylesheet" href="style.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- ロゴ＆上部広告 -->
   <header>
-    <img src="/images/logo.png" alt="ロゴ" style="height:40px; margin:10px auto; display:block;">
-    <h1>App01：ジェスチャーゲーム</h1>
-    <p>お題をジェスチャーだけで伝えよう！スマホ1つですぐに遊べる、盛り上がり必至の飲み会定番ゲームです。</p>
+    <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
+    <div class="ad-box">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
   </header>
 
+  <!-- ゲーム紹介 -->
+  <section class="card">
+    <h1>App01：ジェスチャーゲーム</h1>
+    <p>お題をジェスチャーだけで伝えよう！スマホ1つですぐに遊べる、盛り上がり必至の飲み会定番ゲームです。</p>
+    <img src="/images/icons/app01.jpg" alt="ジェスチャーゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
+  </section>
+
+  <!-- ゲーム説明 -->
   <section class="card">
     <h2>🎮 このゲームって？</h2>
     <p>出されたお題を<strong>声を使わず</strong>にジェスチャーだけで表現！チームや個人で挑戦し、見ている人が当てる王道ゲームです。</p>
@@ -30,15 +43,12 @@
     </ul>
   </section>
 
+  <!-- イラスト（未提供） -->
   <section class="card" style="text-align:center;">
-    <img src="/images/illustration_01.png" alt="アニメ調イラスト（未実装）" style="max-width:90%; margin:10px 0;" />
+    <img src="/images/illustration_01.png" alt="アニメ調イラスト（未実装）" style="max-width:90%; margin:10px 0;">
   </section>
 
-  <div class="ad-box">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
-
+  <!-- 設定画面 -->
   <main class="container">
     <section id="setupScreen" class="card">
       <h2>プレイヤー設定</h2>
@@ -87,6 +97,7 @@
       <button onclick="setupGame()">ゲーム開始</button>
     </section>
 
+    <!-- ゲームエリア -->
     <section id="gameArea" class="card" style="display:none;">
       <h2 id="instructionText">準備中...</h2>
       <p id="currentPlayerDisplay"></p>
@@ -110,6 +121,7 @@
       <p>ラウンド <span id="roundNum">1</span> / <span id="totalRounds">3</span></p>
     </section>
 
+    <!-- スコア表示 -->
     <section id="scoreDisplay" class="card" style="display:none;">
       <h2>🎉 結果発表 🎉</h2>
       <ul id="scoreBoard"></ul>
@@ -119,6 +131,7 @@
     </section>
   </main>
 
+  <!-- 画像保存＆SNS -->
   <section class="card" style="text-align:center;">
     <button onclick="saveResultImage()">📷 画像保存</button>
     <div class="share-buttons">
@@ -127,17 +140,20 @@
     </div>
   </section>
 
+  <!-- 下部広告 -->
   <div class="ad-box">
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
+  <!-- フッター -->
   <footer>
     <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
+  <!-- スクリプト -->
   <script src="script.js"></script>
 </body>
 </html>
