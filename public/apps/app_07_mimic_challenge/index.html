@@ -12,47 +12,49 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- ヘッダー＆上部広告 -->
   <header>
-    <img src="/images/logo.png" alt="飲み会アプリロゴ" class="logo" />
-    <div class="ad-top">
-      <p class="ad-label">スポンサーリンク</p>
+    <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
+    <p style="font-size: 0.8em; color: #888; text-align:center;">スポンサーリンク</p>
+    <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </header>
 
-  <main>
-    <section class="card">
-      <h1>🎭 App07：モノマネチャレンジ</h1>
-      <p>ランダムなお題＆縛りでモノマネ披露！笑いと拍手を巻き起こせ！</p>
-      <img src="/images/icons/app07.jpg" alt="モノマネチャレンジ" class="main-image" />
-    </section>
+  <!-- 概要 -->
+  <section class="card">
+    <h1>App07：モノマネチャレンジ</h1>
+    <p>ランダムなお題＆縛りでモノマネ披露！笑いと拍手を巻き起こせ！</p>
+    <img src="/images/icons/app07.jpg" alt="モノマネチャレンジ" style="max-width:90%; display:block; margin:10px auto;">
+  </section>
 
-    <section class="card">
-      <h2>🎮 このゲームって？</h2>
-      <p>「お題」と「縛り」をランダムで組み合わせてモノマネを披露する、チームでも個人でも盛り上がれる爆笑系ゲームです。</p>
-    </section>
+  <!-- 説明 -->
+  <section class="card">
+    <h2>🎮 このゲームって？</h2>
+    <p>「お題」と「縛り」をランダムで組み合わせてモノマネを披露する、チームでも個人でも盛り上がれる爆笑系ゲームです。</p>
+    <h3>📋 遊び方＆ルール</h3>
+    <ul>
+      <li>カテゴリと縛りを選んでプレイヤーを追加</li>
+      <li>順番にお題＆縛りが表示されるのでモノマネを実演</li>
+      <li>最後に全員で投票 → MVPを決定</li>
+    </ul>
+  </section>
 
-    <section class="card">
-      <h2>📋 遊び方＆ルール</h2>
-      <ul>
-        <li>カテゴリと縛りを選んでプレイヤーを追加</li>
-        <li>順番にお題＆縛りが表示されるのでモノマネを実演</li>
-        <li>最後に全員で投票 → MVPを決定</li>
-      </ul>
-    </section>
+  <!-- BGM選択 -->
+  <section class="card">
+    <label>🎵 BGM：</label>
+    <select id="bgmSelect" onchange="changeBGM()">
+      <option value="none">なし</option>
+      <option value="cafe">カフェ風</option>
+      <option value="anime">アニメ風</option>
+      <option value="party">パーティー風</option>
+    </select>
+    <audio id="bgm" loop autoplay></audio>
+  </section>
 
-    <section class="card">
-      <label for="bgmSelect">🎵 BGM選択：</label>
-      <select id="bgmSelect" onchange="changeBGM()">
-        <option value="none">なし</option>
-        <option value="cafe">カフェ風</option>
-        <option value="anime">アニメ風</option>
-        <option value="party">パーティー風</option>
-      </select>
-      <audio id="bgm" loop autoplay></audio>
-    </section>
-
+  <!-- ゲーム設定 -->
+  <main class="container">
     <section class="card" id="setupScreen">
       <h2>⚙️ ゲーム設定</h2>
       <label>カテゴリ選択：</label>
@@ -79,7 +81,8 @@
       <button onclick="startGame()">ゲーム開始</button>
     </section>
 
-    <section class="card hidden" id="mimicScreen">
+    <!-- モノマネ画面 -->
+    <section class="card" id="mimicScreen" style="display:none;">
       <h2 id="currentPlayerName">プレイヤー名</h2>
       <p>お題：<span id="mimicTopic"></span></p>
       <p>縛り：<span id="challengeText"></span></p>
@@ -87,44 +90,50 @@
       <button onclick="nextPlayer()">モノマネ完了！次へ</button>
     </section>
 
-    <section class="card hidden" id="voteScreen">
+    <!-- 投票画面 -->
+    <section class="card" id="voteScreen" style="display:none;">
       <h2>投票タイム</h2>
       <div id="voteSection"></div>
     </section>
 
-    <section class="card hidden" id="resultScreen">
-      <h2>結果発表！</h2>
+    <!-- 結果画面 -->
+    <section class="card" id="resultScreen" style="display:none;">
+      <h2>🎉 結果発表 🎉</h2>
       <p id="winnerText"></p>
       <h3>プレイ履歴</h3>
       <ul id="historyLog"></ul>
       <button onclick="location.reload()">もう一度プレイ</button>
     </section>
-
-    <section class="card">
-      <button onclick="saveResultImage()">📸 結果画像を保存</button>
-      <div class="share-buttons">
-        <p>結果をシェア：</p>
-        <a id="shareX" href="#" target="_blank"><i class="fab fa-x-twitter"></i></a>
-        <a id="shareLINE" href="#" target="_blank"><i class="fab fa-line"></i></a>
-      </div>
-    </section>
-
-    <div class="ad-middle">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
   </main>
 
+  <!-- 画像保存＆共有 -->
+  <section class="card" style="text-align:center;">
+    <button onclick="saveResultImage()">📸 結果画像を保存</button>
+    <div class="share-buttons">
+      <p>結果をシェア：</p>
+      <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
+      <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
+    </div>
+  </section>
+
+  <!-- 中部広告 -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- 下部広告＆フッター -->
   <footer>
-    <img src="/images/qrcode.png" alt="QRコード" class="qr" />
+    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
-    <p>© 2025 飲み会アプリプロジェクト</p>
-    <div class="ad-bottom">
+    <p>&copy; 2025 飲み会アプリプロジェクト</p>
+    <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </footer>
 
+  <!-- スクリプト -->
   <script>
     function changeBGM() {
       const bgm = document.getElementById("bgm");
