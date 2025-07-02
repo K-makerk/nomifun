@@ -3,59 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ドリンクミッション | 飲み会Webアプリ</title>
-  <meta name="description" content="お酒をもっと楽しく！ランダムに表示されるドリンク系ミッションで盛り上がろう。飲み会・合コン・イベントにぴったり！">
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <title>App08 ドリンクミッション | 飲み会Webアプリ</title>
+  <meta name="description" content="お酒をもっと楽しく！ランダムに表示されるドリンク系ミッションで盛り上がろう。飲み会・合コン・イベントにぴったり！" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
-  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="container" style="max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-
-    <!-- 上部広告 -->
-    <div style="text-align:center; margin-bottom:20px;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1643561503893272"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+  <header>
+    <img src="/images/logo.png" alt="ロゴ" style="height:40px; margin:10px auto; display:block;">
+    <div class="ad-box">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+  </header>
 
-    <h1 style="text-align:center; color:#c2185b;">ドリンクミッション</h1>
+  <section class="card">
+    <h1>App08：ドリンクミッション</h1>
+    <p>飲み会や合コンで盛り上がる、ランダム表示されるお酒系ミッションチャレンジ！</p>
+    <img src="/images/icons/app08.jpg" alt="ドリンクミッション画像" style="max-width:90%; display:block; margin:10px auto;">
+  </section>
 
-    <div style="text-align:center;">
-      <button id="showMissionBtn">ミッション表示</button>
+  <section class="card">
+    <h2>🍻 このゲームって？</h2>
+    <p>「飲み指令」や「乾杯ネタ」など、盛り上がるミッションをランダムで提示するアプリです。</p>
+
+    <h3>📝 遊び方＆ルール</h3>
+    <ul>
+      <li>「ミッション表示」ボタンを押す</li>
+      <li>画面に表示された指令にみんなで従う</li>
+      <li>ランダムで爆笑＆カオスな展開に！</li>
+    </ul>
+  </section>
+
+  <section class="card" style="text-align:center;">
+    <img src="/images/illustration_01.png" alt="アニメ調イラスト（未実装）" style="max-width:90%; margin:10px 0;">
+  </section>
+
+  <section class="card">
+    <label>BGM選択：</label>
+    <select id="bgmSelect" onchange="changeBGM()">
+      <option value="none">なし</option>
+      <option value="cafe">カフェ風</option>
+      <option value="anime">アニメ風</option>
+      <option value="party">パーティー風</option>
+    </select>
+    <audio id="bgm" loop autoplay></audio>
+  </section>
+
+  <main class="container">
+    <section class="card" style="text-align:center;">
+      <button id="showMissionBtn">🎯 ミッション表示</button>
       <div id="missionDisplay" style="margin-top:20px;">ここにミッションが表示されます</div>
-    </div>
+    </section>
 
-    <!-- SNSシェア -->
-    <div class="share-buttons" style="text-align:center; margin-top:30px;">
-      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=ドリンクミッションで盛り上がろう！%20%23飲み会ゲーム" target="_blank" rel="noopener">
-        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
-      </a>
-      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank" rel="noopener">
-        <button><i class="fab fa-line"></i> LINEでシェア</button>
-      </a>
-    </div>
+    <section class="card">
+      <button onclick="saveResultImage()">📷 画像保存</button>
+      <div class="share-buttons" style="margin-top:15px;">
+        <p>このゲームをシェア：</p>
+        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="X" class="icon"></a>
+        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINE" class="icon"></a>
+      </div>
+    </section>
+  </main>
 
-    <!-- 下部広告 -->
-    <div style="text-align:center; margin-top:40px;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1643561503893272"
-           data-ad-slot="0987654321"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
-    <footer style="text-align:center; margin-top:40px; font-size:0.9em;">
-      <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
-      <p>&copy; 2025 飲み会アプリプロジェクト</p>
-    </footer>
+  <div class="ad-box">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1643561503893272"
+         data-ad-slot="3333333333"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
+
+  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
+    <p>&copy; 2025 飲み会Webアプリプロジェクト</p>
+  </footer>
+
+  <script>
+    const missions = [
+      "右隣の人と乾杯して一気飲み！",
+      "好きな飲み物を一気に3口飲め！",
+      "目を閉じて10秒で注いでもらえ！",
+      "ランダムな人に乾杯の音頭を！",
+      "口に出さずに笑わせろ！",
+      "自分の座っている席と交換せよ！",
+      "他の人が言うまで黙ってミッション遂行！",
+      "誰かと腕を組んで飲め！",
+      "10秒で変顔 → みんなが笑ったら飲む！"
+    ];
+
+    document.getElementById('showMissionBtn').addEventListener('click', () => {
+      const random = missions[Math.floor(Math.random() * missions.length)];
+      document.getElementById('missionDisplay').innerText = random;
+    });
+
+    function changeBGM() {
+      const bgm = document.getElementById('bgm');
+      const val = document.getElementById('bgmSelect').value;
+      const map = {
+        none: '',
+        cafe: '/audio/bgm_cafe.mp3',
+        anime: '/audio/bgm_anime.mp3',
+        party: '/audio/bgm_party.mp3'
+      };
+      bgm.src = map[val];
+      if (val !== 'none') bgm.play();
+    }
+
+    function saveResultImage() {
+      html2canvas(document.body).then(canvas => {
+        const ctx = canvas.getContext('2d');
+        const logo = new Image();
+        const qr = new Image();
+        let loaded = 0;
+        logo.src = '/images/logo.png';
+        qr.src = '/images/qrcode.png';
+        logo.onload = qr.onload = () => {
+          if (++loaded === 2) {
+            ctx.drawImage(logo, 20, 20, 100, 40);
+            ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
+            const link = document.createElement('a');
+            link.download = 'drink_mission_result.png';
+            link.href = canvas.toDataURL();
+            link.click();
+          }
+        };
+      });
+    }
+
+    function updateShareLinks() {
+      const title = "App08 ドリンクミッション";
+      const text = "このアプリで遊んでみよう！";
+      const url = encodeURIComponent(location.href);
+      document.getElementById('shareX').href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+      document.getElementById('shareLINE').href = `https://social-plugins.line.me/lineit/share?url=${url}`;
+    }
+
+    window.onload = updateShareLinks;
+  </script>
+  <script src="script.js" defer></script>
 </body>
 </html>
