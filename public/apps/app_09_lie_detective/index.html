@@ -3,39 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>嘘探偵 | 飲み会Webアプリ</title>
-  <meta name="description" content="1人だけ嘘をついているプレイヤーを見抜こう！質問と回答で推理する、盛り上がる飲み会ゲーム。">
-  <link rel="stylesheet" href="style.css"/>
+  <title>App09 嘘探偵 | 飲み会Webアプリ</title>
+  <meta name="description" content="1人だけ嘘をついているプレイヤーを見破れ！質問と回答で推理する、盛り上がる飲み会ゲーム。">
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script defer src="script.js"></script>
+  <style>
+    body { font-family: 'DotGothic16', sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
+    .container { max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .card-section { margin-top: 20px; }
+    .hidden { display: none; }
+    .btn-row, .btn-column { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 10px 0; }
+    .btn-column { flex-direction: column; align-items: center; }
+    .result-box { margin: 10px 0; font-weight: bold; text-align: center; }
+    .share-buttons button { margin: 5px; }
+    footer { text-align:center; margin-top:40px; font-size:0.9em; }
+    img.icon-img { display:block; margin:20px auto; max-width:80%; border-radius:12px; }
+  </style>
 </head>
 <body>
-  <div class="container card-ui" style="max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); font-family: 'DotGothic16', sans-serif;">
-
-    <!-- 広告上 -->
+  <div class="container card-ui">
+    <!-- 上部広告 -->
     <div style="text-align:center; margin-bottom:20px;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1643561503893272"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <header style="text-align:center;">
-      <h1 style="color:#c2185b;">🕵️‍♂️ 嘘探偵</h1>
-      <p>1人だけ嘘をついています。質問して見破れ！</p>
-      <div class="controls" style="margin: 10px 0;">
-        <button onclick="toggleBGM()">🔊 BGM切替</button>
-        <button onclick="saveScreenshot()">📸 保存</button>
-      </div>
-      <audio id="bgm" src="bgm.mp3" loop autoplay></audio>
-    </header>
+    <!-- ロゴ・QR・アイコン -->
+    <img src="/images/logo.png" alt="ロゴ" style="height:40px; display:block; margin:auto;">
+    <img src="/images/icons/app09.jpg" alt="アプリアイコン" class="icon-img">
+    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; display:block; margin:10px auto;">
 
+    <!-- タイトル・説明 -->
+    <h1 style="text-align:center; color:#c2185b;">🕵️‍♂️ App09 嘘探偵</h1>
+    <section>
+      <h2>このゲームって？</h2>
+      <ul>
+        <li>目的：1人だけ嘘をついている人を見破る</li>
+        <li>人数：4人以上</li>
+        <li>ルール：全員が質問に回答 → 1人だけ嘘つき → 他の人が誰かを投票</li>
+        <li>勝利条件：嘘つきが見抜かれれば探偵陣の勝ち／逃げ切れば嘘つきの勝ち</li>
+      </ul>
+    </section>
+
+    <!-- BGM選択 -->
+    <div style="text-align:center; margin-top:20px;">
+      <label>BGM選択：</label>
+      <select id="bgmSelector" onchange="changeBGM()">
+        <option value="cafe.mp3">カフェ</option>
+        <option value="anime.mp3">アニメ</option>
+        <option value="party.mp3">パーティー</option>
+      </select>
+      <audio id="bgm" src="cafe.mp3" autoplay loop></audio>
+    </div>
+
+    <!-- ゲーム画面（元の構成を維持） -->
     <main>
       <section id="setup" class="card-section">
         <h2>プレイヤー設定</h2>
@@ -74,32 +99,51 @@
       </section>
     </main>
 
-    <!-- SNSシェア -->
-    <div class="share-buttons" style="text-align:center; margin-top:30px;">
-      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=誰が嘘をついている？推理で盛り上がろう！%20%23飲み会ゲーム" target="_blank" rel="noopener">
-        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
-      </a>
-      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank" rel="noopener">
-        <button><i class="fab fa-line"></i> LINEでシェア</button>
-      </a>
+    <!-- 保存・シェア -->
+    <div class="btn-row" style="margin-top:30px; justify-content:center;">
+      <button onclick="saveScreenshot()">📸 結果を画像保存</button>
+    </div>
+    <div class="share-buttons" style="text-align:center;">
+      <a href="#" onclick="shareX()"><button><i class="fab fa-x-twitter"></i> Xでシェア</button></a>
+      <a href="#" onclick="shareLINE()"><button><i class="fab fa-line"></i> LINEでシェア</button></a>
     </div>
 
     <!-- 広告下 -->
     <div style="text-align:center; margin-top:40px;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1643561503893272"
-           data-ad-slot="0987654321"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <!-- フッター -->
-    <footer style="text-align:center; margin-top:40px; font-size:0.9em;">
+    <footer>
       <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
       <p>&copy; 2025 飲み会アプリプロジェクト</p>
     </footer>
   </div>
+  <script>
+    function changeBGM() {
+      const selector = document.getElementById('bgmSelector');
+      const bgm = document.getElementById('bgm');
+      bgm.src = selector.value;
+      bgm.play();
+    }
+    function shareX() {
+      const url = encodeURIComponent(location.href);
+      const text = encodeURIComponent("App09 嘘探偵で遊んでみよう！");
+      window.open(`https://twitter.com/share?url=${url}&text=${text}`, '_blank');
+    }
+    function shareLINE() {
+      const url = encodeURIComponent(location.href);
+      window.open(`https://social-plugins.line.me/lineit/share?url=${url}`, '_blank');
+    }
+    function saveScreenshot() {
+      html2canvas(document.body).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'screenshot.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
 </body>
 </html>
