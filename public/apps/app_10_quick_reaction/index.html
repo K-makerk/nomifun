@@ -2,18 +2,69 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>クイックリアクション</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>クイックリアクション | 飲み会Webアプリ</title>
+  <meta name="description" content="合図「Go!」に誰よりも早く反応しよう！飲み会で盛り上がる反射神経ゲーム。スマホ1つでプレイ可能。">
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>クイックリアクション</h1>
-    <p class="description">合図「Go!」にできるだけ早く反応しよう！</p>
-    <button id="startButton">ゲーム開始</button>
-    <div id="message">スタートを押してください</div>
-    <div id="result"></div>
+  <div class="container card-ui" style="max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); font-family: sans-serif;">
+
+    <!-- 広告上部 -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- タイトルと説明 -->
+    <header style="text-align:center;">
+      <h1 style="color:#1976d2;">⚡ クイックリアクション</h1>
+      <p>合図「Go!」にできるだけ早く反応しよう！</p>
+    </header>
+
+    <!-- ゲームUI -->
+    <main style="text-align:center;">
+      <button id="startButton">ゲーム開始</button>
+      <div id="message" style="margin-top: 20px;">スタートを押してください</div>
+      <div id="result" style="font-size: 1.2em; margin-top: 15px;"></div>
+    </main>
+
+    <!-- SNSシェア -->
+    <div class="share-buttons" style="text-align:center; margin-top:30px;">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=誰よりも早く反応できるか！？%20%23クイックリアクション%20%23飲み会ゲーム" target="_blank" rel="noopener">
+        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+      </a>
+      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank" rel="noopener">
+        <button><i class="fab fa-line"></i> LINEでシェア</button>
+      </a>
+    </div>
+
+    <!-- 広告下部 -->
+    <div style="text-align:center; margin-top:40px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="0987654321"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- フッターリンク -->
+    <footer style="text-align:center; margin-top:40px; font-size:0.9em;">
+      <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
+      <p>&copy; 2025 飲み会アプリプロジェクト</p>
+    </footer>
+
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
