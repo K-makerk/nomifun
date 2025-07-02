@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>App02 肩車ゲーム | 飲み会Webアプリ</title>
-  <meta name="description" content="以心伝心ペアチャレンジ！肩車ゲームは、上下の回答が一致すれば勝利の盛り上がり系ミニゲーム。飲み会や合コンで大人気！" />
+  <meta name="description" content="以心伝心ペアチャレンジ！肩車ゲームは、上下の回答が一致すれば勝利の盛り上がり系ミニゲーム。飲み会や合コンで大人気！">
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -12,23 +12,24 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- ヘッダー -->
+  <!-- ヘッダー＆上部広告 -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
+    <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </header>
 
-  <!-- ゲーム紹介 -->
+  <!-- ゲーム概要 -->
   <section class="card">
     <h1>App02：肩車ゲーム</h1>
     <p>上の人と下の人、気持ちは通じてる？以心伝心で答えを揃えよう！</p>
     <img src="/images/icons/app02.jpg" alt="肩車ゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
-  <!-- 説明 -->
+  <!-- ゲーム説明 -->
   <section class="card">
     <h2>🎮 このゲームって？</h2>
     <p>このゲームはペアで協力し、お題に対して<strong>上下それぞれが同時に回答</strong>し、一致すれば成功！</p>
@@ -40,24 +41,22 @@
       <li>ペアごとに「上の人」「下の人」がそれぞれ回答</li>
       <li>回答が一致すれば成功！（以心伝心度アップ）</li>
       <li>結果はログに記録され、最後にMVP発表！</li>
-      <h3>💡 おすすめの活用シーン</h3>
-<p>肩車ゲームは、初対面の人同士でも一気に距離を縮められる「ペア参加型ゲーム」です。特に合コン、飲み会、忘年会、会社の懇親イベントなどで大活躍。ゲーム中のやりとりから、笑いが生まれたり意外な性格が垣間見えるなど、コミュニケーションを加速させる要素満載です。</p>
-<p>また、結果ログやMVPの発表などにより、終わった後にも話題が残る設計になっています。ゲーム後に「なぜそれを選んだのか？」という話題でもうひと盛り上がりできます。</p>
-
     </ul>
 
-    <p>飲み会・合コン・イベントなど、ペアで盛り上がりたい場面に最適！</p>
+    <h3>💡 おすすめの活用シーン</h3>
+    <p>肩車ゲームは、初対面の人同士でも一気に距離を縮められる「ペア参加型ゲーム」です。合コン・飲み会・懇親会などで特におすすめ！</p>
+    <p>ログ記録とMVP発表で、終わったあとも話題が広がり、盛り上がりが持続します！</p>
   </section>
 
-  <!-- ゲーム本体 -->
+  <!-- ゲーム設定 -->
   <main class="container">
-    <section class="card" id="setup">
+    <section id="setup" class="card">
       <h2>🎯 プレイ準備</h2>
       <p>偶数人数を入力してペアを作ろう（例：4人 → 2ペア）</p>
       <input type="number" id="playerCount" min="2" step="2" placeholder="人数を入力 (偶数)" />
       <button onclick="createPairInputs()">ペア入力へ進む</button>
 
-      <label>BGM選択：</label>
+      <label>BGM：</label>
       <select id="bgmSelect" onchange="changeBGM()">
         <option value="none">なし</option>
         <option value="cafe">カフェ風</option>
@@ -67,15 +66,15 @@
       <audio id="bgm" loop autoplay></audio>
     </section>
 
-    <section class="card" id="pairInputs" style="display: none;"></section>
+    <section id="pairInputs" class="card" style="display:none;"></section>
 
-    <section class="card" id="game" style="display: none;">
+    <section id="game" class="card" style="display:none;">
       <h2>🕹️ ラウンド <span id="roundNumber">1</span> / 3</h2>
       <p id="prompt"></p>
       <div id="inputArea"></div>
     </section>
 
-    <section class="card" id="result" style="display: none;">
+    <section id="result" class="card" style="display:none;">
       <h2>🎉 結果発表 🎉</h2>
       <div id="scoreBoard"></div>
       <h3 id="winner"></h3>
@@ -92,7 +91,7 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- 共有・保存 -->
+    <!-- SNS共有＆画像保存 -->
     <section class="card" style="text-align:center;">
       <button onclick="saveResultImage()">📷 画像保存</button>
       <div class="share-buttons">
@@ -110,7 +109,7 @@
   </div>
 
   <!-- フッター -->
-  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+  <footer>
     <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
@@ -118,6 +117,19 @@
 
   <!-- スクリプト -->
   <script>
+    function changeBGM() {
+      const bgm = document.getElementById('bgm');
+      const selection = document.getElementById('bgmSelect').value;
+      const sources = {
+        none: '',
+        cafe: '/audio/bgm_cafe.mp3',
+        anime: '/audio/bgm_anime.mp3',
+        party: '/audio/bgm_party.mp3'
+      };
+      bgm.src = sources[selection];
+      if (selection !== 'none') bgm.play();
+    }
+
     function saveResultImage() {
       html2canvas(document.body).then(function(canvas) {
         const logo = new Image();
@@ -137,19 +149,6 @@
           }
         };
       });
-    }
-
-    function changeBGM() {
-      const bgm = document.getElementById('bgm');
-      const selected = document.getElementById('bgmSelect').value;
-      const bgmFiles = {
-        none: '',
-        cafe: '/audio/bgm_cafe.mp3',
-        anime: '/audio/bgm_anime.mp3',
-        party: '/audio/bgm_party.mp3'
-      };
-      bgm.src = bgmFiles[selected];
-      if (selected !== 'none') bgm.play();
     }
 
     function updateShareLinks() {
