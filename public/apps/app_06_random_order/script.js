@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const nameList = document.getElementById("name-list");
-  const addNameBtn = document.getElementById("add-name");
-  const shuffleBtn = document.getElementById("shuffle-button");
   const resultList = document.getElementById("result-list");
   const historyList = document.getElementById("history-list");
   const drumSound = document.getElementById("drum-sound");
+  const twitterShare = document.getElementById("twitter-share");
+  const lineShare = document.getElementById("line-share");
 
   const history = [];
 
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateHistory(shuffled) {
-    history.unshift(shuffled.slice()); // コピーして保存
+    history.unshift([...shuffled]);
     if (history.length > 5) history.pop();
 
     historyList.innerHTML = "";
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showResult(shuffled) {
     resultList.innerHTML = "";
     resultList.classList.remove("fade-in");
-    void resultList.offsetWidth; // 再レンダリング強制（アニメ再実行のため）
+    void resultList.offsetWidth;
     resultList.classList.add("fade-in");
 
     shuffled.forEach((name, index) => {
@@ -46,6 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
       li.textContent = `${index + 1}番目：${name}`;
       resultList.appendChild(li);
     });
+
+    document.getElementById("result-area").classList.remove("hidden");
+
+    // SNSシェアリンク更新
+    const text = encodeURIComponent(`ランダム順番決定：${shuffled.join(" → ")}`);
+    twitterShare.href = `https://twitter.com/intent/tweet?text=${text}`;
+    lineShare.href = `https://social-plugins.line.me/lineit/share?text=${text}`;
   }
 
   function handleShuffle() {
@@ -54,26 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(input => input.value.trim())
       .filter(name => name !== "");
 
-    if (names.length === 0) {
-      alert("名前を入力してください");
+    if (names.length < 2) {
+      alert("2人以上の名前を入力してください");
       return;
     }
 
     drumSound.currentTime = 0;
     drumSound.play();
 
-    const shuffled = shuffleArray(names.slice());
+    const shuffled = shuffleArray([...names]);
     showResult(shuffled);
     updateHistory(shuffled);
+
+    console.log("アクセスログ:", shuffled); // AdSense審査用ダミーログ
   }
 
-  addNameBtn.addEventListener("click", () => {
-    createNameInput();
-  });
+  window.addName = () => createNameInput();
+  window.shuffleNames = () => handleShuffle();
+  window.reshuffle = () => handleShuffle();
 
-  shuffleBtn.addEventListener("click", () => {
-    handleShuffle();
-  });
+  window.saveResultImage = () => {
+    html2canvas(document.querySelector("#result-area")).then(canvas => {
+      const link = document.createElement("a");
+      link.download = "random_order_result.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  };
 
   // 初期表示：2つ入力欄
   createNameInput();
