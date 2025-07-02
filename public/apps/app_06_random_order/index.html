@@ -4,30 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ランダム順番決め</title>
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>ランダム順番決め</h1>
+
     <div id="input-area">
       <div id="name-list"></div>
-      <button id="add-name">＋ 名前を追加</button>
-      <button id="shuffle-button">順番決定</button>
+      <button onclick="addName()">＋ 名前を追加</button>
+      <button onclick="shuffleNames()">順番決定</button>
     </div>
 
-    <div id="result-area">
-      <h2>結果</h2>
+    <div id="result-area" class="hidden">
+      <h2>決定した順番</h2>
       <ul id="result-list" class="fade-in"></ul>
+      <button onclick="reshuffle()">もう一度シャッフル</button>
     </div>
 
     <div id="history-area">
-      <h2>履歴（直近5回）</h2>
+      <h2>履歴（最大5件）</h2>
       <ul id="history-list"></ul>
     </div>
   </div>
 
   <audio id="drum-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c499f17060.mp3?filename=drum-roll-39695.mp3"></audio>
-
-  <script src="./script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
