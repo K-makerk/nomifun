@@ -7,11 +7,12 @@
   <meta name="description" content="以心伝心ペアチャレンジ！肩車ゲームは、上下の回答が一致すれば勝利の盛り上がり系ミニゲーム。飲み会や合コンで大人気！" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- ヘッダー -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
     <div class="ad-box">
@@ -20,12 +21,14 @@
     </div>
   </header>
 
+  <!-- ゲーム紹介 -->
   <section class="card">
     <h1>App02：肩車ゲーム</h1>
     <p>上の人と下の人、気持ちは通じてる？以心伝心で答えを揃えよう！</p>
     <img src="/images/icons/app02.jpg" alt="肩車ゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
+  <!-- 説明 -->
   <section class="card">
     <h2>🎮 このゲームって？</h2>
     <p>このゲームはペアで協力し、お題に対して<strong>上下それぞれが同時に回答</strong>し、一致すれば成功！</p>
@@ -42,10 +45,12 @@
     <p>飲み会・合コン・イベントなど、ペアで盛り上がりたい場面に最適！</p>
   </section>
 
+  <!-- イラスト -->
   <section class="card" style="text-align:center;">
     <img src="/images/illustration_01.png" alt="アニメ調イラスト（未実装）" style="max-width:90%; margin:10px 0;">
   </section>
 
+  <!-- ゲーム本体 -->
   <main class="container">
     <section class="card" id="setup">
       <h2>🎯 プレイ準備</h2>
@@ -81,11 +86,13 @@
       <button onclick="location.reload()">タイトルに戻る</button>
     </section>
 
+    <!-- 中部広告 -->
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <!-- 共有・保存 -->
     <section class="card" style="text-align:center;">
       <button onclick="saveResultImage()">📷 画像保存</button>
       <div class="share-buttons">
@@ -95,17 +102,20 @@
     </section>
   </main>
 
+  <!-- 下部広告 -->
   <div class="ad-box">
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
+  <!-- フッター -->
   <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
     <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
+  <!-- スクリプト -->
   <script>
     function saveResultImage() {
       html2canvas(document.body).then(function(canvas) {
@@ -115,13 +125,10 @@
         logo.src = '/images/logo.png';
         qr.src = '/images/qrcode.png';
         logo.onload = qr.onload = function () {
-          loaded++;
-          if (loaded === 2) {
+          if (++loaded === 2) {
             const ctx = canvas.getContext('2d');
-            const logoW = 100, logoH = 40;
-            const qrW = 80, qrH = 80;
-            ctx.drawImage(logo, canvas.width - logoW - 20, canvas.height - qrH - logoH - 40, logoW, logoH);
-            ctx.drawImage(qr, canvas.width - qrW - 20, canvas.height - qrH - 20, qrW, qrH);
+            ctx.drawImage(logo, canvas.width - 120, canvas.height - 140, 100, 40);
+            ctx.drawImage(qr, canvas.width - 100, canvas.height - 60, 80, 80);
             const link = document.createElement('a');
             link.download = 'kataguruma_result.png';
             link.href = canvas.toDataURL();
@@ -130,6 +137,29 @@
         };
       });
     }
+
+    function changeBGM() {
+      const bgm = document.getElementById('bgm');
+      const selected = document.getElementById('bgmSelect').value;
+      const bgmFiles = {
+        none: '',
+        cafe: '/audio/bgm_cafe.mp3',
+        anime: '/audio/bgm_anime.mp3',
+        party: '/audio/bgm_party.mp3'
+      };
+      bgm.src = bgmFiles[selected];
+      if (selected !== 'none') bgm.play();
+    }
+
+    function updateShareLinks() {
+      const title = "App02 肩車ゲーム";
+      const text = "このアプリで遊んでみよう！";
+      const url = encodeURIComponent(location.href);
+      document.getElementById('shareX').href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+      document.getElementById('shareLINE').href = `https://social-plugins.line.me/lineit/share?url=${url}`;
+    }
+
+    window.onload = updateShareLinks;
   </script>
   <script src="script.js"></script>
 </body>
