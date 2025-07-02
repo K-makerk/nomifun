@@ -6,22 +6,35 @@
   <title>App03 双子当てゲーム | 飲み会Webアプリ</title>
   <meta name="description" content="5人以上で遊べる心理推理ゲーム。全員の回答から「本物の双子ペア」を見抜け！飲み会や合コンで盛り上がる定番ネタ。" />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- ヘッダー -->
   <header>
-    <h1>App03：双子当てゲーム</h1>
-    <p>参加者の回答から「本物の双子」を見抜け！</p>
+    <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
+    <div class="ad-box">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
   </header>
 
-  <section class="description-section">
-    <h2>🧠 どんなゲーム？</h2>
+  <!-- ゲーム紹介 -->
+  <section class="card">
+    <h1>App03：双子当てゲーム</h1>
+    <p>参加者の回答から「本物の双子」を見抜け！</p>
+    <img src="/images/icons/app03.jpg" alt="双子当てゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
+  </section>
+
+  <!-- 説明 -->
+  <section class="card">
+    <h2>🧠 このゲームって？</h2>
     <p>参加者の中に1組だけ存在する「本物のペア（双子）」を、<strong>回答の傾向や一致具合から推理</strong>する心理戦ゲームです。</p>
     <p>双子ペアだけは「事前に相談して」ある程度の一致を狙って回答。他の人は「知らずに」個別に答えます。</p>
 
-    <h3>🎮 ルール</h3>
+    <h3>📝 遊び方＆ルール</h3>
     <ul>
       <li>プレイヤーは5人以上推奨（奇数OK）</li>
       <li>ゲーム開始時にランダムで1組が「双子ペア」として設定</li>
@@ -33,14 +46,11 @@
     <p>「えっ、この回答合わせにきてる!?」「こっちは偶然じゃ!?」など、予想外の展開で盛り上がること間違いなし。</p>
   </section>
 
+  <!-- ゲーム領域 -->
   <main class="container">
-    <div class="ad-box">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
-    <div>
-      <label>BGM選択:</label>
+    <!-- BGM -->
+    <section class="card">
+      <label>BGM選択：</label>
       <select id="bgmSelect" onchange="changeBGM()">
         <option value="none">なし</option>
         <option value="cafe">カフェ風</option>
@@ -48,58 +58,88 @@
         <option value="party">パーティー風</option>
       </select>
       <audio id="bgm" loop autoplay></audio>
-    </div>
+    </section>
 
-    <div id="main"></div>
-
-    <div id="footer">
+    <!-- ゲームコンテンツ -->
+    <section class="card">
+      <div id="main"></div>
       <p>※「お題内容」を口に出すのは禁止！回答は画面上で個別に入力しましょう。</p>
-    </div>
+    </section>
 
+    <!-- 中部広告 -->
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <div class="share-buttons" style="text-align:center; margin: 20px;">
-      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=双子はどのペア!?%20飲み会で盛り上がる心理推理ゲーム！%20%23双子当てゲーム" target="_blank">
-        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
-      </a>
-      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
-        <button><i class="fab fa-line"></i> LINEでシェア</button>
-      </a>
-      <button onclick="saveResultImage()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
-    </div>
+    <!-- 画像保存＆SNS -->
+    <section class="card" style="text-align:center;">
+      <button onclick="saveResultImage()">📷 画像保存</button>
+      <div class="share-buttons">
+        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
+        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
+      </div>
+    </section>
   </main>
 
+  <!-- 下部広告 -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- フッター -->
   <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
+  <!-- スクリプト -->
   <script>
+    function changeBGM() {
+      const bgm = document.getElementById('bgm');
+      const selected = document.getElementById('bgmSelect').value;
+      const sources = {
+        none: '',
+        cafe: '/audio/bgm_cafe.mp3',
+        anime: '/audio/bgm_anime.mp3',
+        party: '/audio/bgm_party.mp3'
+      };
+      bgm.src = sources[selected];
+      if (selected !== 'none') bgm.play();
+    }
+
     function saveResultImage() {
-      html2canvas(document.body).then(function(canvas) {
+      html2canvas(document.body).then(canvas => {
         const ctx = canvas.getContext('2d');
         const logo = new Image();
         const qr = new Image();
-        logo.crossOrigin = 'anonymous';
-        qr.crossOrigin = 'anonymous';
+        let loaded = 0;
         logo.src = '/images/logo.png';
         qr.src = '/images/qrcode.png';
-        Promise.all([
-          new Promise(resolve => logo.onload = resolve),
-          new Promise(resolve => qr.onload = resolve)
-        ]).then(() => {
-          ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
-          ctx.drawImage(logo, canvas.width - 100, canvas.height - 160, 100, 40);
-          const link = document.createElement('a');
-          link.download = 'twin_guess_result.png';
-          link.href = canvas.toDataURL();
-          link.click();
-        });
+        logo.onload = qr.onload = () => {
+          if (++loaded === 2) {
+            ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
+            ctx.drawImage(logo, canvas.width - 100, canvas.height - 160, 100, 40);
+            const link = document.createElement('a');
+            link.download = 'twin_guess_result.png';
+            link.href = canvas.toDataURL();
+            link.click();
+          }
+        };
       });
     }
+
+    function updateShareLinks() {
+      const title = "App03 双子当てゲーム";
+      const text = "このアプリで遊んでみよう！";
+      const url = encodeURIComponent(location.href);
+      document.getElementById('shareX').href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+      document.getElementById('shareLINE').href = `https://social-plugins.line.me/lineit/share?url=${url}`;
+    }
+
+    window.onload = updateShareLinks;
   </script>
   <script src="script.js" defer></script>
 </body>
