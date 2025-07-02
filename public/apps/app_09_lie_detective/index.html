@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>App09 嘘探偵 | 飲み会Webアプリ</title>
   <meta name="description" content="1人だけ嘘をついているプレイヤーを見破れ！質問と回答で推理する、盛り上がる飲み会ゲーム。" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -25,16 +25,17 @@
     <section class="card">
       <h1>🕵️‍♂️ App09：嘘探偵</h1>
       <p>1人だけ嘘をついているプレイヤーを見抜け！質問と回答で推理して勝利を掴もう。飲み会にピッタリの推理系ゲーム。</p>
-      <img src="/images/icons/app09.jpg" alt="嘘探偵のアイコン画像" class="main-image" />
+      <img src="/images/icons/app09.jpg" alt="App09" class="main-image" />
+      <div class="anime-image-space"></div>
     </section>
 
     <section class="card">
-      <h2>🕵️‍♀️ このゲームって？</h2>
+      <h2>📘 このゲームって？</h2>
       <p>全員が質問に答える中で、1人だけ嘘をついている！誰が嘘をついているのかを推理して見破ろう。</p>
     </section>
 
     <section class="card">
-      <h2>📝 遊び方＆ルール</h2>
+      <h2>🎮 遊び方＆ルール</h2>
       <ul>
         <li>4人以上のプレイヤーで開始</li>
         <li>お題（質問）を1つ入力</li>
@@ -45,19 +46,19 @@
     </section>
 
     <section class="card">
-      <h2>🎶 BGM選択</h2>
-      <label for="bgmSelect">雰囲気に合わせてBGMを選ぼう：</label>
-      <select id="bgmSelect" onchange="changeBGM()">
+      <h2>🎵 BGMを選ぼう</h2>
+      <label for="bgmSelect">雰囲気に合わせて選択：</label>
+      <select id="bgmSelect" onchange="bgmSelect()">
         <option value="none">なし</option>
         <option value="cafe">カフェ風</option>
         <option value="anime">アニメ風</option>
         <option value="party">パーティー風</option>
       </select>
-      <audio id="bgm" loop autoplay></audio>
+      <audio id="bgm" loop></audio>
     </section>
 
     <section class="card">
-      <h2>🕹️ ゲームプレイ</h2>
+      <h2>🕹️ ゲーム開始</h2>
       <div id="playerInputs"></div>
       <div class="center">
         <button onclick="addPlayerInput()">＋プレイヤー追加</button>
@@ -93,15 +94,15 @@
 
     <section class="card">
       <h2>📤 シェア・保存</h2>
-      <button onclick="saveResultImage()">📸 結果を画像保存</button>
       <div class="share-buttons">
         <button onclick="shareX()"><i class="fab fa-x-twitter"></i> Xでシェア</button>
         <button onclick="shareLINE()"><i class="fab fa-line"></i> LINEでシェア</button>
       </div>
+      <button onclick="saveResultImage()">📸 結果を画像保存</button>
     </section>
 
-    <div class="ad-bottom">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <div class="ad-middle">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </main>
@@ -110,11 +111,15 @@
     <img src="/images/qrcode.png" alt="QRコード" class="qr" />
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
+    <div class="ad-bottom">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="4444444444" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
   </footer>
 
   <script src="script.js"></script>
   <script>
-    function changeBGM() {
+    function bgmSelect() {
       const bgm = document.getElementById("bgm");
       const choice = document.getElementById("bgmSelect").value;
       if (choice === "none") {
@@ -125,20 +130,34 @@
         bgm.play();
       }
     }
-    function updateShareLinks() {
+    function shareX() {
       const url = encodeURIComponent(location.href);
-      document.querySelector(".share-buttons button[onclick^='shareX']").onclick = () => window.open(`https://twitter.com/share?url=${url}&text=App09 嘘探偵で遊んでみよう！`, "_blank");
-      document.querySelector(".share-buttons button[onclick^='shareLINE']").onclick = () => window.open(`https://social-plugins.line.me/lineit/share?url=${url}`, "_blank");
+      const text = "App09 嘘探偵で遊んでみよう！";
+      window.open(`https://twitter.com/share?url=${url}&text=${text}`, "_blank");
+    }
+    function shareLINE() {
+      const url = encodeURIComponent(location.href);
+      window.open(`https://social-plugins.line.me/lineit/share?url=${url}`, "_blank");
     }
     function saveResultImage() {
       html2canvas(document.body).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "result.png";
-        link.href = canvas.toDataURL();
-        link.click();
+        const ctx = canvas.getContext("2d");
+        const logo = new Image();
+        const qr = new Image();
+        logo.src = "/images/logo.png";
+        qr.src = "/images/qrcode.png";
+        logo.onload = () => {
+          ctx.drawImage(logo, 20, 20, 80, 32);
+          qr.onload = () => {
+            ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
+            const link = document.createElement("a");
+            link.download = "result.png";
+            link.href = canvas.toDataURL();
+            link.click();
+          };
+        };
       });
     }
-    updateShareLinks();
   </script>
 </body>
 </html>
