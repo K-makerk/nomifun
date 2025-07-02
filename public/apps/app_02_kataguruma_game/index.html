@@ -6,40 +6,48 @@
   <title>App02 肩車ゲーム | 飲み会Webアプリ</title>
   <meta name="description" content="以心伝心ペアチャレンジ！肩車ゲームは、上下の回答が一致すれば勝利の盛り上がり系ミニゲーム。飲み会や合コンで大人気！" />
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
-    <h1>App02：肩車ゲーム</h1>
-    <p>上の人と下の人、気持ちは通じてる？以心伝心で答えを揃えよう！</p>
-  </header>
-
-  <section class="description-section">
-    <h2>📝 ゲーム概要</h2>
-    <p>このゲームはペアで協力し、お題に対して<strong>上下それぞれが同時に回答</strong>し、一致すればポイント獲得！</p>
-    <p>見ているだけでも楽しい＆カップル・友達同士・初対面のアイスブレイクにも最適な、盛り上がり度MAXの爆笑系ミニゲームです。</p>
-
-    <h3>🎮 遊び方</h3>
-    <ul>
-      <li>偶数人数でプレイ（例：4人で2ペア）</li>
-      <li>各ラウンドで1つのお題が出題されます</li>
-      <li>ペアごとに「上の人」「下の人」がそれぞれ回答します</li>
-      <li>回答が一致すれば成功！（以心伝心度アップ）</li>
-      <li>結果はログに記録され、最後にMVP発表も！</li>
-    </ul>
-
-    <p>飲み会・合コン・サークルイベント・修学旅行など、チーム対抗で盛り上がりたい場面におすすめ！</p>
-  </section>
-
-  <main class="container">
+    <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+  </header>
 
-    <section id="setup">
+  <section class="card">
+    <h1>App02：肩車ゲーム</h1>
+    <p>上の人と下の人、気持ちは通じてる？以心伝心で答えを揃えよう！</p>
+    <img src="/images/icons/app02.jpg" alt="肩車ゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
+  </section>
+
+  <section class="card">
+    <h2>🎮 このゲームって？</h2>
+    <p>このゲームはペアで協力し、お題に対して<strong>上下それぞれが同時に回答</strong>し、一致すれば成功！</p>
+
+    <h3>📝 遊び方＆ルール</h3>
+    <ul>
+      <li>偶数人数でプレイ（例：4人で2ペア）</li>
+      <li>各ラウンドで1つのお題が出題される</li>
+      <li>ペアごとに「上の人」「下の人」がそれぞれ回答</li>
+      <li>回答が一致すれば成功！（以心伝心度アップ）</li>
+      <li>結果はログに記録され、最後にMVP発表！</li>
+    </ul>
+
+    <p>飲み会・合コン・イベントなど、ペアで盛り上がりたい場面に最適！</p>
+  </section>
+
+  <section class="card" style="text-align:center;">
+    <img src="/images/illustration_01.png" alt="アニメ調イラスト（未実装）" style="max-width:90%; margin:10px 0;">
+  </section>
+
+  <main class="container">
+    <section class="card" id="setup">
       <h2>🎯 プレイ準備</h2>
       <p>偶数人数を入力してペアを作ろう（例：4人 → 2ペア）</p>
       <input type="number" id="playerCount" min="2" step="2" placeholder="人数を入力 (偶数)" />
@@ -55,21 +63,21 @@
       <audio id="bgm" loop autoplay></audio>
     </section>
 
-    <section id="pairInputs" style="display: none;"></section>
+    <section class="card" id="pairInputs" style="display: none;"></section>
 
-    <section id="game" style="display: none;">
+    <section class="card" id="game" style="display: none;">
       <h2>🕹️ ラウンド <span id="roundNumber">1</span> / 3</h2>
       <p id="prompt"></p>
       <div id="inputArea"></div>
     </section>
 
-    <section id="result" style="display: none;">
+    <section class="card" id="result" style="display: none;">
       <h2>🎉 結果発表 🎉</h2>
       <div id="scoreBoard"></div>
       <h3 id="winner"></h3>
       <h2>📝 回答ログ</h2>
       <div id="answerLog"></div>
-      <button onclick="saveResultImage()">結果を画像保存</button>
+      <button onclick="saveResultImage()">📷 結果を画像保存</button>
       <button onclick="location.reload()">タイトルに戻る</button>
     </section>
 
@@ -78,19 +86,23 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <div class="share-buttons">
-      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=以心伝心！肩車ゲームで盛り上がろう！%20%23飲み会ゲーム" target="_blank">
-        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
-      </a>
-      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
-        <button><i class="fab fa-line"></i> LINEでシェア</button>
-      </a>
-      <button onclick="saveResultImage()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
-    </div>
+    <section class="card" style="text-align:center;">
+      <button onclick="saveResultImage()">📷 画像保存</button>
+      <div class="share-buttons">
+        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
+        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
+      </div>
+    </section>
   </main>
 
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
   <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
-    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
+    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
