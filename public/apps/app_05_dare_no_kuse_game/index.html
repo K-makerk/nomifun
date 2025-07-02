@@ -3,20 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>誰のクセゲーム</title>
+  <title>App05 誰のクセゲーム | 飲み会Webアプリ</title>
+  <meta name="description" content="みんなのクセを暴露して当て合う推理＆笑いのゲーム！飲み会や合コン、友達同士で盛り上がる話題作。" />
   <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>誰のクセゲーム</h1>
+    <h1>🕵️‍♀️ 誰のクセゲーム</h1>
+    <p>出された「クセ」や「暴露」をもとに、その主が誰なのかを当てる推理系トークゲーム！<br>
+    飲み会・合コン・雑談ネタにぴったり。盛り上がりすぎ注意！</p>
 
+    <section class="description-section">
+      <h2>🎮 遊び方とルール</h2>
+      <ul>
+        <li>プレイヤー全員が自分のクセや暴露を1つ入力</li>
+        <li>ゲームモードに応じて1つずつ公開される or 一気に全公開</li>
+        <li>話し合いながら「誰のクセか」を推理して投票！</li>
+        <li>的中数やユニークな暴露で大盛り上がり！</li>
+      </ul>
+      <p>「寝る前にTikTokを見る」「右手だけで箸を割る」など<br>
+      個性あふれるクセが次々暴かれる！恥ずかしがらずに参加してみよう。</p>
+    </section>
+
+    <!-- 元のゲーム画面 -->
     <div id="setup">
-      <h2>ゲームパターン選択</h2>
+      <h2>🎲 ゲームパターン選択</h2>
       <label><input type="radio" name="gameMode" value="1" checked /> その暴露はだれか当てろ！（1回）</label><br>
       <label><input type="radio" name="gameMode" value="2" /> みんなでその暴露はだれか考えよう！（全体推理）</label><br>
       <label><input type="radio" name="gameMode" value="3" /> 全員分を人狼風に繰り返し当てろ！（繰り返し推理）</label>
 
-      <h2>プレイヤー名を入力（3人以上）</h2>
+      <h2>👥 プレイヤー名を入力（3人以上）</h2>
       <div id="playerInputs"></div>
       <button onclick="addPlayerInput()">プレイヤー追加</button>
       <button onclick="removePlayerInput()">プレイヤー削除</button>
@@ -66,8 +84,48 @@
       <div id="answerLog"></div>
       <button onclick="location.reload()">もう一度遊ぶ</button>
     </div>
+
+    <!-- SNSシェア・保存 -->
+    <div class="share-buttons" style="text-align:center; margin: 30px;">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=クセ暴露で大盛り上がり！誰のクセゲームやってみた！%20%23飲み会ゲーム" target="_blank">
+        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+      </a>
+      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
+        <button><i class="fab fa-line"></i> LINEでシェア</button>
+      </a>
+      <button onclick="saveResultImage()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
+    </div>
   </div>
 
+  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
+    <p>&copy; 2025 飲み会アプリプロジェクト</p>
+  </footer>
+
+  <script>
+    function saveResultImage() {
+      html2canvas(document.body).then(function(canvas) {
+        const ctx = canvas.getContext('2d');
+        const logo = new Image();
+        const qr = new Image();
+        logo.crossOrigin = 'anonymous';
+        qr.crossOrigin = 'anonymous';
+        logo.src = '/images/logo.png';
+        qr.src = '/images/qrcode.png';
+        Promise.all([
+          new Promise(resolve => logo.onload = resolve),
+          new Promise(resolve => qr.onload = resolve)
+        ]).then(() => {
+          ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
+          ctx.drawImage(logo, canvas.width - 100, canvas.height - 160, 100, 40);
+          const link = document.createElement('a');
+          link.download = 'kuse_game_result.png';
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      });
+    }
+  </script>
   <script src="./script.js"></script>
 </body>
 </html>
