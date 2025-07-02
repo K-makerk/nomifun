@@ -13,45 +13,48 @@
 </head>
 <body>
   <header>
-    <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
-    <div class="ad-box">
+    <img src="/images/logo.png" alt="飲み会アプリロゴ" class="logo" />
+    <div class="ad-top">
+      <p class="ad-label">スポンサーリンク</p>
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </header>
 
-  <section class="card">
-    <h1>App07：モノマネチャレンジ</h1>
-    <p>ランダムなお題＆縛りでモノマネ披露！笑いと拍手を巻き起こせ！</p>
-    <img src="/images/icons/app07.jpg" alt="モノマネチャレンジイメージ" style="max-width:90%; display:block; margin:10px auto;">
-  </section>
+  <main>
+    <section class="card">
+      <h1>🎭 App07：モノマネチャレンジ</h1>
+      <p>ランダムなお題＆縛りでモノマネ披露！笑いと拍手を巻き起こせ！</p>
+      <img src="/images/icons/app07.jpg" alt="モノマネチャレンジ" class="main-image" />
+    </section>
 
-  <section class="card">
-    <h2>🧠 このゲームって？</h2>
-    <p>「お題」と「縛り」をランダムで組み合わせてモノマネを披露する、チームでも個人でも盛り上がれる爆笑系ゲームです。</p>
+    <section class="card">
+      <h2>🎮 このゲームって？</h2>
+      <p>「お題」と「縛り」をランダムで組み合わせてモノマネを披露する、チームでも個人でも盛り上がれる爆笑系ゲームです。</p>
+    </section>
 
-    <h3>📝 遊び方＆ルール</h3>
-    <ul>
-      <li>カテゴリと縛りを選んでプレイヤーを追加</li>
-      <li>順番にお題＆縛りが表示されるのでモノマネを実演</li>
-      <li>最後に全員で投票 → MVPを決定</li>
-    </ul>
-  </section>
+    <section class="card">
+      <h2>📋 遊び方＆ルール</h2>
+      <ul>
+        <li>カテゴリと縛りを選んでプレイヤーを追加</li>
+        <li>順番にお題＆縛りが表示されるのでモノマネを実演</li>
+        <li>最後に全員で投票 → MVPを決定</li>
+      </ul>
+    </section>
 
-  <section class="card">
-    <label>BGM選択：</label>
-    <select id="bgmSelect" onchange="changeBGM()">
-      <option value="none">なし</option>
-      <option value="cafe">カフェ風</option>
-      <option value="anime">アニメ風</option>
-      <option value="party">パーティー風</option>
-    </select>
-    <audio id="bgm" loop autoplay></audio>
-  </section>
+    <section class="card">
+      <label for="bgmSelect">🎵 BGM選択：</label>
+      <select id="bgmSelect" onchange="changeBGM()">
+        <option value="none">なし</option>
+        <option value="cafe">カフェ風</option>
+        <option value="anime">アニメ風</option>
+        <option value="party">パーティー風</option>
+      </select>
+      <audio id="bgm" loop autoplay></audio>
+    </section>
 
-  <main class="container">
     <section class="card" id="setupScreen">
-      <h2>ゲーム設定</h2>
+      <h2>⚙️ ゲーム設定</h2>
       <label>カテゴリ選択：</label>
       <select id="categorySelect">
         <option value="animal">動物</option>
@@ -67,9 +70,9 @@
       </select>
 
       <div id="playerInputs">
-        <input type="text" placeholder="プレイヤー名"/>
-        <input type="text" placeholder="プレイヤー名"/>
-        <input type="text" placeholder="プレイヤー名"/>
+        <input type="text" placeholder="プレイヤー名" />
+        <input type="text" placeholder="プレイヤー名" />
+        <input type="text" placeholder="プレイヤー名" />
       </div>
       <button onclick="addPlayer()">プレイヤー追加</button>
       <button onclick="removePlayer()">プレイヤー削除</button>
@@ -77,7 +80,7 @@
     </section>
 
     <section class="card hidden" id="mimicScreen">
-      <h2 id="currentPlayerName"></h2>
+      <h2 id="currentPlayerName">プレイヤー名</h2>
       <p>お題：<span id="mimicTopic"></span></p>
       <p>縛り：<span id="challengeText"></span></p>
       <p>残り時間：<span id="timer">30</span>秒</p>
@@ -85,7 +88,7 @@
     </section>
 
     <section class="card hidden" id="voteScreen">
-      <h2>誰が一番うまかった？</h2>
+      <h2>投票タイム</h2>
       <div id="voteSection"></div>
     </section>
 
@@ -98,59 +101,58 @@
     </section>
 
     <section class="card">
-      <button onclick="saveResultImage()">📷 画像保存</button>
-      <div class="share-buttons" style="margin-top:15px;">
+      <button onclick="saveResultImage()">📸 結果画像を保存</button>
+      <div class="share-buttons">
         <p>結果をシェア：</p>
-        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="X" class="icon"></a>
-        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINE" class="icon"></a>
+        <a id="shareX" href="#" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a id="shareLINE" href="#" target="_blank"><i class="fab fa-line"></i></a>
       </div>
     </section>
+
+    <div class="ad-middle">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
   </main>
 
-  <div class="ad-box">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1643561503893272"
-         data-ad-slot="3333333333"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
-
-  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
-    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
+  <footer>
+    <img src="/images/qrcode.png" alt="QRコード" class="qr" />
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
-    <p>&copy; 2025 飲み会Webアプリプロジェクト</p>
+    <p>© 2025 飲み会アプリプロジェクト</p>
+    <div class="ad-bottom">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
   </footer>
 
   <script>
     function changeBGM() {
-      const bgm = document.getElementById('bgm');
-      const val = document.getElementById('bgmSelect').value;
-      const map = {
-        none: '',
-        cafe: '/audio/bgm_cafe.mp3',
-        anime: '/audio/bgm_anime.mp3',
-        party: '/audio/bgm_party.mp3'
+      const bgm = document.getElementById("bgm");
+      const val = document.getElementById("bgmSelect").value;
+      const bgms = {
+        none: "",
+        cafe: "/audio/bgm_cafe.mp3",
+        anime: "/audio/bgm_anime.mp3",
+        party: "/audio/bgm_party.mp3"
       };
-      bgm.src = map[val];
-      if (val !== 'none') bgm.play();
+      bgm.src = bgms[val];
+      if (val !== "none") bgm.play();
     }
 
     function saveResultImage() {
       html2canvas(document.body).then(canvas => {
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         const logo = new Image();
         const qr = new Image();
         let loaded = 0;
-        logo.src = '/images/logo.png';
-        qr.src = '/images/qrcode.png';
+        logo.src = "/images/logo.png";
+        qr.src = "/images/qrcode.png";
         logo.onload = qr.onload = () => {
           if (++loaded === 2) {
             ctx.drawImage(logo, 20, 20, 100, 40);
             ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
-            const link = document.createElement('a');
-            link.download = 'mimic_result.png';
+            const link = document.createElement("a");
+            link.download = "result.png";
             link.href = canvas.toDataURL();
             link.click();
           }
@@ -159,11 +161,11 @@
     }
 
     function updateShareLinks() {
+      const url = encodeURIComponent(location.href);
       const title = "App07 モノマネチャレンジ";
       const text = "このアプリで遊んでみよう！";
-      const url = encodeURIComponent(location.href);
-      document.getElementById('shareX').href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
-      document.getElementById('shareLINE').href = `https://social-plugins.line.me/lineit/share?url=${url}`;
+      document.getElementById("shareX").href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+      document.getElementById("shareLINE").href = `https://social-plugins.line.me/lineit/share?url=${url}`;
     }
 
     window.onload = updateShareLinks;
