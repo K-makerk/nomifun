@@ -4,62 +4,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ランダム順番決め | 飲み会Webアプリ</title>
-  <meta name="description" content="メンバーの順番をランダムで決定！飲み会やゲームに最適な無料ツール。結果は画像保存・SNS共有もOK！">
+  <meta name="description" content="メンバーの順番をランダムで決定！飲み会やゲームに最適な無料ツール。結果は画像保存・SNS共有もOK！" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="logo.png" alt="ロゴ" class="logo" />
-      <h1>ランダム順番決め</h1>
-      <p class="description">メンバーの順番をランダムに決定！<br>飲み会・レク・罰ゲームなどに最適</p>
-    </header>
+  <div class="container" style="max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
 
     <!-- 広告上 -->
-    <div class="ad-container">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <div style="text-align:center; margin-bottom:20px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <h1 style="text-align:center; color:#c2185b;">ランダム順番決め</h1>
+    <p style="text-align:center;">メンバーの順番をランダムに決定！<br>飲み会・レク・罰ゲームなどに最適</p>
+
     <main>
-      <div id="input-area">
+      <div id="input-area" style="margin-top: 20px;">
         <div id="name-list"></div>
         <button onclick="addName()">＋ 名前を追加</button>
         <button onclick="shuffleNames()">順番決定</button>
       </div>
 
-      <div id="result-area" class="hidden">
+      <div id="result-area" class="hidden" style="margin-top: 30px;">
         <h2>決定した順番</h2>
         <ul id="result-list" class="fade-in"></ul>
         <button onclick="reshuffle()">もう一度シャッフル</button>
         <button onclick="saveResultImage()">画像保存</button>
-        <div class="share-buttons">
+
+        <!-- SNSシェア -->
+        <div class="share-buttons" style="text-align:center; margin-top:20px;">
           <p>結果をシェア：</p>
-          <a id="twitter-share" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a id="line-share" target="_blank"><i class="fab fa-line"></i></a>
+          <a id="twitter-share" target="_blank" rel="noopener">
+            <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+          </a>
+          <a id="line-share" target="_blank" rel="noopener">
+            <button><i class="fab fa-line"></i> LINEでシェア</button>
+          </a>
         </div>
       </div>
 
-      <div id="history-area">
+      <div id="history-area" style="margin-top: 30px;">
         <h2>履歴（最大5件）</h2>
         <ul id="history-list"></ul>
       </div>
     </main>
 
     <!-- 広告下 -->
-    <div class="ad-container">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <div style="text-align:center; margin-top:40px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="0987654321"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <footer>
-      <p><a href="terms.html">利用規約</a> ｜ <a href="privacy.html">プライバシーポリシー</a></p>
-      <small>&copy; 2025 飲み会Webアプリ All rights reserved.</small>
+    <footer style="text-align:center; margin-top:40px; font-size:0.9em;">
+      <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
+      <p>&copy; 2025 飲み会Webアプリプロジェクト</p>
     </footer>
-  </div>
 
-  <audio id="drum-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c499f17060.mp3?filename=drum-roll-39695.mp3"></audio>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="script.js"></script>
+    <!-- 効果音 -->
+    <audio id="drum-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c499f17060.mp3?filename=drum-roll-39695.mp3"></audio>
+  </div>
 </body>
 </html>
