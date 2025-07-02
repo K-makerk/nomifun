@@ -2,81 +2,151 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ランダム順番決め | 飲み会Webアプリ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App06 ランダム順番決め | 飲み会Webアプリ</title>
   <meta name="description" content="メンバーの順番をランダムで決定！飲み会やゲームに最適な無料ツール。結果は画像保存・SNS共有もOK！" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script defer src="script.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="container" style="max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-
-    <!-- 広告上 -->
-    <div style="text-align:center; margin-bottom:20px;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1643561503893272"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+  <!-- 上部ロゴ＆広告 -->
+  <header>
+    <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
+    <div class="ad-box">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+  </header>
 
-    <h1 style="text-align:center; color:#c2185b;">ランダム順番決め</h1>
-    <p style="text-align:center;">メンバーの順番をランダムに決定！<br>飲み会・レク・罰ゲームなどに最適</p>
+  <!-- ゲーム紹介 -->
+  <section class="card">
+    <h1>App06：ランダム順番決め</h1>
+    <p>メンバーの順番をランダムに決定！飲み会・レク・罰ゲームなどに最適</p>
+    <img src="/images/icons/app06.jpg" alt="ランダム順番決めイメージ" style="max-width:90%; display:block; margin:10px auto;">
+  </section>
 
-    <main>
-      <div id="input-area" style="margin-top: 20px;">
-        <div id="name-list"></div>
-        <button onclick="addName()">＋ 名前を追加</button>
-        <button onclick="shuffleNames()">順番決定</button>
+  <!-- 説明 -->
+  <section class="card">
+    <h2>🧠 このゲームって？</h2>
+    <p>名前を入力して「順番決定」ボタンを押すだけで、<strong>完全ランダムで並び替え</strong>！</p>
+
+    <h3>📝 遊び方＆ルール</h3>
+    <ul>
+      <li>名前を2人以上入力</li>
+      <li>「順番決定」でシャッフル</li>
+      <li>結果をシェア or 画像保存も可能</li>
+      <li>履歴は最大5件まで表示</li>
+    </ul>
+  </section>
+
+  <!-- BGM選択 -->
+  <section class="card">
+    <label>BGM選択：</label>
+    <select id="bgmSelect" onchange="changeBGM()">
+      <option value="none">なし</option>
+      <option value="cafe">カフェ風</option>
+      <option value="anime">アニメ風</option>
+      <option value="party">パーティー風</option>
+    </select>
+    <audio id="bgm" loop autoplay></audio>
+  </section>
+
+  <!-- メイン処理 -->
+  <main class="container">
+    <section class="card" id="input-area">
+      <h2>プレイヤー入力</h2>
+      <div id="name-list"></div>
+      <button onclick="addName()">＋ 名前を追加</button>
+      <button onclick="shuffleNames()">順番決定</button>
+    </section>
+
+    <section class="card hidden" id="result-area">
+      <h2>決定した順番</h2>
+      <ul id="result-list"></ul>
+      <button onclick="reshuffle()">もう一度シャッフル</button>
+      <button onclick="saveResultImage()">📷 画像保存</button>
+
+      <!-- SNS共有 -->
+      <div class="share-buttons" style="margin-top:20px;">
+        <p>結果をシェア：</p>
+        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
+        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
       </div>
+    </section>
 
-      <div id="result-area" class="hidden" style="margin-top: 30px;">
-        <h2>決定した順番</h2>
-        <ul id="result-list" class="fade-in"></ul>
-        <button onclick="reshuffle()">もう一度シャッフル</button>
-        <button onclick="saveResultImage()">画像保存</button>
+    <section class="card" id="history-area">
+      <h2>履歴（最大5件）</h2>
+      <ul id="history-list"></ul>
+    </section>
+  </main>
 
-        <!-- SNSシェア -->
-        <div class="share-buttons" style="text-align:center; margin-top:20px;">
-          <p>結果をシェア：</p>
-          <a id="twitter-share" target="_blank" rel="noopener">
-            <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
-          </a>
-          <a id="line-share" target="_blank" rel="noopener">
-            <button><i class="fab fa-line"></i> LINEでシェア</button>
-          </a>
-        </div>
-      </div>
-
-      <div id="history-area" style="margin-top: 30px;">
-        <h2>履歴（最大5件）</h2>
-        <ul id="history-list"></ul>
-      </div>
-    </main>
-
-    <!-- 広告下 -->
-    <div style="text-align:center; margin-top:40px;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1643561503893272"
-           data-ad-slot="0987654321"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
-    <footer style="text-align:center; margin-top:40px; font-size:0.9em;">
-      <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
-      <p>&copy; 2025 飲み会Webアプリプロジェクト</p>
-    </footer>
-
-    <!-- 効果音 -->
-    <audio id="drum-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c499f17060.mp3?filename=drum-roll-39695.mp3"></audio>
+  <!-- 下部広告 -->
+  <div class="ad-box">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1643561503893272"
+         data-ad-slot="3333333333"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
+
+  <!-- フッター -->
+  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
+    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
+    <p>&copy; 2025 飲み会アプリプロジェクト</p>
+  </footer>
+
+  <!-- スクリプト -->
+  <script>
+    function changeBGM() {
+      const bgm = document.getElementById('bgm');
+      const val = document.getElementById('bgmSelect').value;
+      const map = {
+        none: '',
+        cafe: '/audio/bgm_cafe.mp3',
+        anime: '/audio/bgm_anime.mp3',
+        party: '/audio/bgm_party.mp3'
+      };
+      bgm.src = map[val];
+      if (val !== 'none') bgm.play();
+    }
+
+    function saveResultImage() {
+      html2canvas(document.body).then(canvas => {
+        const ctx = canvas.getContext('2d');
+        const logo = new Image();
+        const qr = new Image();
+        let loaded = 0;
+        logo.src = '/images/logo.png';
+        qr.src = '/images/qrcode.png';
+        logo.onload = qr.onload = () => {
+          if (++loaded === 2) {
+            ctx.drawImage(logo, 20, 20, 100, 40);
+            ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
+            const link = document.createElement('a');
+            link.download = 'random_order_result.png';
+            link.href = canvas.toDataURL();
+            link.click();
+          }
+        };
+      });
+    }
+
+    function updateShareLinks() {
+      const title = "App06 ランダム順番決め";
+      const text = "このアプリで遊んでみよう！";
+      const url = encodeURIComponent(location.href);
+      document.getElementById('shareX').href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+      document.getElementById('shareLINE').href = `https://social-plugins.line.me/lineit/share?url=${url}`;
+    }
+
+    window.onload = updateShareLinks;
+  </script>
+  <script src="script.js" defer></script>
 </body>
 </html>
