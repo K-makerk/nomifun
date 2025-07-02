@@ -4,42 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>App01 ジェスチャーゲーム | 飲み会Webアプリ</title>
-  <meta name="description" content="みんなで盛り上がる定番のジェスチャーゲーム！お題を身振り手振りで表現して、チームで当てよう。スマホ1つでプレイ可能。" />
+  <meta name="description" content="お題を身振り手振りで表現して当て合う、爆笑必至の定番ジェスチャーゲーム！チーム戦も個人戦もOK！">
   <link rel="stylesheet" href="style.css" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
   <header>
+    <img src="/images/logo.png" alt="ロゴ" style="height:40px; margin:10px auto; display:block;">
     <h1>App01：ジェスチャーゲーム</h1>
-    <p>出されたお題を「ジェスチャーだけ」で伝えてみよう！スマホ1つですぐ遊べる、盛り上がり必至の飲み会向けゲームです。</p>
+    <p>お題をジェスチャーだけで伝えよう！スマホ1つですぐに遊べる、盛り上がり必至の飲み会定番ゲームです。</p>
   </header>
 
-  <section class="description-section">
+  <section class="card">
     <h2>🎮 このゲームって？</h2>
-    <p>チームや個人で出された「お題」を、<strong>声を出さずに</strong>身振り手振りで表現して、他のプレイヤーに当ててもらうゲームです。演技力や発想力で笑いが起こる鉄板ゲーム！</p>
+    <p>出されたお題を<strong>声を使わず</strong>にジェスチャーだけで表現！チームや個人で挑戦し、見ている人が当てる王道ゲームです。</p>
 
     <h3>📝 遊び方＆ルール</h3>
     <ul>
-      <li>出されたお題は「声に出さずに」ジェスチャーで表現！</li>
-      <li>見ている側は制限時間内に正解を当てよう！</li>
-      <li>テーマジャンルは「動物／職業／アクション／難問」</li>
-      <li>個人戦・チーム戦どちらにも対応</li>
-      <li>BGMや観客モード、スコア機能、MVP判定もあり</li>
+      <li>出題されたお題を声を出さずにジェスチャーで表現</li>
+      <li>見ている側は制限時間内に当てる</li>
+      <li>ジャンル選択：「動物」「職業」「アクション」「難問」</li>
+      <li>個人戦・チーム戦に対応</li>
+      <li>BGM選択、スコア表示、MVP演出、観客モードなど搭載</li>
     </ul>
-
-    <p>たとえば…「ペンギン」や「美容師」なんてお題も。恥ずかしがらずに体で表現しよう！<br>盛り上がりたい夜に、笑いを呼びたい時にピッタリです。</p>
   </section>
 
-  <main class="container">
-    <div class="ad-box">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
+  <section class="card" style="text-align:center;">
+    <img src="/images/illustration_01.png" alt="アニメ調イラスト（未実装）" style="max-width:90%; margin:10px 0;" />
+  </section>
 
-    <section id="setupScreen">
-      <h2>プレイヤー・観客を設定</h2>
-      <h3>プレイヤー名（3人以上）</h3>
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <main class="container">
+    <section id="setupScreen" class="card">
+      <h2>プレイヤー設定</h2>
       <div id="playerInputs">
         <input type="text" placeholder="プレイヤー名" />
         <input type="text" placeholder="プレイヤー名" />
@@ -48,7 +50,7 @@
       <button onclick="addPlayerInput()">プレイヤー追加</button>
       <button onclick="removePlayerInput()">プレイヤー削除</button>
 
-      <h3>観客（任意）</h3>
+      <h3>観客設定（任意）</h3>
       <div id="audienceInputs">
         <input type="text" placeholder="観客名" />
       </div>
@@ -61,16 +63,19 @@
         <option value="random">ランダム</option>
         <option value="manual">手動</option>
       </select>
-      <label>ジャンル選択：</label>
+
+      <label>ジャンル：</label>
       <select id="topicCategory">
         <option value="animals">動物</option>
         <option value="jobs">職業</option>
         <option value="actions">アクション</option>
         <option value="hard">難問</option>
       </select>
+
       <label>ラウンド数：</label>
       <input type="number" id="gameCount" value="3" min="1">
-      <label>BGM選択:</label>
+
+      <label>BGM：</label>
       <select id="bgmSelect">
         <option value="none">なし</option>
         <option value="cafe">カフェ風</option>
@@ -78,20 +83,19 @@
         <option value="party">パーティー風</option>
       </select>
       <audio id="bgm" loop autoplay></audio>
+
       <button onclick="setupGame()">ゲーム開始</button>
     </section>
 
-    <section id="gameArea" style="display: none;">
+    <section id="gameArea" class="card" style="display:none;">
       <h2 id="instructionText">準備中...</h2>
-      <div class="card">
-        <p id="currentPlayerDisplay"></p>
-        <p id="nextPlayerDisplay"></p>
-        <p id="currentTeamDisplay"></p>
-        <p id="topicArea">ここにお題が表示されます</p>
-        <p id="bonusText"></p>
-        <p id="missionText"></p>
-        <p id="timer">残り時間: --秒</p>
-      </div>
+      <p id="currentPlayerDisplay"></p>
+      <p id="nextPlayerDisplay"></p>
+      <p id="currentTeamDisplay"></p>
+      <p id="topicArea">ここにお題が表示されます</p>
+      <p id="bonusText"></p>
+      <p id="missionText"></p>
+      <p id="timer">残り時間: --秒</p>
 
       <div class="ad-box">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -106,22 +110,31 @@
       <p>ラウンド <span id="roundNum">1</span> / <span id="totalRounds">3</span></p>
     </section>
 
-    <section id="scoreDisplay" style="display: none;">
+    <section id="scoreDisplay" class="card" style="display:none;">
       <h2>🎉 結果発表 🎉</h2>
       <ul id="scoreBoard"></ul>
       <p id="mvpDisplay"></p>
       <button onclick="saveResultImage()">結果を画像保存</button>
       <button onclick="returnToTitle()">タイトルに戻る</button>
     </section>
-
-    <div class="ad-box">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
   </main>
 
-  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
-    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
+  <section class="card" style="text-align:center;">
+    <button onclick="saveResultImage()">📷 画像保存</button>
+    <div class="share-buttons">
+      <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
+      <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
+    </div>
+  </section>
+
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <footer>
+    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
+    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
