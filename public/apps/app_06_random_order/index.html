@@ -15,24 +15,24 @@
   <!-- ヘッダー＆上部広告 -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
-    <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
+    <p style="font-size: 0.8em; color: #888; text-align:center;">スポンサーリンク</p>
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </header>
 
-  <!-- ゲーム紹介 -->
+  <!-- 概要 -->
   <section class="card">
     <h1>App06：ランダム順番決め</h1>
     <p>メンバーの順番をランダムに決定！飲み会・レク・罰ゲームなどに最適</p>
     <img src="/images/icons/app06.jpg" alt="ランダム順番決めイメージ" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
-  <!-- ゲーム説明 -->
+  <!-- 説明 -->
   <section class="card">
     <h2>🧠 このゲームって？</h2>
-    <p>名前を入力して「順番決定」ボタンを押すだけで、<strong>完全ランダムで並び替え</strong>！</p>
+    <p>名前を入力して「順番決定」ボタンを押すだけで、<strong>完全ランダムで並び替え</strong>！公平でスピーディーな順番決めに最適。</p>
 
     <h3>📝 遊び方＆ルール</h3>
     <ul>
@@ -43,7 +43,7 @@
     </ul>
   </section>
 
-  <!-- BGM -->
+  <!-- BGM選択 -->
   <section class="card">
     <label>BGM：</label>
     <select id="bgmSelect" onchange="changeBGM()">
@@ -55,7 +55,7 @@
     <audio id="bgm" loop autoplay></audio>
   </section>
 
-  <!-- ゲーム本体 -->
+  <!-- ゲームエリア -->
   <main class="container">
     <section class="card" id="input-area">
       <h2>プレイヤー入力</h2>
@@ -64,13 +64,11 @@
       <button onclick="shuffleNames()">順番決定</button>
     </section>
 
-    <section class="card hidden" id="result-area">
+    <section class="card" id="result-area" style="display:none;">
       <h2>決定した順番</h2>
       <ul id="result-list"></ul>
       <button onclick="reshuffle()">もう一度シャッフル</button>
       <button onclick="saveResultImage()">📷 画像保存</button>
-
-      <!-- SNS共有 -->
       <div class="share-buttons" style="margin-top:20px;">
         <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
         <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
@@ -84,7 +82,7 @@
   </main>
 
   <!-- 下部広告 -->
-  <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
+  <p style="font-size: 0.8em; color: #888; text-align:center;">スポンサーリンク</p>
   <div class="ad-box">
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
