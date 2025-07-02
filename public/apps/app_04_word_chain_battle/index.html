@@ -3,105 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>App04 ワードチェインバトル | 飲み会Webアプリ</title>
+  <title>App04 : ワードチェインバトル</title>
   <meta name="description" content="しりとりにテーマ縛りを追加！制限時間付きのスリル満点しりとりバトル。飲み会・合コン・学生イベントにぴったり！" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      background: #ffeeee;
+      font-family: "Noto Sans JP", sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #c40064;
+    }
+    h2 {
+      color: #000;
+    }
+    .section {
+      margin-top: 40px;
+    }
+    .section h2 {
+      border-bottom: 2px solid #c40064;
+      padding-bottom: 5px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    ul {
+      line-height: 1.8;
+    }
+    .share-buttons {
+      text-align: center;
+      margin-top: 30px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      padding: 20px;
+      background: #f5f5f5;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>🎯 ワードチェインバトル</h1>
-    <p>「しりとり」にスピードとテーマ縛りを加えた、ドキドキのしりとりバトル！<br>
-       友達と順番に言葉を出し合い、制限時間以内に続けられないと負け！</p>
+    <h1>App04 : ワードチェインバトル</h1>
+    <p style="text-align: center;">出されたテーマにそって「しりとり」で勝負！時間切れやルール違反で脱落するスリル満点の飲み会向けゲームです。</p>
 
-    <section class="description-section">
-      <h2>📝 遊び方</h2>
+    <div class="section">
+      <h2>🧠 このゲームって？</h2>
+      <p>
+        出されたテーマに沿った単語を、<strong>制限時間内に「しりとり」</strong>で出していくゲームです。<br>
+        回答がテーマ外だったり、時間を超えると<strong>その場で脱落</strong>！<br>
+        笑いと緊張のせめぎ合い。盛り上がり必至のバトルゲーム！
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>🎮 遊び方＆ルール</h2>
       <ul>
-        <li>2人以上でプレイ（交互に回答）</li>
-        <li>テーマは「食べ物」「動物」「地名」などを選択可能</li>
-        <li>20秒以内に「しりとり」を続けないと脱落！</li>
-        <li>同じ単語やテーマ外は無効。最後まで残れば勝利！</li>
+        <li>最低2人以上で交互に回答します</li>
+        <li><strong>テーマ</strong>は「食べ物」「動物」「地名」などを選択</li>
+        <li><strong>20秒以内</strong>に「しりとり」で次の単語を言えなければ脱落！</li>
+        <li>テーマから外れた単語や、同じ単語の繰り返しは<strong>NG</strong></li>
+        <li>最後まで残った人が<strong>勝利</strong>！</li>
       </ul>
-      <p>飲み会・オンライン・休み時間にもおすすめ。<br>
-      しりとりなのに盛り上がる。時間制限で手に汗握る、笑える勝負！</p>
-    </section>
-
-    <div id="setup">
-      <label>プレイヤー名（最低2人）:</label>
-      <div id="playerInputs">
-        <div><input type="text" placeholder="プレイヤー名" /></div>
-        <div><input type="text" placeholder="プレイヤー名" /></div>
-      </div>
-      <button onclick="addPlayerInput()">プレイヤー追加</button>
-      <button onclick="removePlayerInput()">プレイヤー削除</button>
-
-      <label>テーマ選択:</label>
-      <select id="themeSelect">
-        <option value="">ランダム</option>
-        <option value="食べ物">食べ物</option>
-        <option value="動物">動物</option>
-        <option value="地名">地名</option>
-      </select>
-
-      <button onclick="confirmPlayers()">ゲーム開始</button>
+      <p>テンポのよいバトル形式で、飲み会・休み時間・オンラインでも大盛り上がり！</p>
     </div>
 
-    <div id="game" class="hidden">
-      <div id="themeDisplay"></div>
-      <div id="turnDisplay"></div>
-      <div id="usedWords"></div>
-      <div id="timer">制限時間: <span id="timeLeft">20</span> 秒</div>
-      <input type="text" id="wordInput" placeholder="単語を入力..." />
-      <button onclick="submitWord()">送信</button>
-    </div>
-
-    <div id="result" class="hidden">
-      <h2 id="winnerMessage"></h2>
-      <button onclick="location.reload()">もう一度プレイ</button>
-    </div>
-
-    <div class="share-buttons" style="text-align:center; margin: 30px;">
-      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=スリル満点しりとり対決！ワードチェインバトルで勝負！%20%23飲み会ゲーム" target="_blank">
+    <div class="share-buttons">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=しりとりバトルで盛り上がろう！%20%23飲み会ゲーム" target="_blank">
         <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
       </a>
       <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
         <button><i class="fab fa-line"></i> LINEでシェア</button>
       </a>
-      <button onclick="saveResultImage()"><i class="fab fa-instagram"></i> Instagram用画像保存</button>
     </div>
+
+    <footer>
+      <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
+      <p>&copy; 2025 飲み会アプリプロジェクト</p>
+    </footer>
   </div>
-
-  <footer style="text-align:center; font-size:0.9em; padding:20px; background:#f5f5f5;">
-    <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a> ｜ <a href="mailto:contact@example.com">運営者に連絡</a></p>
-    <p>&copy; 2025 飲み会アプリプロジェクト</p>
-  </footer>
-
-  <script>
-    function saveResultImage() {
-      html2canvas(document.body).then(function(canvas) {
-        const ctx = canvas.getContext('2d');
-        const logo = new Image();
-        const qr = new Image();
-        logo.crossOrigin = 'anonymous';
-        qr.crossOrigin = 'anonymous';
-        logo.src = '/images/logo.png';
-        qr.src = '/images/qrcode.png';
-        Promise.all([
-          new Promise(resolve => logo.onload = resolve),
-          new Promise(resolve => qr.onload = resolve)
-        ]).then(() => {
-          ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
-          ctx.drawImage(logo, canvas.width - 100, canvas.height - 160, 100, 40);
-          const link = document.createElement('a');
-          link.download = 'word_chain_result.png';
-          link.href = canvas.toDataURL();
-          link.click();
-        });
-      });
-    }
-  </script>
-
-  <script src="script.js"></script>
 </body>
 </html>
