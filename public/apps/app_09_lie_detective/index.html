@@ -14,7 +14,7 @@
 <body>
   <header>
     <img src="/images/logo.png" alt="ロゴ" class="logo" />
-    <div class="ad-top">
+    <div class="ad-section">
       <p class="ad-label">スポンサーリンク</p>
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
@@ -25,8 +25,8 @@
     <section class="card">
       <h1>🕵️‍♂️ App09：嘘探偵</h1>
       <p>1人だけ嘘をついているプレイヤーを見抜け！質問と回答で推理して勝利を掴もう。飲み会にピッタリの推理系ゲーム。</p>
-      <img src="/images/icons/app09.jpg" alt="App09" class="main-image" />
-      <div class="anime-image-space"></div>
+      <img src="/images/icons/app09.jpg" alt="App09のアイコン" class="main-image" />
+      <div class="anime-image-space"><!-- アニメ調イラストを今後追加予定 --></div>
     </section>
 
     <section class="card">
@@ -54,7 +54,7 @@
         <option value="anime">アニメ風</option>
         <option value="party">パーティー風</option>
       </select>
-      <audio id="bgm" loop></audio>
+      <audio id="bgm" loop autoplay></audio>
     </section>
 
     <section class="card">
@@ -95,13 +95,14 @@
     <section class="card">
       <h2>📤 シェア・保存</h2>
       <div class="share-buttons">
-        <button onclick="shareX()"><i class="fab fa-x-twitter"></i> Xでシェア</button>
-        <button onclick="shareLINE()"><i class="fab fa-line"></i> LINEでシェア</button>
+        <a id="shareX" href="#" target="_blank" aria-label="Xで共有"><i class="fab fa-x-twitter"></i></a>
+        <a id="shareLINE" href="#" target="_blank" aria-label="LINEで共有"><i class="fab fa-line"></i></a>
       </div>
       <button onclick="saveResultImage()">📸 結果を画像保存</button>
     </section>
 
-    <div class="ad-middle">
+    <div class="ad-section">
+      <p class="ad-label">スポンサーリンク</p>
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
@@ -111,7 +112,8 @@
     <img src="/images/qrcode.png" alt="QRコード" class="qr" />
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
-    <div class="ad-bottom">
+    <div class="ad-section">
+      <p class="ad-label">スポンサーリンク</p>
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="4444444444" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
@@ -126,19 +128,19 @@
         bgm.pause();
         bgm.src = "";
       } else {
-        bgm.src = `bgm/${choice}.mp3`;
+        bgm.src = `/audio/bgm_${choice}.mp3`;
         bgm.play();
       }
     }
-    function shareX() {
+
+    function updateShareLinks() {
       const url = encodeURIComponent(location.href);
-      const text = "App09 嘘探偵で遊んでみよう！";
-      window.open(`https://twitter.com/share?url=${url}&text=${text}`, "_blank");
+      const title = "App09 嘘探偵";
+      const text = "このアプリで盛り上がろう！";
+      document.getElementById("shareX").href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+      document.getElementById("shareLINE").href = `https://social-plugins.line.me/lineit/share?url=${url}`;
     }
-    function shareLINE() {
-      const url = encodeURIComponent(location.href);
-      window.open(`https://social-plugins.line.me/lineit/share?url=${url}`, "_blank");
-    }
+
     function saveResultImage() {
       html2canvas(document.body).then(canvas => {
         const ctx = canvas.getContext("2d");
@@ -158,6 +160,8 @@
         };
       });
     }
+
+    window.onload = updateShareLinks;
   </script>
 </body>
 </html>
