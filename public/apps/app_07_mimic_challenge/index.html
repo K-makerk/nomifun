@@ -3,58 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>モノマネチャレンジ</title>
-  <link rel="stylesheet" href="./style.css"/>
+  <title>モノマネチャレンジ | 飲み会Webアプリ</title>
+  <meta name="description" content="お題をモノマネで表現！チームや全員で笑える飲み会向けチャレンジゲーム。ランダム縛り付きも選べます。">
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="container" id="setupScreen">
-    <h1>モノマネチャレンジ</h1>
+  <div class="container" style="max-width: 700px; margin: auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
 
-    <label>カテゴリ選択：</label>
-    <select id="categorySelect">
-      <option value="animal">動物</option>
-      <option value="celebrity">有名人</option>
-      <option value="anime">アニメ</option>
-      <option value="free">フリーテーマ</option>
-    </select>
-
-    <label>チャレンジ縛り：</label>
-    <select id="challengeSelect">
-      <option value="on">ON（ランダム縛りあり）</option>
-      <option value="off">OFF（縛りなし）</option>
-    </select>
-
-    <div id="playerInputs">
-      <input type="text" placeholder="プレイヤー名"/>
-      <input type="text" placeholder="プレイヤー名"/>
-      <input type="text" placeholder="プレイヤー名"/>
+    <!-- 広告上 -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
-    <button onclick="addPlayer()">プレイヤー追加</button>
-    <button onclick="removePlayer()">プレイヤー削除</button>
-    <button onclick="startGame()">ゲーム開始</button>
-  </div>
 
-  <div class="container hidden" id="mimicScreen">
-    <h2 id="currentPlayerName"></h2>
-    <p>お題：<span id="mimicTopic"></span></p>
-    <p>縛り：<span id="challengeText"></span></p>
-    <p>残り時間：<span id="timer">30</span>秒</p>
-    <button onclick="nextPlayer()">モノマネ完了！次へ</button>
-  </div>
+    <h1 style="text-align:center; color:#c2185b;">モノマネチャレンジ</h1>
 
-  <div class="container hidden" id="voteScreen">
-    <h2>誰が一番うまかった？</h2>
-    <div id="voteSection"></div>
-  </div>
+    <div id="setupScreen">
+      <label>カテゴリ選択：</label>
+      <select id="categorySelect">
+        <option value="animal">動物</option>
+        <option value="celebrity">有名人</option>
+        <option value="anime">アニメ</option>
+        <option value="free">フリーテーマ</option>
+      </select>
 
-  <div class="container hidden" id="resultScreen">
-    <h2>結果発表！</h2>
-    <p id="winnerText"></p>
-    <h3>プレイ履歴</h3>
-    <ul id="historyLog"></ul>
-    <button onclick="location.reload()">もう一度プレイ</button>
-  </div>
+      <label>チャレンジ縛り：</label>
+      <select id="challengeSelect">
+        <option value="on">ON（ランダム縛りあり）</option>
+        <option value="off">OFF（縛りなし）</option>
+      </select>
 
-  <script src="./script.js"></script>
+      <div id="playerInputs">
+        <input type="text" placeholder="プレイヤー名"/>
+        <input type="text" placeholder="プレイヤー名"/>
+        <input type="text" placeholder="プレイヤー名"/>
+      </div>
+      <button onclick="addPlayer()">プレイヤー追加</button>
+      <button onclick="removePlayer()">プレイヤー削除</button>
+      <button onclick="startGame()">ゲーム開始</button>
+    </div>
+
+    <div class="hidden" id="mimicScreen">
+      <h2 id="currentPlayerName"></h2>
+      <p>お題：<span id="mimicTopic"></span></p>
+      <p>縛り：<span id="challengeText"></span></p>
+      <p>残り時間：<span id="timer">30</span>秒</p>
+      <button onclick="nextPlayer()">モノマネ完了！次へ</button>
+    </div>
+
+    <div class="hidden" id="voteScreen">
+      <h2>誰が一番うまかった？</h2>
+      <div id="voteSection"></div>
+    </div>
+
+    <div class="hidden" id="resultScreen">
+      <h2>結果発表！</h2>
+      <p id="winnerText"></p>
+      <h3>プレイ履歴</h3>
+      <ul id="historyLog"></ul>
+      <button onclick="location.reload()">もう一度プレイ</button>
+    </div>
+
+    <!-- SNSシェア -->
+    <div class="share-buttons" style="text-align:center; margin-top:30px;">
+      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=モノマネで盛り上がろう！%20%23飲み会ゲーム" target="_blank" rel="noopener">
+        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+      </a>
+      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank" rel="noopener">
+        <button><i class="fab fa-line"></i> LINEでシェア</button>
+      </a>
+    </div>
+
+    <!-- 広告下 -->
+    <div style="text-align:center; margin-top:40px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1643561503893272"
+           data-ad-slot="0987654321"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <footer style="text-align:center; margin-top:40px; font-size:0.9em;">
+      <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
+      <p>&copy; 2025 飲み会アプリプロジェクト</p>
+    </footer>
+  </div>
 </body>
 </html>
