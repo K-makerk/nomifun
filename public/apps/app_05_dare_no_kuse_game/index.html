@@ -2,106 +2,149 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>App05 : 誰のクセゲーム</title>
-  <meta name="description" content="みんなの暴露話から誰のクセかを当てる推理ゲーム！モード選択で遊び方いろいろ。飲み会・パーティー・イベントで盛り上がろう！" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App05：誰のクセゲーム</title>
+  <meta name="description" content="全員の暴露話から誰のクセかを当てる推理ゲーム！モード選択で何度でも楽しめる。飲み会・パーティー・合コン向け無料Webアプリ。" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script defer src="script.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>App05 : 誰のクセゲーム</h1>
+  <!-- Ad 上部 -->
+  <div style="text-align:center; margin: 10px 0;">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-1643561503893272"
+      data-ad-slot="1234567890"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-    <section class="description-section">
-      <h2><i class="fas fa-user-secret"></i> このゲームって？</h2>
-      <p>全員が匿名でクセ（暴露）を投稿！そのクセが誰のものかを当てる推理ゲームです。<br>モードによって遊び方が変わり、複数回プレイしても楽しめます！</p>
-    </section>
-
-    <section id="setup">
-      <h2><i class="fas fa-users"></i> プレイヤー登録</h2>
-      <div id="playerInputs"></div>
-      <button onclick="addPlayerInput()">＋ プレイヤー追加</button>
-      <button onclick="removePlayerInput()">− プレイヤー削除</button>
-      <p>モード選択:</p>
-      <label><input type="radio" name="gameMode" value="1" checked /> モード1: 話し合いで1人当てる</label>
-      <label><input type="radio" name="gameMode" value="2" /> モード2: 全員のクセを誰のものか当てる</label>
-      <label><input type="radio" name="gameMode" value="3" /> モード3: ランダムで何回も当てる</label>
-      <button onclick="confirmPlayers()">ゲーム開始</button>
-    </section>
-
-    <section id="individualInputPhase" class="hidden">
-      <h2><i class="fas fa-pen"></i> 暴露タイム</h2>
-      <p><span id="currentPlayerName"></span>さん、こっそりあなたのクセを入力してください：</p>
-      <input type="text" id="individualHabitInput" placeholder="例：寝るとき左を向かないと眠れない" />
-      <button onclick="submitIndividualHabit()">送信</button>
-    </section>
-
-    <section id="guessPhase1" class="hidden">
-      <h2><i class="fas fa-eye"></i> 話し合い推理（モード1）</h2>
-      <p>このクセは誰？ → <strong id="revealedHabit"></strong></p>
-      <select id="groupGuessSelect"></select>
-      <button onclick="submitVoteMode1()">回答する</button>
-    </section>
-
-    <section id="guessPhase2" class="hidden">
-      <h2><i class="fas fa-comments"></i> 全員推理（モード2）</h2>
-      <form id="guessForm2"></form>
-      <button onclick="submitVoteMode2()">全員の予想を送信</button>
-    </section>
-
-    <section id="guessPhase3" class="hidden">
-      <h2><i class="fas fa-redo"></i> 繰り返し推理（モード3）</h2>
-      <p><span id="currentHabitIndex"></span>/<span id="totalHabits"></span>：<strong id="currentHabitText"></strong></p>
-      <select id="groupGuessRepeat"></select>
-      <button onclick="submitVoteMode3()">送信</button>
-    </section>
-
-    <section id="resultPhase" class="hidden">
-      <h2><i class="fas fa-flag-checkered"></i> 結果</h2>
-      <div id="resultDetails"></div>
-      <button onclick="revealAnswers()">答えを表示する</button>
-    </section>
-
-    <section id="finalResult" class="hidden">
-      <h2><i class="fas fa-lightbulb"></i> 答え合わせ</h2>
-      <ul id="revealList"></ul>
-      <div id="answerLog"></div>
-      <button onclick="location.reload()">もう一度遊ぶ</button>
-    </section>
-
-    <div class="share-buttons" style="text-align:center; margin-top:20px;">
-      <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=誰のクセか当てられる？推理パーティーゲーム！%20%23飲み会ゲーム" target="_blank">
-        <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
-      </a>
-      <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
-        <button><i class="fab fa-line"></i> LINEでシェア</button>
-      </a>
-    </div>
-
-    <div style="text-align:center; margin:20px 0;">
-      <label for="bgmSelect">BGM：</label>
-      <select id="bgmSelect" onchange="document.getElementById('bgm').src = this.value">
-        <option value="bgm1.mp3">明るめBGM</option>
-        <option value="bgm2.mp3">ゆったりBGM</option>
-        <option value="bgm3.mp3">ドキドキBGM</option>
-      </select>
+  <div class="container card-ui">
+    <header class="card-header">
+      <h1>App05：誰のクセゲーム</h1>
+      <p>みんなのクセを推理しよう！匿名暴露＆当てっこモードで盛り上がる！</p>
+      <div class="controls">
+        <button onclick="toggleBGM()">🔊 BGM切替</button>
+        <button onclick="captureAndDownload()">📸 保存</button>
+      </div>
       <audio id="bgm" src="bgm1.mp3" loop autoplay></audio>
-    </div>
+    </header>
 
-    <div style="text-align:center;">
-      <button onclick="captureAndDownload()"><i class="fas fa-camera"></i> 結果画像を保存</button>
-      <canvas id="captureCanvas" class="hidden"></canvas>
-      <img src="logo.png" id="logo" class="hidden" />
-      <img src="qr.png" id="qr" class="hidden" />
-    </div>
+    <main>
+      <section class="card-section">
+        <h2><i class="fas fa-info-circle"></i> このゲームって？</h2>
+        <p>全員が匿名でクセ（暴露）を投稿！そのクセが誰のものかを当てる推理ゲームです。モードによって遊び方が変わり、何度でも楽しめます。</p>
+      </section>
 
-    <footer>
+      <section class="card-section">
+        <h2><i class="fas fa-gamepad"></i> 遊び方＆ルール</h2>
+        <ul>
+          <li>プレイヤーを登録してゲームモードを選択</li>
+          <li>匿名でクセを入力（例：お風呂は右足から入る）</li>
+          <li>クセが表示されたら話し合いや推理で「誰のクセか」を当てる</li>
+          <li>当てられたら負け！逃げ切れたら勝ち！</li>
+        </ul>
+      </section>
+
+      <section id="setup" class="card-section">
+        <h2>プレイヤー登録</h2>
+        <div id="playerInputs"></div>
+        <div class="btn-row">
+          <button onclick="addPlayerInput()">＋ プレイヤー追加</button>
+          <button onclick="removePlayerInput()">− プレイヤー削除</button>
+        </div>
+        <p>モード選択：</p>
+        <label><input type="radio" name="gameMode" value="1" checked /> モード1：話し合いで1人を当てる</label><br>
+        <label><input type="radio" name="gameMode" value="2" /> モード2：全員分を当てる</label><br>
+        <label><input type="radio" name="gameMode" value="3" /> モード3：ランダム出題で複数回</label><br>
+        <button onclick="confirmPlayers()">🎲 ゲーム開始</button>
+      </section>
+
+      <section id="individualInputPhase" class="card-section hidden">
+        <h2>暴露タイム</h2>
+        <p><span id="currentPlayerName"></span>さん、あなたのクセを入力してください：</p>
+        <input type="text" id="individualHabitInput" placeholder="例：エレベーターでは必ず端に立つ" />
+        <button onclick="submitIndividualHabit()">送信</button>
+      </section>
+
+      <section id="guessPhase1" class="card-section hidden">
+        <h2>話し合い推理（モード1）</h2>
+        <p>このクセは誰？ → <strong id="revealedHabit"></strong></p>
+        <select id="groupGuessSelect"></select>
+        <button onclick="submitVoteMode1()">回答する</button>
+      </section>
+
+      <section id="guessPhase2" class="card-section hidden">
+        <h2>全員推理（モード2）</h2>
+        <form id="guessForm2"></form>
+        <button onclick="submitVoteMode2()">全員の予想を送信</button>
+      </section>
+
+      <section id="guessPhase3" class="card-section hidden">
+        <h2>繰り返し推理（モード3）</h2>
+        <p><span id="currentHabitIndex"></span>/<span id="totalHabits"></span>：<strong id="currentHabitText"></strong></p>
+        <select id="groupGuessRepeat"></select>
+        <button onclick="submitVoteMode3()">送信</button>
+      </section>
+
+      <section id="resultPhase" class="card-section hidden">
+        <h2>結果</h2>
+        <div id="resultDetails"></div>
+        <button onclick="revealAnswers()">答えを表示する</button>
+      </section>
+
+      <section id="finalResult" class="card-section hidden">
+        <h2>答え合わせ</h2>
+        <ul id="revealList"></ul>
+        <div id="answerLog"></div>
+        <button onclick="location.reload()">もう一度遊ぶ</button>
+      </section>
+
+      <div class="card-section" style="text-align:center; margin-top:20px;">
+        <a href="https://twitter.com/intent/tweet?url=https://nomifun-ks-projects-89966063.vercel.app/&text=誰のクセか当てられる？推理パーティーゲーム！%20%23飲み会ゲーム" target="_blank">
+          <button><i class="fab fa-x-twitter"></i> Xでシェア</button>
+        </a>
+        <a href="https://social-plugins.line.me/lineit/share?url=https://nomifun-ks-projects-89966063.vercel.app/" target="_blank">
+          <button><i class="fab fa-line"></i> LINEでシェア</button>
+        </a>
+      </div>
+
+      <div style="text-align:center; margin:20px 0;">
+        <label for="bgmSelect">BGM：</label>
+        <select id="bgmSelect" onchange="document.getElementById('bgm').src = this.value">
+          <option value="bgm1.mp3">明るめBGM</option>
+          <option value="bgm2.mp3">ゆったりBGM</option>
+          <option value="bgm3.mp3">ドキドキBGM</option>
+        </select>
+      </div>
+
+      <div style="text-align:center;">
+        <button onclick="captureAndDownload()"><i class="fas fa-camera"></i> 結果画像を保存</button>
+        <canvas id="captureCanvas" class="hidden"></canvas>
+        <img src="logo.png" id="logo" class="hidden" />
+        <img src="qr.png" id="qr" class="hidden" />
+      </div>
+    </main>
+
+    <footer class="card-footer">
       <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
       <p>&copy; 2025 飲み会アプリプロジェクト</p>
     </footer>
+  </div>
+
+  <!-- Ad 下部 -->
+  <div style="text-align:center; margin: 20px 0;">
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-1643561503893272"
+      data-ad-slot="1234567890"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
   <script>
@@ -118,6 +161,11 @@
         link.href = canvas.toDataURL();
         link.click();
       });
+    }
+
+    function toggleBGM() {
+      const bgm = document.getElementById("bgm");
+      bgm.paused ? bgm.play() : bgm.pause();
     }
   </script>
 </body>
