@@ -12,7 +12,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- ロゴ＆上部広告 -->
+  <!-- ヘッダー＆上部広告 -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
     <div class="ad-box">
@@ -21,7 +21,7 @@
     </div>
   </header>
 
-  <!-- ゲーム紹介 -->
+  <!-- ゲーム概要 -->
   <section class="card">
     <h1>App01：ジェスチャーゲーム</h1>
     <p>お題をジェスチャーだけで伝えよう！スマホ1つですぐに遊べる、盛り上がり必至の飲み会定番ゲームです。</p>
@@ -43,12 +43,12 @@
     </ul>
   </section>
 
-  <!-- イラスト（未提供） -->
+  <!-- アニメイラストスペース -->
   <section class="card" style="text-align:center;">
     <img src="/images/illustration_01.png" alt="アニメ調イラスト（未実装）" style="max-width:90%; margin:10px 0;">
   </section>
 
-  <!-- 設定画面 -->
+  <!-- ゲーム設定 -->
   <main class="container">
     <section id="setupScreen" class="card">
       <h2>プレイヤー設定</h2>
@@ -86,7 +86,7 @@
       <input type="number" id="gameCount" value="3" min="1">
 
       <label>BGM：</label>
-      <select id="bgmSelect">
+      <select id="bgmSelect" onchange="changeBGM()">
         <option value="none">なし</option>
         <option value="cafe">カフェ風</option>
         <option value="anime">アニメ風</option>
@@ -97,7 +97,7 @@
       <button onclick="setupGame()">ゲーム開始</button>
     </section>
 
-    <!-- ゲームエリア -->
+    <!-- ゲーム画面 -->
     <section id="gameArea" class="card" style="display:none;">
       <h2 id="instructionText">準備中...</h2>
       <p id="currentPlayerDisplay"></p>
@@ -121,17 +121,17 @@
       <p>ラウンド <span id="roundNum">1</span> / <span id="totalRounds">3</span></p>
     </section>
 
-    <!-- スコア表示 -->
+    <!-- 結果表示 -->
     <section id="scoreDisplay" class="card" style="display:none;">
       <h2>🎉 結果発表 🎉</h2>
       <ul id="scoreBoard"></ul>
       <p id="mvpDisplay"></p>
-      <button onclick="saveResultImage()">結果を画像保存</button>
+      <button onclick="saveResultImage()">📷 結果を画像保存</button>
       <button onclick="returnToTitle()">タイトルに戻る</button>
     </section>
   </main>
 
-  <!-- 画像保存＆SNS -->
+  <!-- SNS共有＆画像保存 -->
   <section class="card" style="text-align:center;">
     <button onclick="saveResultImage()">📷 画像保存</button>
     <div class="share-buttons">
@@ -155,5 +155,29 @@
 
   <!-- スクリプト -->
   <script src="script.js"></script>
+  <script>
+    function changeBGM() {
+      const bgm = document.getElementById('bgm');
+      const selection = document.getElementById('bgmSelect').value;
+      const sources = {
+        none: '',
+        cafe: '/audio/bgm_cafe.mp3',
+        anime: '/audio/bgm_anime.mp3',
+        party: '/audio/bgm_party.mp3'
+      };
+      bgm.src = sources[selection];
+      if (selection !== 'none') bgm.play();
+    }
+
+    function updateShareLinks() {
+      const title = "App01 ジェスチャーゲーム";
+      const text = "このアプリで遊んでみよう！";
+      const url = encodeURIComponent(location.href);
+      document.getElementById('shareX').href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+      document.getElementById('shareLINE').href = `https://social-plugins.line.me/lineit/share?url=${url}`;
+    }
+
+    window.onload = updateShareLinks;
+  </script>
 </body>
 </html>
