@@ -12,7 +12,6 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- ヘッダー＆上部広告 -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
     <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
@@ -22,38 +21,30 @@
     </div>
   </header>
 
-  <!-- ゲーム概要 -->
   <section class="card">
     <h1>App04：ワードチェインバトル</h1>
     <p>テーマ縛りでしりとり！緊張感と笑いのしりとりバトル。</p>
-        <h3>💡 このゲームの魅力と活用シーン</h3>
-<p>通常のしりとりと違って、「テーマ縛り」＋「制限時間」のルールがあることで、頭の回転と瞬発力が求められます。例えば「食べ物」縛りで“たまご → ごはん → ん…”と続いたとき、「ん」で負けないように工夫したり、マイナーな単語を使う戦略性も出てきます。</p>
-<p>飲み会で定番のしりとりに新たなスパイスを加えたこのゲームは、誰でも知っているルールだからこそすぐに遊べて、しかもスリルがある。家族・学生・社会人など、年齢層問わず盛り上がります。</p>
-<p>また、テンポよく交代していく構成なので、待ち時間が少なくテンポも抜群。アイスブレイクやチームビルディングにもおすすめです！</p>
+    <h3>💡 このゲームの魅力と活用シーン</h3>
+    <p>通常のしりとりと違って「テーマ縛り」＋「制限時間」のルールで、頭の回転と瞬発力が試される！</p>
+    <p>テーマに沿った単語を順に言っていこう。時間超過やルール違反で即脱落！</p>
+    <p>家族・学生・社会人問わず盛り上がれる、最強のしりとりゲーム！</p>
     <img src="/images/icons/app04.jpg" alt="ワードチェインバトルイメージ" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
-  <!-- ゲーム説明 -->
   <section class="card">
     <h2>🧠 このゲームって？</h2>
-    <p>出されたテーマに沿った単語を、<strong>制限時間内に「しりとり」</strong>で出していくゲームです。</p>
-    <p>回答がテーマ外だったり、時間を超えると<strong>その場で脱落！</strong></p>
-    <p>笑いと緊張のせめぎ合い。盛り上がり必至のバトルゲーム！</p>
-    
+    <p>出されたテーマに沿って<strong>しりとり</strong>をします。制限時間は<strong>20秒</strong>。</p>
+    <p>繰り返し・テーマ外・「ん」で終わる単語は禁止。</p>
     <h3>📝 遊び方＆ルール</h3>
     <ul>
-      <li>最低2人以上で交互に回答します</li>
-      <li>テーマは「食べ物」「動物」「地名」などから選択</li>
-      <li><strong>20秒以内</strong>に次の単語を言えなければ脱落</li>
-      <li>テーマ外や繰り返し単語はNG</li>
-      <li>最後まで残った人が勝利！</li>
+      <li>2人以上で交互に回答</li>
+      <li>テーマは「食べ物」「動物」「地名」から選択</li>
+      <li>制限時間20秒以内に単語を入力</li>
+      <li>NGワードで脱落！最後まで残った人が勝利</li>
     </ul>
-
   </section>
 
-  <!-- ゲーム本体 -->
   <main class="container">
-    <!-- BGM -->
     <section class="card">
       <label>BGM：</label>
       <select id="bgmSelect" onchange="changeBGM()">
@@ -65,7 +56,6 @@
       <audio id="bgm" loop autoplay></audio>
     </section>
 
-    <!-- セットアップ -->
     <section class="card" id="setup">
       <label>プレイヤー名を入力（2人以上）:</label>
       <div id="playerInputs">
@@ -83,8 +73,8 @@
       <button onclick="confirmPlayers()">ゲーム開始</button>
     </section>
 
-    <!-- ゲーム中 -->
-    <section class="card hidden" id="game">
+    <section class="card" id="game" style="display:none;">
+      <h2>🎮 ゲーム中</h2>
       <div id="themeDisplay"></div>
       <div id="turnDisplay"></div>
       <input id="wordInput" type="text" placeholder="単語を入力（ひらがな）" />
@@ -93,20 +83,17 @@
       <div id="timer">残り時間: <span id="timeLeft"></span>秒</div>
     </section>
 
-    <!-- 結果表示 -->
-    <section class="card hidden" id="result">
+    <section class="card" id="result" style="display:none;">
       <h2 id="winnerMessage"></h2>
       <button onclick="location.reload()">もう一度遊ぶ</button>
     </section>
 
-    <!-- 中部広告 -->
     <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- SNS共有＆画像保存 -->
     <section class="card" style="text-align:center;">
       <button onclick="saveResultImage()">📷 画像保存</button>
       <div class="share-buttons">
@@ -116,33 +103,30 @@
     </section>
   </main>
 
-  <!-- 下部広告 -->
   <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
   <div class="ad-box">
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- フッター -->
   <footer>
     <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
-  <!-- スクリプト -->
   <script>
     function changeBGM() {
       const bgm = document.getElementById('bgm');
-      const selected = document.getElementById('bgmSelect').value;
+      const selection = document.getElementById('bgmSelect').value;
       const sources = {
         none: '',
         cafe: '/audio/bgm_cafe.mp3',
         anime: '/audio/bgm_anime.mp3',
         party: '/audio/bgm_party.mp3'
       };
-      bgm.src = sources[selected];
-      if (selected !== 'none') bgm.play();
+      bgm.src = sources[selection];
+      if (selection !== 'none') bgm.play();
     }
 
     function saveResultImage() {
@@ -176,6 +160,6 @@
 
     window.onload = updateShareLinks;
   </script>
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
