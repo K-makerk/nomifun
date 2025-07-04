@@ -2,12 +2,12 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>App10 クイックリアクション | 飲み会Webアプリ</title>
   <meta name="description" content="合図「Go!」に誰よりも早く反応しよう！飲み会で盛り上がる反射神経ゲーム。スマホ1つでプレイ可能。" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
@@ -31,21 +31,21 @@
 
     <section class="card">
       <h2>📘 このゲームって？</h2>
-      <p>表示される「Go!」の合図に、誰よりも素早くクリックしよう！</p>
+      <p>「Go!」という合図に最速で反応しよう！遅れたら負け！</p>
     </section>
 
     <section class="card">
       <h2>🎮 遊び方＆ルール</h2>
       <ul>
-        <li>「スタート」ボタンを押して開始</li>
-        <li>画面が「Go!」に変わるのを待つ</li>
-        <li>フライングすると失格扱い</li>
-        <li>最も早くクリックできた人が勝利！</li>
+        <li>「スタート」ボタンでゲーム開始</li>
+        <li>合図「Go!」が出るまで待つ</li>
+        <li>フライングは失格</li>
+        <li>最速でクリックした人が勝利！</li>
       </ul>
     </section>
 
     <section class="card">
-      <h2>🕹️ ゲーム画面</h2>
+      <h2>🕹️ ゲームプレイ</h2>
       <div class="game-area">
         <button id="startButton">ゲーム開始</button>
         <div id="message">スタートを押してください</div>
@@ -101,7 +101,6 @@
       message.textContent = "準備して...";
       startButton.disabled = true;
       clearTimeout(timeoutId);
-
       timeoutId = setTimeout(() => {
         message.textContent = "Go!";
         startTime = new Date().getTime();
