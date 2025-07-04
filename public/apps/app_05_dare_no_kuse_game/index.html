@@ -5,14 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>App05 誰のクセゲーム | 飲み会Webアプリ</title>
   <meta name="description" content="全員の暴露話から誰のクセかを当てる推理ゲーム！モード選択で何度でも楽しめる。飲み会・パーティー・合コン向け無料Webアプリ。">
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <style>
+    body { margin: 0; font-family: "Hiragino Kaku Gothic ProN", sans-serif; background: #fff0f5; }
+    header { text-align: center; padding: 20px; background-color: #ffe4e1; border-bottom: 2px solid #e91e63; }
+    h1 { margin: 0; font-size: 1.8rem; color: #880e4f; }
+    .container { padding: 20px; max-width: 720px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, select, button { width: 100%; padding: 10px; font-size: 1rem; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; }
+    button { background-color: #f06292; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #ec407a; }
+    .select-area { display: flex; flex-direction: column; gap: 0.5em; }
+    .card { background-color: #fff8e1; border: 2px dashed #f48fb1; padding: 15px; margin: 15px 0; border-radius: 12px; text-align: center; }
+    .ad-box { margin: 20px 0; text-align: center; }
+    .share-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
+    .icon { width: 40px; height: 40px; }
+    footer { text-align: center; font-size: 0.9em; color: #666; margin: 30px 0; }
+    footer a { color: #880e4f; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 600px) { input, button, select { font-size: 1em; } }
+  </style>
 </head>
 <body>
-  <!-- ヘッダー＆上部広告 -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
     <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
@@ -22,142 +38,101 @@
     </div>
   </header>
 
-  <!-- ゲーム紹介 -->
   <section class="card">
     <h1>App05：誰のクセゲーム</h1>
     <p>みんなのクセを推理しよう！匿名暴露＆当てっこモードで盛り上がる！</p>
     <h3>💡 盛り上がるポイントと応用ルール</h3>
-<p>このゲームの最大の魅力は、「誰がどのクセを書いたのか」を探るドキドキ感と、その後の会話の広がりです。「それ私じゃないのに！」と否定されたり、「バレた…！」と恥ずかしがる場面など、予想外のリアクションが盛り上がりを生みます。</p>
-<p>また、話し合いの中でプレイヤー同士の性格や行動傾向が浮き彫りになることもあり、互いのことを深く知るきっかけにもなります。友人関係はもちろん、初対面の相手との距離も自然と縮まる設計です。</p>
-<p>応用ルールとして「クセではなく秘密に変える」「NGワード暴露」などにすればバリエーションも増えます。飲み会や合コン、修学旅行の夜にもピッタリのトーク系推理ゲームです。</p>
-
+    <p>ドキドキの暴露と予想で笑いが絶えない！モード選択で何度でも楽しめます。</p>
     <img src="/images/icons/app05.jpg" alt="誰のクセゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
-  <!-- ゲーム説明 -->
   <section class="card">
     <h2>🧠 このゲームって？</h2>
-    <p>全員が匿名でクセ（暴露）を投稿！そのクセが誰のものかを当てる推理ゲームです。<br>モードによって遊び方が変わり、何度でも楽しめます。</p>
-
+    <p>全員が匿名でクセ（暴露）を投稿！そのクセが誰のものかを当てる推理ゲームです。</p>
     <h3>📝 遊び方＆ルール</h3>
     <ul>
-      <li>プレイヤーを登録してゲームモードを選択</li>
-      <li>匿名でクセを入力（例：お風呂は右足から入る）</li>
-      <li>クセが表示されたら話し合いや推理で「誰のクセか」を当てる</li>
-      <li>当てられたら負け！逃げ切れたら勝ち！</li>
+      <li>プレイヤーを登録してモードを選択</li>
+      <li>匿名でクセを入力（例：夜トイレに3回行く）</li>
+      <li>誰のクセかを推理して当てよう！</li>
     </ul>
   </section>
 
-  <!-- BGM -->
-  <section class="card">
-    <label>BGM：</label>
-    <select id="bgmSelect" onchange="changeBGM()">
-      <option value="none">なし</option>
-      <option value="cafe">カフェ風</option>
-      <option value="anime">アニメ風</option>
-      <option value="party">パーティー風</option>
-    </select>
-    <audio id="bgm" loop autoplay></audio>
-  </section>
-
-  <!-- ゲーム本体 -->
   <main class="container">
+    <section class="card">
+      <label>BGM：</label>
+      <select id="bgmSelect" onchange="changeBGM()">
+        <option value="none">なし</option>
+        <option value="cafe">カフェ風</option>
+        <option value="anime">アニメ風</option>
+        <option value="party">パーティー風</option>
+      </select>
+      <audio id="bgm" loop autoplay></audio>
+    </section>
+
     <section class="card" id="setup">
       <h2>プレイヤー登録</h2>
       <div id="playerInputs"></div>
       <button onclick="addPlayerInput()">＋ プレイヤー追加</button>
       <button onclick="removePlayerInput()">− プレイヤー削除</button>
-      <p>モード選択：</p>
+      <label>モード選択：</label>
       <label><input type="radio" name="gameMode" value="1" checked /> モード1：話し合いで1人を当てる</label><br>
       <label><input type="radio" name="gameMode" value="2" /> モード2：全員分を当てる</label><br>
-      <label><input type="radio" name="gameMode" value="3" /> モード3：ランダム出題で複数回</label><br>
+      <label><input type="radio" name="gameMode" value="3" /> モード3：ランダム出題</label><br>
       <button onclick="confirmPlayers()">🎲 ゲーム開始</button>
     </section>
 
-    <section class="card hidden" id="individualInputPhase">
-      <h2>暴露タイム</h2>
-      <p><span id="currentPlayerName"></span>さん、あなたのクセを入力してください：</p>
-      <input type="text" id="individualHabitInput" placeholder="例：エレベーターでは必ず端に立つ" />
-      <button onclick="submitIndividualHabit()">送信</button>
-    </section>
-
-    <section class="card hidden" id="guessPhase1">
-      <h2>話し合い推理（モード1）</h2>
-      <p>このクセは誰？ → <strong id="revealedHabit"></strong></p>
-      <select id="groupGuessSelect"></select>
-      <button onclick="submitVoteMode1()">回答する</button>
-    </section>
-
-    <section class="card hidden" id="guessPhase2">
-      <h2>全員推理（モード2）</h2>
-      <form id="guessForm2"></form>
-      <button onclick="submitVoteMode2()">全員の予想を送信</button>
-    </section>
-
-    <section class="card hidden" id="guessPhase3">
-      <h2>繰り返し推理（モード3）</h2>
-      <p><span id="currentHabitIndex"></span>/<span id="totalHabits"></span>：<strong id="currentHabitText"></strong></p>
-      <select id="groupGuessRepeat"></select>
-      <button onclick="submitVoteMode3()">送信</button>
-    </section>
-
-    <section class="card hidden" id="resultPhase">
+    <section class="card" id="resultPhase" style="display:none;">
       <h2>結果</h2>
       <div id="resultDetails"></div>
       <button onclick="revealAnswers()">答えを表示する</button>
     </section>
 
-    <section class="card hidden" id="finalResult">
+    <section class="card" id="finalResult" style="display:none;">
       <h2>答え合わせ</h2>
       <ul id="revealList"></ul>
       <div id="answerLog"></div>
       <button onclick="location.reload()">もう一度遊ぶ</button>
     </section>
 
-    <!-- 中部広告 -->
     <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- SNS共有＆画像保存 -->
     <section class="card" style="text-align:center;">
       <button onclick="saveResultImage()">📷 画像保存</button>
       <div class="share-buttons">
-        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
-        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
+        <a id="shareX" href="#"><img src="/images/icons/x_logo.png" class="icon" alt="Xでシェア"></a>
+        <a id="shareLINE" href="#"><img src="/images/icons/line_logo.png" class="icon" alt="LINEでシェア"></a>
       </div>
     </section>
   </main>
 
-  <!-- 下部広告 -->
   <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
   <div class="ad-box">
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- フッター -->
   <footer>
     <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
-  <!-- スクリプト -->
   <script>
     function changeBGM() {
       const bgm = document.getElementById('bgm');
-      const selected = document.getElementById('bgmSelect').value;
-      const files = {
+      const selection = document.getElementById('bgmSelect').value;
+      const sources = {
         none: '',
         cafe: '/audio/bgm_cafe.mp3',
         anime: '/audio/bgm_anime.mp3',
         party: '/audio/bgm_party.mp3'
       };
-      bgm.src = files[selected];
-      if (selected !== 'none') bgm.play();
+      bgm.src = sources[selection];
+      if (selection !== 'none') bgm.play();
     }
 
     function saveResultImage() {
@@ -191,6 +166,6 @@
 
     window.onload = updateShareLinks;
   </script>
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
