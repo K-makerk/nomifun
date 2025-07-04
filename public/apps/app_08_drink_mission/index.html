@@ -2,48 +2,47 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>App07 モノマネチャレンジ | 飲み会Webアプリ</title>
-  <meta name="description" content="お題をモノマネで表現！笑いを誘う即興チャレンジゲーム。縛りあり・なしが選べて盛り上がり抜群！" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App08 ドリンクミッション | 飲み会Webアプリ</title>
+  <meta name="description" content="お酒をもっと楽しく！ランダムに表示されるドリンク系ミッションで盛り上がろう。飲み会・合コン・イベントにぴったり！" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
     <img src="/images/logo.png" alt="ロゴ" class="logo" />
-    <p class="sponsor-label">スポンサーリンク</p>
-    <div class="ad-box">
-      <ins class="adsbygoogle"
-        style="display:block" data-ad-client="ca-pub-1643561503893272"
-        data-ad-slot="1111111111" data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
+    <div class="ad-section">
+      <p class="ad-label">スポンサーリンク</p>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </header>
 
-  <main class="container">
+  <main>
     <section class="card">
-      <h1>App07：モノマネチャレンジ</h1>
-      <p>笑って盛り上がる即興チャレンジゲーム！</p>
-      <img src="/images/icons/app07.jpg" alt="アイコン" class="icon-main" />
+      <h1>🍻 App08：ドリンクミッション</h1>
+      <h3>🎉 活用シーンとこのアプリの魅力</h3>
+      <p>ドリンクミッションは、ありきたりな飲み会を一気に盛り上げるための最強ツールです。…</p>
+      <img src="/images/icons/app08.jpg" alt="ドリンクミッション画像" class="main-image" />
+      <p>お酒をテーマにしたランダムミッションが盛り上がりの鍵！</p>
     </section>
 
     <section class="card">
-      <h2>🎮 このゲームって？</h2>
-      <p>「お題」と「縛り条件」でモノマネに挑戦！笑いと演技力でMVPを勝ち取れ！</p>
+      <h2>🧾 このゲームって？</h2>
+      <p>…説明文略…</p>
+      <h3>🎮 遊び方＆ルール</h3>
       <ul>
-        <li>お題カテゴリと縛りON/OFFを選択</li>
-        <li>プレイヤーを登録してスタート</li>
-        <li>1人ずつお題と縛りを表示 → モノマネ</li>
-        <li>全員で投票 → MVPを決定</li>
+        <li>「ミッション表示」ボタンを押す</li>
+        <li>表示されたお題にその場で従う</li>
+        <li>みんなで一緒に楽しみながら実行</li>
       </ul>
     </section>
 
     <section class="card">
-      <label>🎵 BGM：</label>
+      <h2>🎵 BGMを選ぼう</h2>
       <select id="bgmSelect" onchange="changeBGM()">
         <option value="none">なし</option>
         <option value="cafe">カフェ風</option>
@@ -53,67 +52,31 @@
       <audio id="bgm" loop autoplay></audio>
     </section>
 
-    <section class="card" id="setupScreen">
-      <h2>⚙️ ゲーム設定</h2>
-      <label>カテゴリ：</label>
-      <select id="categorySelect">
-        <option value="animal">動物</option>
-        <option value="celebrity">有名人</option>
-        <option value="anime">アニメ</option>
-        <option value="free">フリーテーマ</option>
-      </select>
-      <label>縛り：</label>
-      <select id="challengeSelect">
-        <option value="on">ON（縛りあり）</option>
-        <option value="off">OFF（縛りなし）</option>
-      </select>
-      <div id="playerInputs">
-        <input type="text" placeholder="プレイヤー名" />
-        <input type="text" placeholder="プレイヤー名" />
-        <input type="text" placeholder="プレイヤー名" />
-      </div>
-      <button onclick="addPlayer()">プレイヤー追加</button>
-      <button onclick="removePlayer()">プレイヤー削除</button>
-      <button onclick="startGame()">ゲーム開始</button>
-    </section>
-
-    <section class="card" id="mimicScreen" style="display:none;">
-      <h2 id="currentPlayerName">プレイヤー名</h2>
-      <p>お題：<span id="mimicTopic"></span></p>
-      <p>縛り：<span id="challengeText"></span></p>
-      <p>残り時間：<span id="timer">30</span>秒</p>
-      <button onclick="nextPlayer()">完了 → 次へ</button>
-    </section>
-
-    <section class="card" id="voteScreen" style="display:none;">
-      <h2>🗳️ 投票タイム</h2>
-      <div id="voteSection"></div>
-    </section>
-
-    <section class="card" id="resultScreen" style="display:none;">
-      <h2>🎉 結果発表 🎉</h2>
-      <p id="winnerText"></p>
-      <ul id="historyLog"></ul>
-      <button onclick="location.reload()">もう一度プレイ</button>
+    <section class="card">
+      <h2>🎯 ミッション表示</h2>
+      <button id="showMissionBtn">ミッションを表示！</button>
+      <div id="missionDisplay" class="result-box">ここにミッションが表示されます</div>
     </section>
 
     <section class="card">
-      <button onclick="saveResultImage()">📸 結果画像を保存</button>
+      <h2>📤 結果をシェアしよう</h2>
+      <button onclick="saveResultImage()">画像として保存</button>
       <div class="share-buttons">
-        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xシェア" class="icon" /></a>
-        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEシェア" class="icon" /></a>
+        <a id="shareX" href="#" target="_blank" aria-label="Xで共有"><i class="fa-brands fa-x-twitter"></i></a>
+        <a id="shareLINE" href="#" target="_blank" aria-label="LINEで共有"><i class="fa-brands fa-line"></i></a>
       </div>
     </section>
-  </main>
 
-  <div class="ad-box">
-    <p class="sponsor-label">スポンサーリンク</p>
-    <ins class="adsbygoogle"
-      style="display:block" data-ad-client="ca-pub-1643561503893272"
-      data-ad-slot="3333333333" data-ad-format="auto"
-      data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
+    <div class="ad-section">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="ad-section">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </main>
 
   <footer>
     <img src="/images/qrcode.png" alt="QRコード" class="qr" />
@@ -121,51 +84,6 @@
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
-  <script>
-    function changeBGM() {
-      const bgm = document.getElementById("bgm");
-      const val = document.getElementById("bgmSelect").value;
-      const bgms = {
-        none: "",
-        cafe: "/audio/bgm_cafe.mp3",
-        anime: "/audio/bgm_anime.mp3",
-        party: "/audio/bgm_party.mp3"
-      };
-      bgm.src = bgms[val];
-      if (val !== "none") bgm.play();
-    }
-
-    function saveResultImage() {
-      html2canvas(document.body).then(canvas => {
-        const ctx = canvas.getContext("2d");
-        const logo = new Image();
-        const qr = new Image();
-        let loaded = 0;
-        logo.src = "/images/logo.png";
-        qr.src = "/images/qrcode.png";
-        logo.onload = qr.onload = () => {
-          if (++loaded === 2) {
-            ctx.drawImage(logo, 20, 20, 100, 40);
-            ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
-            const link = document.createElement("a");
-            link.download = "monomane_result.png";
-            link.href = canvas.toDataURL();
-            link.click();
-          }
-        };
-      });
-    }
-
-    function updateShareLinks() {
-      const url = encodeURIComponent(location.href);
-      const title = "App07 モノマネチャレンジ";
-      const text = "このアプリで遊んでみよう！";
-      document.getElementById("shareX").href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
-      document.getElementById("shareLINE").href = `https://social-plugins.line.me/lineit/share?url=${url}`;
-    }
-
-    window.onload = updateShareLinks;
-  </script>
   <script src="script.js" defer></script>
 </body>
 </html>
