@@ -5,77 +5,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>App07 モノマネチャレンジ | 飲み会Webアプリ</title>
   <meta name="description" content="お題をモノマネで表現！チームや全員で笑える飲み会向けチャレンジゲーム。ランダム縛り付きも選べます。" />
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+      background: #fff0f5;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffe4e1;
+      border-bottom: 2px solid #e91e63;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #880e4f;
+    }
+    .container {
+      padding: 20px;
+      max-width: 720px;
+      margin: auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #f06292;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ec407a;
+    }
+    .card {
+      background-color: #fff8e1;
+      border: 2px dashed #f48fb1;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .ad-box {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .icon {
+      width: 40px;
+      height: 40px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+      margin: 30px 0;
+    }
+    footer a {
+      color: #880e4f;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      input, button, select {
+        font-size: 1em;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- ヘッダー＆上部広告 -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
-    <p style="font-size: 0.8em; color: #888; text-align:center;">スポンサーリンク</p>
+    <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
     <div class="ad-box">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272"
+        data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </header>
 
-  <!-- 概要 -->
   <section class="card">
     <h1>App07：モノマネチャレンジ</h1>
     <p>ランダムなお題＆縛りでモノマネ披露！笑いと拍手を巻き起こせ！</p>
     <h3>🎭 活用シーン・このアプリの魅力</h3>
-<p>モノマネチャレンジは、普段おとなしい人も意外な一面を披露できる「笑いの場づくり」に最適なアプリです。お題と縛りのランダム性により、演技にバリエーションが生まれ、毎回異なる展開になるのが特徴です。チーム対抗でも個人戦でも応用が利き、カラオケ・合コン・オンライン飲み会など、幅広い場面で使用可能です。</p>
-<p>さらに、得点をつけたり、MVPを決めたりすることでゲーム性が高まり、参加者同士の交流が深まります。履歴表示機能や画像保存機能により、思い出を残すこともでき、SNSへの投稿でその場の盛り上がりをシェアすることも可能です。</p>
-<p>モノマネの完成度を競うのではなく、「場を盛り上げようとする心意気」を評価することで、誰でも気軽に挑戦できます。盛り上がり保証の本アプリを、次の飲み会でぜひ活用してみてください！</p>
-
+    <p>モノマネの完成度より「心意気」で勝負！誰でも盛り上がれる安心設計。</p>
     <img src="/images/icons/app07.jpg" alt="モノマネチャレンジ" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
-  <!-- 説明 -->
   <section class="card">
     <h2>🎮 このゲームって？</h2>
-    <p>「お題」と「縛り」をランダムで組み合わせてモノマネを披露する、チームでも個人でも盛り上がれる爆笑系ゲームです。</p>
+    <p>「お題」と「縛り」を組み合わせて即興モノマネ！即興力＆笑いが鍵！</p>
     <h3>📋 遊び方＆ルール</h3>
     <ul>
-      <li>カテゴリと縛りを選んでプレイヤーを追加</li>
-      <li>順番にお題＆縛りが表示されるのでモノマネを実演</li>
-      <li>最後に全員で投票 → MVPを決定</li>
+      <li>カテゴリと縛りを選んでプレイヤーを入力</li>
+      <li>順にお題＋縛りが表示 → モノマネ披露</li>
+      <li>全員で投票 → MVP決定</li>
     </ul>
   </section>
 
-  <!-- BGM選択 -->
-  <section class="card">
-    <label>🎵 BGM：</label>
-    <select id="bgmSelect" onchange="changeBGM()">
-      <option value="none">なし</option>
-      <option value="cafe">カフェ風</option>
-      <option value="anime">アニメ風</option>
-      <option value="party">パーティー風</option>
-    </select>
-    <audio id="bgm" loop autoplay></audio>
-  </section>
-
-  <!-- ゲーム設定 -->
   <main class="container">
+    <section class="card">
+      <label>🎵 BGM：</label>
+      <select id="bgmSelect" onchange="changeBGM()">
+        <option value="none">なし</option>
+        <option value="cafe">カフェ風</option>
+        <option value="anime">アニメ風</option>
+        <option value="party">パーティー風</option>
+      </select>
+      <audio id="bgm" loop autoplay></audio>
+    </section>
+
     <section class="card" id="setupScreen">
       <h2>⚙️ ゲーム設定</h2>
-      <label>カテゴリ選択：</label>
+      <label>カテゴリ：</label>
       <select id="categorySelect">
         <option value="animal">動物</option>
         <option value="celebrity">有名人</option>
         <option value="anime">アニメ</option>
         <option value="free">フリーテーマ</option>
       </select>
-
-      <label>チャレンジ縛り：</label>
+      <label>縛り：</label>
       <select id="challengeSelect">
         <option value="on">ON（ランダム縛りあり）</option>
         <option value="off">OFF（縛りなし）</option>
       </select>
-
       <div id="playerInputs">
         <input type="text" placeholder="プレイヤー名" />
         <input type="text" placeholder="プレイヤー名" />
@@ -86,7 +160,6 @@
       <button onclick="startGame()">ゲーム開始</button>
     </section>
 
-    <!-- モノマネ画面 -->
     <section class="card" id="mimicScreen" style="display:none;">
       <h2 id="currentPlayerName">プレイヤー名</h2>
       <p>お題：<span id="mimicTopic"></span></p>
@@ -95,13 +168,11 @@
       <button onclick="nextPlayer()">モノマネ完了！次へ</button>
     </section>
 
-    <!-- 投票画面 -->
     <section class="card" id="voteScreen" style="display:none;">
-      <h2>投票タイム</h2>
+      <h2>🗳️ 投票タイム</h2>
       <div id="voteSection"></div>
     </section>
 
-    <!-- 結果画面 -->
     <section class="card" id="resultScreen" style="display:none;">
       <h2>🎉 結果発表 🎉</h2>
       <p id="winnerText"></p>
@@ -109,36 +180,29 @@
       <ul id="historyLog"></ul>
       <button onclick="location.reload()">もう一度プレイ</button>
     </section>
+
+    <section class="card" style="text-align:center;">
+      <button onclick="saveResultImage()">📸 結果画像を保存</button>
+      <div class="share-buttons">
+        <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
+        <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
+      </div>
+    </section>
   </main>
 
-  <!-- 画像保存＆共有 -->
-  <section class="card" style="text-align:center;">
-    <button onclick="saveResultImage()">📸 結果画像を保存</button>
-    <div class="share-buttons">
-      <p>結果をシェア：</p>
-      <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
-      <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
-    </div>
-  </section>
-
-  <!-- 中部広告 -->
+  <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
   <div class="ad-box">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272"
+      data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- 下部広告＆フッター -->
   <footer>
     <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
-    <div class="ad-box">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
   </footer>
 
-  <!-- スクリプト -->
   <script>
     function changeBGM() {
       const bgm = document.getElementById("bgm");
@@ -166,7 +230,7 @@
             ctx.drawImage(logo, 20, 20, 100, 40);
             ctx.drawImage(qr, canvas.width - 100, canvas.height - 100, 80, 80);
             const link = document.createElement("a");
-            link.download = "result.png";
+            link.download = "monomane_result.png";
             link.href = canvas.toDataURL();
             link.click();
           }
