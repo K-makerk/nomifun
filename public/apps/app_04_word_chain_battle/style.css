@@ -1,77 +1,89 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #fff0f5;
   margin: 0;
-  padding: 1em;
-  color: #333;
+  font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+  background: #fff0f5;
 }
 
-.container {
-  max-width: 640px;
-  margin: auto;
-  background: white;
-  padding: 1.5em;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #ffe4e1;
+  border-bottom: 2px solid #e91e63;
 }
 
 h1 {
-  text-align: center;
+  margin: 0;
+  font-size: 1.8rem;
   color: #880e4f;
 }
 
-label {
-  font-weight: bold;
+.container {
+  padding: 20px;
+  max-width: 720px;
+  margin: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-input, select {
+input, select, button {
   width: 100%;
-  padding: 0.6em;
-  margin: 0.5em 0 1em;
-  font-size: 1em;
+  padding: 10px;
+  font-size: 1rem;
+  margin: 10px 0;
+  border-radius: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
   box-sizing: border-box;
 }
 
 button {
-  width: 100%;
-  padding: 0.8em;
   background-color: #f06292;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1em;
-  margin-top: 0.5em;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #e91e63;
+  background-color: #ec407a;
 }
 
-.hidden {
-  display: none;
+.select-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
-#timer {
-  font-weight: bold;
-  margin: 1em 0;
-  font-size: 1.2em;
-  color: #d32f2f;
-}
-
-#themeDisplay, #turnDisplay, #usedWords, #winnerMessage {
-  margin-top: 1em;
+.card {
+  background-color: #fff8e1;
+  border: 2px dashed #f48fb1;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 12px;
   text-align: center;
-  font-size: 1.1em;
+}
+
+.ad-box {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
 }
 
 footer {
   text-align: center;
-  margin-top: 2em;
   font-size: 0.9em;
   color: #666;
+  margin: 30px 0;
 }
 
 footer a {
@@ -83,27 +95,8 @@ footer a:hover {
   text-decoration: underline;
 }
 
-.share-buttons {
-  display: flex;
-  gap: 1em;
-  flex-direction: column;
-  margin-top: 1.5em;
-}
-
-.share-buttons button {
-  font-size: 0.95em;
-}
-
-@media screen and (max-width: 600px) {
-  .container {
-    padding: 1em;
-  }
-
-  input, select, button {
+@media (max-width: 600px) {
+  input, button, select {
     font-size: 1em;
-  }
-
-  .share-buttons {
-    flex-direction: column;
   }
 }
