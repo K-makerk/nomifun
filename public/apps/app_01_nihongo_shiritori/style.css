@@ -1,67 +1,111 @@
+/* --------------------- 共通スタイル --------------------- */
 body {
   margin: 0;
-  font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   background: #fff0f5;
+  color: #333;
 }
 
 header {
   text-align: center;
-  padding: 20px;
-  background-color: #ffe4e1;
-  border-bottom: 2px solid #e91e63;
-}
-
-h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  color: #880e4f;
-}
-
-.container {
-  padding: 20px;
-  max-width: 600px;
-  margin: auto;
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-input, select {
-  width: 100%;
   padding: 10px;
-  font-size: 1rem;
+  background: #ffe4e1;
+  border-bottom: 2px solid #ec407a;
+}
+
+.logo {
+  height: 40px;
+  margin: 10px auto;
+  display: block;
+}
+
+.ad-label {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 4px;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 20px;
+  background: #fce4ec;
+  margin-top: 40px;
+}
+
+footer .qr {
+  height: 80px;
+  margin: 10px;
+}
+
+/* --------------------- カードUI --------------------- */
+.card {
+  background: #fff8e1;
+  border: 2px dashed #f48fb1;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+h1, h2 {
+  color: #d81b60;
   margin-bottom: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
 }
 
 button {
-  padding: 10px 20px;
-  margin: 5px 3px;
+  padding: 12px 20px;
+  margin: 10px 5px;
   font-size: 1rem;
+  background: #f06292;
+  color: white;
   border: none;
   border-radius: 12px;
-  background-color: #f06292;
-  color: white;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 button:hover {
-  background-color: #ec407a;
+  background: #ec407a;
 }
 
-.card {
-  background-color: #fff8e1;
-  border: 2px dashed #f48fb1;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 12px;
-  text-align: center;
+select, input[type="text"] {
+  width: 90%;
+  max-width: 300px;
+  padding: 10px;
+  margin: 10px auto;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  display: block;
 }
 
+/* --------------------- ステップ切替 --------------------- */
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --------------------- 広告 --------------------- */
 .ad-box {
   margin: 20px 0;
   text-align: center;
+}
+
+/* --------------------- アイコン --------------------- */
+.icon {
+  height: 40px;
+  margin: 10px;
+}
+
+.share-buttons {
+  margin-top: 10px;
 }
