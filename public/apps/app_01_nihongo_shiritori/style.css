@@ -1,3 +1,4 @@
+/* --------------------- 共通スタイル --------------------- */
 body {
   margin: 0;
   font-family: 'Noto Sans JP', sans-serif;
@@ -37,6 +38,7 @@ footer .qr {
   margin: 10px;
 }
 
+/* --------------------- カードUI --------------------- */
 .card {
   background: #fff8e1;
   border: 2px dashed #f48fb1;
@@ -68,7 +70,7 @@ button:hover {
   background: #ec407a;
 }
 
-select, input[type="text"], input[type="number"] {
+select, input[type="text"] {
   width: 90%;
   max-width: 300px;
   padding: 10px;
@@ -79,6 +81,7 @@ select, input[type="text"], input[type="number"] {
   display: block;
 }
 
+/* --------------------- ステップ切替 --------------------- */
 .step {
   display: none;
 }
@@ -91,11 +94,13 @@ select, input[type="text"], input[type="number"] {
   display: none !important;
 }
 
+/* --------------------- 広告 --------------------- */
 .ad-box {
   margin: 20px 0;
   text-align: center;
 }
 
+/* --------------------- アイコン --------------------- */
 .icon {
   height: 40px;
   margin: 10px;
