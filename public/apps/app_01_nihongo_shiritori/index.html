@@ -111,7 +111,11 @@
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
- <script>
+  <!-- ✅ 修正済：先に script.js を読み込む -->
+  <script src="script.js"></script>
+
+  <!-- ✅ 後から onload 実行関数を定義 -->
+  <script>
     function goToStep(stepId) {
       document.querySelectorAll(".step").forEach(s => s.classList.add("hidden"));
       const target = typeof stepId === "number" ? `step${stepId}` : stepId;
@@ -122,10 +126,9 @@
       addPlayer();
       addPlayer();
       addSpectator();
-      goToStep(1); // ← 初期表示を step1 に変更（ここが重要）
+      goToStep(1); // 初期表示セクション
       updateShareLinks();
     };
   </script>
-  <script src="script.js"></script>
 </body>
 </html>
