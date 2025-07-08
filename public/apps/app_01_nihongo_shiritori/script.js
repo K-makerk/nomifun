@@ -1,148 +1,158 @@
-const topics = {
-  animals: ["ゾウ", "ライオン", "犬", "ネコ", "カンガルー", "キリン"],
-  jobs: ["医者", "先生", "警察官", "歌手", "シェフ"],
-  actions: ["ジャンプ", "ダンス", "寝る", "お辞儀", "拍手"],
-  hard: ["透明人間", "忍者", "宇宙飛行士", "マジシャン"]
+const prompts = {
+  animals: ["犬", "猫", "ゾウ", "カンガルー", "ライオン", "タコ", "カメ", "うさぎ"],
+  jobs: ["医者", "教師", "警察官", "大工", "美容師", "農家", "DJ", "パイロット"],
+  actions: ["ジャンプ", "寝る", "走る", "お辞儀", "ダンス", "泣く", "投げる", "食べる"],
+  hard: ["ゴリラのプロポーズ", "サメの散歩", "ゾンビのカラオケ", "宇宙人の腹痛"]
 };
 
-const bonusRounds = ["音声禁止", "片手のみで表現", "逆立ちのフリをする"];
-const missions = ["5秒以内に正解", "2人同時に正解", "連続3回成功"];
-
-let players = [], spectators = [], scores = {}, currentPlayerIndex = 0;
-let totalRounds = 3, currentRound = 1, isTeamMode = false;
+let players = [];
+let spectators = [];
 let teams = { A: [], B: [] };
-let timer, timeLeft = 20;
-
-function goToStep(n) {
-  document.querySelectorAll(".step").forEach(s => s.classList.add("hidden"));
-  document.getElementById(`step${n}`)?.classList.remove("hidden");
-}
+let currentPlayerIndex = 0;
+let currentRound = 1;
+let totalRounds = 3;
+let gameStarted = false;
+let timerInterval = null;
 
 function addPlayer() {
-  const div = document.createElement("div");
-  div.innerHTML = `<input type="text" placeholder="プレイヤー名" />`;
-  document.getElementById("players").appendChild(div);
+  const name = prompt("プレイヤーの名前を入力:");
+  if (name) {
+    players.push({ name, score: 0 });
+    updatePlayers();
+  }
 }
 
 function addSpectator() {
-  const div = document.createElement("div");
-  div.innerHTML = `<input type="text" placeholder="観客名" />`;
-  document.getElementById("spectators").appendChild(div);
+  const name = prompt("観客の名前を入力:");
+  if (name) {
+    spectators.push(name);
+    updateSpectators();
+  }
+}
+
+function updatePlayers() {
+  const div = document.getElementById("players");
+  div.innerHTML = "<h3>プレイヤー:</h3><ul>" +
+    players.map(p => `<li>${p.name}</li>`).join("") + "</ul>";
+}
+
+function updateSpectators() {
+  const div = document.getElementById("spectators");
+  div.innerHTML = "<h3>観客:</h3><ul>" +
+    spectators.map(s => `<li>${s}</li>`).join("") + "</ul>";
 }
 
 function startGame() {
-  const playerInputs = document.querySelectorAll("#players input");
-  const spectatorInputs = document.querySelectorAll("#spectators input");
-  players = Array.from(playerInputs).map(i => i.value.trim()).filter(v => v);
-  spectators = Array.from(spectatorInputs).map(i => i.value.trim()).filter(v => v);
-  if (players.length < 2) return alert("プレイヤーは2人以上必要です");
+  const category = document.getElementById("category").value;
+  const method = document.getElementById("teamMethod").value;
+  const rounds = parseInt(document.getElementById("rounds").value);
+  totalRounds = isNaN(rounds) ? 3 : rounds;
 
-  scores = {};
-  players.forEach(p => scores[p] = 0);
+  if (players.length < 1) {
+    alert("プレイヤーを1人以上追加してください");
+    return;
+  }
+
+  assignTeams(method);
   currentPlayerIndex = 0;
   currentRound = 1;
-  totalRounds = parseInt(document.getElementById("rounds").value) || 3;
-
-  const method = document.getElementById("teamMethod").value;
-  isTeamMode = method !== "solo";
-  if (method === "random") {
-    teams.A = [], teams.B = [];
-    players.forEach((p, i) => (i % 2 === 0 ? teams.A : teams.B).push(p));
-  } else if (method === "manual") {
-    const mid = Math.ceil(players.length / 2);
-    teams.A = players.slice(0, mid);
-    teams.B = players.slice(mid);
-  }
-
-  const bgm = document.getElementById("bgm");
-  const choice = document.getElementById("bgmSelect").value;
-  const srcMap = {
-    cafe: "/audio/bgm_cafe.mp3",
-    anime: "/audio/bgm_anime.mp3",
-    party: "/audio/bgm_party.mp3"
-  };
-  if (choice !== "none" && srcMap[choice]) {
-    bgm.src = srcMap[choice];
-    bgm.play();
-  }
+  gameStarted = true;
+  playBGM();
 
   goToStep("gameArea");
-  showTopic();
+  nextTurn();
 }
 
-function showTopic() {
+function assignTeams(method) {
+  teams = { A: [], B: [] };
+  if (method === "solo") return;
+  const shuffled = [...players].sort(() => Math.random() - 0.5);
+  if (method === "random") {
+    shuffled.forEach((p, i) => {
+      if (i % 2 === 0) teams.A.push(p);
+      else teams.B.push(p);
+    });
+  } else {
+    let manual = prompt("プレイヤー名とチーム（A/B）をカンマ区切りで入力（例：太郎,A|花子,B）");
+    if (manual) {
+      manual.split("|").forEach(pair => {
+        const [name, team] = pair.split(",");
+        const player = players.find(p => p.name === name);
+        if (player && team === "A") teams.A.push(player);
+        if (player && team === "B") teams.B.push(player);
+      });
+    }
+  }
+}
+
+function nextTurn() {
+  const player = players[currentPlayerIndex];
   const category = document.getElementById("category").value;
-  const topicList = topics[category];
-  const topic = topicList[Math.floor(Math.random() * topicList.length)];
-  document.getElementById("topicDisplay").textContent = topic;
+  const topic = getRandomTopic(category);
+  document.getElementById("currentPlayerDisplay").innerText = `🎭 今の演技者：${player.name}`;
+  document.getElementById("nextPlayerDisplay").innerText = `▶ 次の人：${players[(currentPlayerIndex + 1) % players.length].name}`;
+  document.getElementById("currentTeamDisplay").innerText = getTeamDisplay(player);
+  document.getElementById("topicDisplay").innerText = topic;
+  document.getElementById("bonusDisplay").innerText = Math.random() > 0.7 ? "🎯 ボーナスラウンド！成功で+3点！" : "";
+  document.getElementById("missionDisplay").innerText = Math.random() > 0.6 ? "⏱ 5秒以内に正解で+2点！" : "";
 
-  const bonus = Math.random() < 0.3 ? bonusRounds[Math.floor(Math.random() * bonusRounds.length)] : "";
-  const mission = missions[Math.floor(Math.random() * missions.length)];
-  document.getElementById("bonusDisplay").textContent = bonus ? `🎭 ボーナス: ${bonus}` : "";
-  document.getElementById("missionDisplay").textContent = `🧩 ミッション: ${mission}`;
-
-  updatePlayerInfo();
-  startTimer();
-  showScoreInputs();
+  startTimer(10);
+  showScoreInput(player);
 }
 
-function updatePlayerInfo() {
-  const current = players[currentPlayerIndex];
-  const next = players[(currentPlayerIndex + 1) % players.length];
-  document.getElementById("currentPlayerDisplay").textContent = `現在のプレイヤー: ${current}`;
-  document.getElementById("nextPlayerDisplay").textContent = `次のプレイヤー: ${next}`;
-  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? (teams.A.includes(current) ? "チームA" : "チームB") : "-";
+function getTeamDisplay(player) {
+  if (teams.A.includes(player)) return "チーム：A";
+  if (teams.B.includes(player)) return "チーム：B";
+  return "個人戦";
 }
 
-function startTimer() {
-  timeLeft = 20;
-  document.getElementById("timer").textContent = `残り：${timeLeft} 秒`;
-  clearInterval(timer);
-  timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById("timer").textContent = `残り：${timeLeft} 秒`;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      document.getElementById("timer").textContent = "時間終了！";
+function getRandomTopic(category) {
+  const list = prompts[category] || [];
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function startTimer(seconds) {
+  clearInterval(timerInterval);
+  let time = seconds;
+  document.getElementById("timer").innerText = `残り：${time} 秒`;
+  timerInterval = setInterval(() => {
+    time--;
+    document.getElementById("timer").innerText = `残り：${time} 秒`;
+    if (time <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById("timer").innerText = "⌛ タイムアップ！";
     }
   }, 1000);
 }
 
-function showScoreInputs() {
-  const area = document.getElementById("scoreInput");
-  area.innerHTML = "";
-  const currentPlayer = players[currentPlayerIndex];
-  let scoringTargets = isTeamMode ? (teams.A.includes(currentPlayer) ? teams.A : teams.B) : [currentPlayer];
-  scoringTargets = scoringTargets.filter(p => !spectators.includes(p));
-  scoringTargets.forEach(p => {
-    area.innerHTML += `
-      <label>${p} の結果：</label>
-      <select id="result_${p}">
-        <option value="fail">❌ 失敗</option>
-        <option value="success">✅ 成功</option>
-        <option value="great">🌟 大成功</option>
-      </select><br>
-    `;
-  });
+function showScoreInput(player) {
+  const container = document.getElementById("scoreInput");
+  container.innerHTML = `
+    <p>スコアを選んでください（観客用）</p>
+    <label><input type="radio" name="score" value="1">失敗（1点）</label>
+    <label><input type="radio" name="score" value="3">成功（3点）</label>
+    <label><input type="radio" name="score" value="5">大成功（5点）</label>
+  `;
 }
 
 function submitScore() {
-  const currentPlayer = players[currentPlayerIndex];
-  const scoringTargets = isTeamMode ? (teams.A.includes(currentPlayer) ? teams.A : teams.B) : [currentPlayer];
-  scoringTargets.forEach(p => {
-    if (spectators.includes(p)) return;
-    const result = document.getElementById(`result_${p}`).value;
-    let base = result === "fail" ? 0 : result === "success" ? 5 : 7;
-    let bonus = Math.min(Math.round(timeLeft * 0.2), 6);
-    if (timeLeft >= 15) bonus += 3;
-    scores[p] += base + bonus;
-  });
+  const score = document.querySelector('input[name="score"]:checked');
+  if (!score) return alert("スコアを選んでください");
+
+  const player = players[currentPlayerIndex];
+  const value = parseInt(score.value);
+  player.score += value;
 
   currentPlayerIndex++;
   if (currentPlayerIndex >= players.length) {
+    currentPlayerIndex = 0;
+    currentRound++;
+  }
+
+  if (currentRound > totalRounds) {
     showResult();
   } else {
-    showTopic();
+    nextTurn();
   }
 }
 
@@ -150,40 +160,42 @@ function showResult() {
   goToStep("result");
   const ul = document.getElementById("scoreList");
   ul.innerHTML = "";
-  let max = -1, mvp = "";
   players.forEach(p => {
-    const score = scores[p];
-    ul.innerHTML += `<li>${p}: ${score} 点</li>`;
-    if (score > max) {
-      max = score;
-      mvp = p;
-    }
+    const li = document.createElement("li");
+    li.innerText = `${p.name}：${p.score} 点`;
+    ul.appendChild(li);
   });
-  document.getElementById("mvp").textContent = `👑 MVP: ${mvp} さん おめでとう！`;
-  updateShareLinks();
+
+  const max = Math.max(...players.map(p => p.score));
+  const top = players.find(p => p.score === max);
+  document.getElementById("mvp").innerText = `🏆 MVP：${top.name}！`;
+}
+
+function playBGM() {
+  const bgm = document.getElementById("bgm");
+  const selected = document.getElementById("bgmSelect").value;
+  const srcMap = {
+    none: "",
+    cafe: "/bgm/cafe.mp3",
+    anime: "/bgm/anime.mp3",
+    party: "/bgm/party.mp3"
+  };
+  bgm.src = srcMap[selected];
+  if (selected !== "none") bgm.play();
 }
 
 function saveResultImage() {
-  html2canvas(document.querySelector("#result")).then(canvas => {
-    const a = document.createElement("a");
-    a.href = canvas.toDataURL();
-    a.download = "result.png";
-    a.click();
+  html2canvas(document.body).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "result.png";
+    link.href = canvas.toDataURL();
+    link.click();
   });
 }
 
 function updateShareLinks() {
-  const title = "App01 ジェスチャーゲーム";
-  const text = "このアプリで遊んでみよう！";
+  const text = encodeURIComponent("ジェスチャーゲームで遊んだよ！");
   const url = encodeURIComponent(location.href);
-  document.getElementById("shareX").href = `https://twitter.com/share?url=${url}&text=${title} - ${text}`;
+  document.getElementById("shareX").href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
   document.getElementById("shareLINE").href = `https://social-plugins.line.me/lineit/share?url=${url}`;
 }
-
-window.onload = () => {
-  addPlayer();
-  addPlayer();
-  addSpectator();
-  goToStep(0);
-  updateShareLinks();
-};
