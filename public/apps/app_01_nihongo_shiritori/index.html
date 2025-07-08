@@ -30,8 +30,10 @@
 
   <section id="step1" class="card step hidden">
     <h2>プレイヤー・観客登録</h2>
+
     <div id="players"></div>
     <button onclick="addPlayer()">＋ プレイヤー追加</button>
+
     <div id="spectators"></div>
     <button onclick="addSpectator()">＋ 観客追加</button>
 
@@ -109,6 +111,21 @@
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
 
+ <script>
+    function goToStep(stepId) {
+      document.querySelectorAll(".step").forEach(s => s.classList.add("hidden"));
+      const target = typeof stepId === "number" ? `step${stepId}` : stepId;
+      document.getElementById(target)?.classList.remove("hidden");
+    }
+
+    window.onload = () => {
+      addPlayer();
+      addPlayer();
+      addSpectator();
+      goToStep(1); // ← 初期表示を step1 に変更（ここが重要）
+      updateShareLinks();
+    };
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
