@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.nomi-party.com"
+        }
+      ],
+      "destination": "https://nomi-party.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/ads.txt", "destination": "/ads.txt" },
     { "source": "/(.*)", "destination": "/index.html" }
