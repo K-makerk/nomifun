@@ -1,0 +1,11 @@
+{
+  "name": "App01 ジェスチャーゲーム",
+  "short_name": "ジェスチャー",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff6699",
+  "icons": [
+    { "src": "/images/logo.png", "sizes": "192x192", "type": "image/png" }
+  ]
+}

@@ -1,132 +1,195 @@
+// =========================
+// App01 ジェスチャーゲーム 完全版 script.js
+// （操作性強化・一時停止・Undo・難易度・重複防止・トースト等）
+// =========================
+
+// --- お題データ（必要なら拡張可） ---
 const topics = {
   animals: ["ゾウ", "ライオン", "犬", "ネコ", "カンガルー", "キリン"],
   jobs: ["医者", "先生", "警察官", "歌手", "シェフ"],
   actions: ["ジャンプ", "ダンス", "寝る", "お辞儀", "拍手"],
   hard: ["透明人間", "忍者", "宇宙飛行士", "マジシャン"]
 };
-const bonusRounds = ["音声禁止", "片手のみで表現", "逆立ちのフリをする"];
-const missions = ["5秒以内に正解", "2人同時に正解", "連続3回成功"];
+const bonusRounds = ["声出し禁止", "片手だけで表現", "真顔のままで表現"];
+const missions = ["5秒以内に正解", "同時に2人が正解", "3回連続で成功"];
 
+// --- 状態 ---
 let players = [], spectators = [], scores = {}, currentPlayerIndex = 0;
 let totalRounds = 3, currentRound = 1, isTeamMode = false;
 let currentCategory = "animals";
 let teams = { A: [], B: [] };
 let timer, timeLeft = 20;
 
+// Progress & combo (for Trend/Hit-game UI)
+let combo = 0;
+function updateProgressBar(forceRatio) {
+  const bar = document.getElementById('progressBar');
+  if (!bar) return;
+  const total = totalRounds || 1;
+  let ratio = (currentRound - 1) / total;
+  if (typeof forceRatio === 'number') ratio = forceRatio;
+  ratio = Math.max(0, Math.min(1, ratio));
+  bar.style.width = (ratio * 100).toFixed(0) + '%';
+}
+function showCombo() {
+  const hud = document.getElementById('comboHud');
+  if (!hud) return;
+  if (combo < 2) { hud.innerHTML = ''; return; }
+  const div = document.createElement('div');
+  div.textContent = `COMBO ×${combo}!`;
+  div.style.display = 'inline-block';
+  div.style.padding = '4px 10px';
+  div.style.borderRadius = '999px';
+  div.style.background = 'linear-gradient(90deg,#ff8ab6,#8ad8ff)';
+  div.style.color = '#fff';
+  div.style.fontWeight = '700';
+  div.style.boxShadow = '0 6px 18px rgba(255,102,153,0.35)';
+  div.style.transform = 'scale(0.9)';
+  div.style.transition = 'transform 120ms ease, opacity 220ms ease';
+  div.style.opacity = '0.98';
+  hud.innerHTML = '';
+  hud.appendChild(div);
+  requestAnimationFrame(() => { div.style.transform = 'scale(1.05)'; });
+  setTimeout(() => { div.style.opacity = '0'; }, 1000);
+  setTimeout(() => { if (hud.contains(div)) hud.removeChild(div); }, 1400);
+}
+
+// UX向上用フラグとヘルパ
+let paused = false;            // 一時停止状態
+let startCooldown = false;     // 誤連打防止
+let lastSubmission = null;     // Undo用
+
+function vib(ms = 15) { if (navigator.vibrate) navigator.vibrate(ms); }
+function showToast(msg, ms = 1800) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg; el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, ms);
+}
+function safeCallUpdateActionBar() { if (typeof window.updateActionBar === 'function') window.updateActionBar(); }
+function scrollToTopOnMobile() { try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (_) { window.scrollTo(0, 0); } }
+
+// --- 難易度設定 ---
+function getDifficultyCfg(){
+  const d = document.getElementById('difficulty')?.value || 'normal';
+  if (d === 'easy')  return { start: 25, bonusMul: 1.0 };
+  if (d === 'hard')  return { start: 15, bonusMul: 1.25 };
+  return { start: 20, bonusMul: 1.1 }; // normal
+}
+
+// --- お題の重複防止プール ---
+const topicPool = { animals: [], jobs: [], actions: [], hard: [] };
+function pickTopic(category){
+  if (!topicPool[category] || topicPool[category].length === 0) {
+    topicPool[category] = [...(topics[category] || [])].sort(() => Math.random() - 0.5);
+  }
+  return topicPool[category].pop();
+}
+
+// ============= 入力欄の追加/削除 =============
 function addPlayerInput() {
   const div = document.createElement("div");
-  div.innerHTML = `<input type="text" placeholder="プレイヤー名" />`;
+  div.innerHTML = `<input type="text" class="large-button" placeholder="プレイヤー名" />`;
   document.getElementById("playerInputs").appendChild(div);
 }
-
 function removePlayerInput() {
   const container = document.getElementById("playerInputs");
-  if (container.children.length > 3) {
-    container.removeChild(container.lastElementChild);
-  } else {
-    alert("最低3人必要です");
-  }
+  if (container.children.length > 3) container.removeChild(container.lastElementChild);
+  else alert("最低3人必要です");
 }
-
 function addAudienceInput() {
   const div = document.createElement("div");
-  div.innerHTML = `<input type="text" placeholder="観客名" />`;
+  div.innerHTML = `<input type="text" class="large-button" placeholder="観客名" />`;
   document.getElementById("audienceInputs").appendChild(div);
 }
-
 function removeAudienceInput() {
   const container = document.getElementById("audienceInputs");
-  if (container.children.length > 0) {
-    container.removeChild(container.lastElementChild);
-  }
+  if (container.children.length > 0) container.removeChild(container.lastElementChild);
 }
 
+// ============= セットアップ =============
 function setupGame() {
   const playerInputs = document.querySelectorAll("#playerInputs input");
   const audienceInputs = document.querySelectorAll("#audienceInputs input");
 
-  players = [];
-  spectators = [];
+  players = []; spectators = []; scores = {}; lastSubmission = null; paused = false;
 
-  playerInputs.forEach(input => {
-    if (input.value.trim()) players.push(input.value.trim());
-  });
-  audienceInputs.forEach(input => {
-    if (input.value.trim()) spectators.push(input.value.trim());
-  });
-
-  if (players.length < 3) return alert("プレイヤーは3人以上必要です");
+  playerInputs.forEach(input => { const v = input.value.trim(); if (v) players.push(v); });
+  audienceInputs.forEach(input => { const v = input.value.trim(); if (v) spectators.push(v); });
+  if (players.length < 3) return alert("プレイヤーは3人以上を入力してください");
 
   currentCategory = document.getElementById("topicCategory").value;
   totalRounds = parseInt(document.getElementById("gameCount").value);
-  currentRound = 1;
-  currentPlayerIndex = 0;
+  currentRound = 1; currentPlayerIndex = 0;
   players.forEach(p => scores[p] = 0);
 
   const method = document.getElementById("teamMethod").value;
   if (method === "random") {
-    teams.A = [], teams.B = [];
+    teams.A = []; teams.B = [];
     players.forEach((p, i) => (i % 2 === 0 ? teams.A : teams.B).push(p));
     isTeamMode = true;
   } else if (method === "manual") {
     const mid = Math.ceil(players.length / 2);
-    teams.A = players.slice(0, mid);
-    teams.B = players.slice(mid);
+    teams.A = players.slice(0, mid); teams.B = players.slice(mid);
     isTeamMode = true;
-  } else {
-    isTeamMode = false;
-  }
+  } else { isTeamMode = false; }
 
+  // BGM
   const bgm = document.getElementById("bgm");
-  const choice = document.getElementById("bgmSelect").value;
-  const srcMap = {
-    cafe: "https://example.com/cafe.mp3",
-    anime: "https://example.com/anime.mp3",
-    party: "https://example.com/party.mp3"
-  };
-  if (choice !== "none" && srcMap[choice]) {
-    bgm.src = srcMap[choice];
-    bgm.play();
-  }
+  const choice = document.getElementById("bgmSelect")?.value || 'none';
+  const srcMap = { cafe: "https://example.com/cafe.mp3", anime: "https://example.com/anime.mp3", party: "https://example.com/party.mp3" };
+  if (choice !== "none" && srcMap[choice]) { bgm.src = srcMap[choice]; bgm.play().catch(()=>{}); }
 
   document.getElementById("setupScreen").style.display = "none";
   document.getElementById("gameArea").style.display = "block";
   document.getElementById("totalRounds").textContent = totalRounds;
   document.getElementById("roundNum").textContent = currentRound;
+  combo = 0;
+  updateProgressBar(0);
   updatePlayerDisplay();
+  safeCallUpdateActionBar();
+  scrollToTopOnMobile();
+  vib();
 }
 
 function updatePlayerDisplay() {
   const current = players[currentPlayerIndex];
   const next = players[(currentPlayerIndex + 1) % players.length];
-  document.getElementById("currentPlayerDisplay").textContent = `現在のプレイヤー: ${current}`;
-  document.getElementById("nextPlayerDisplay").textContent = `次のプレイヤー: ${next}`;
-  document.getElementById("instructionText").textContent = `${current}さんはお題を表示してください`;
-  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? (teams.A.includes(current) ? "チームA" : "チームB") : "-";
+  document.getElementById("currentPlayerDisplay").textContent = `いまのプレイヤー：${current}`;
+  document.getElementById("nextPlayerDisplay").textContent = `つぎのプレイヤー：${next}`;
+  document.getElementById("instructionText").textContent = `${current}さんは「お題を表示してジェスチャーで表現！」`;
+  document.getElementById("currentTeamDisplay").textContent = isTeamMode ? (teams.A.includes(current) ? "チームA" : "チームB") : "個人戦";
 }
 
+// ============= ゲーム開始・進行 =============
 function startGame() {
-  const topicList = topics[currentCategory];
-  const topic = topicList[Math.floor(Math.random() * topicList.length)];
-  document.getElementById("topicArea").textContent = "お題: " + topic;
+  if (startCooldown) return;
+  startCooldown = true; setTimeout(() => (startCooldown = false), 600);
+  paused = false; updatePauseBtn(); vib(20);
+
+  const { start } = getDifficultyCfg();
+  const topic = pickTopic(currentCategory);
+  document.getElementById("topicArea").textContent = "お題：" + topic;
 
   const isBonus = Math.random() < 0.3;
-  document.getElementById("bonusText").textContent = isBonus ? "🎭 ボーナス: " + bonusRounds[Math.floor(Math.random() * bonusRounds.length)] : "";
+  document.getElementById("bonusText").textContent = isBonus ? "🎭 ボーナス：" + bonusRounds[Math.floor(Math.random() * bonusRounds.length)] : "";
 
   const mission = missions[Math.floor(Math.random() * missions.length)];
-  document.getElementById("missionText").textContent = "🧩 チャレンジ: " + mission;
+  document.getElementById("missionText").textContent = "🧩 追加チャレンジ：" + mission;
 
-  timeLeft = 20;
-  document.getElementById("timer").textContent = `残り時間: ${timeLeft}秒`;
+  timeLeft = start;
+  document.getElementById("timer").textContent = `残り時間：${timeLeft}秒`;
+  document.getElementById("timer").classList.add("pulse");
 
   clearInterval(timer);
   showScoreInputs();
   timer = setInterval(() => {
+    if (paused) return; // 一時停止中は停止
     timeLeft--;
-    document.getElementById("timer").textContent = `残り時間: ${timeLeft}秒`;
+    document.getElementById("timer").textContent = `残り時間：${timeLeft}秒`;
     if (timeLeft <= 0) {
       clearInterval(timer);
-      document.getElementById("timer").textContent = "時間終了！";
+      document.getElementById("timer").textContent = "時間切れ！";
     }
   }, 1000);
 }
@@ -141,35 +204,63 @@ function showScoreInputs() {
 
   scoringTargets.forEach(p => {
     area.innerHTML += `
-      <label>${p} の結果：</label>
-      <select id="result_${p}">
-        <option value="fail">❌ 失敗</option>
-        <option value="success">✅ 成功</option>
-        <option value="great">🌟 大成功</option>
-      </select><br>
+      <div style="margin:8px 0;">
+        <label style="display:block; margin-bottom:6px; font-weight:600;">${p} の判定：</label>
+        <select id="result_${p}" class="large-button">
+          <option value="fail">❌ 未達</option>
+          <option value="success">✅ 成功</option>
+          <option value="great">🌟 パーフェクト</option>
+        </select>
+      </div>
     `;
   });
 }
 
 function submitScores() {
+  vib(10);
+  if (document.getElementById('gameArea').style.display === 'none') return;
+
+  const { start, bonusMul } = getDifficultyCfg();
   const currentPlayer = players[currentPlayerIndex];
   const scoringTargets = isTeamMode ? (teams.A.includes(currentPlayer) ? teams.A : teams.B) : [currentPlayer];
 
+  const details = []; // Undo用詳細
   scoringTargets.forEach(p => {
     if (spectators.includes(p)) return;
-    const result = document.getElementById(`result_${p}`).value;
+    const sel = document.getElementById(`result_${p}`);
+    if (!sel) return;
+    const result = sel.value;
     let base = result === "fail" ? 0 : result === "success" ? 5 : 7;
-    let bonus = Math.min(Math.round(timeLeft * 0.2), 6);
-    if (timeLeft >= 15) bonus += 3;
-    scores[p] += base + bonus;
+    let bonus = Math.min(Math.round(timeLeft * 0.2 * bonusMul), 8);
+    if (timeLeft >= Math.floor(start * 0.75)) bonus += 3;
+    const delta = base + bonus;
+    scores[p] = (scores[p] || 0) + delta;
+    details.push({ p, delta });
   });
+
+  const succeeded = details.some(d => d.delta > 0);
+  combo = succeeded ? (combo + 1) : 0;
+  showCombo();
+
+  lastSubmission = { details };
+  const undoBtn = document.getElementById('undoBtn'); if (undoBtn) undoBtn.disabled = details.length === 0;
+  if (details.some(d => d.delta >= 7)) { // パーフェクト相当
+    if (typeof shootConfetti === 'function') shootConfetti(20);
+  }
+
+  if (details.length) {
+    const best = details.slice().sort((a,b)=>b.delta-a.delta)[0];
+    if (best) showToast(`ハイライト：${best.p} +${best.delta}点`);
+  }
 
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   if (currentRound < totalRounds) {
     currentRound++;
     document.getElementById("roundNum").textContent = currentRound;
+    updateProgressBar();
     resetGame();
     updatePlayerDisplay();
+    safeCallUpdateActionBar();
   } else {
     showScoreBoard();
   }
@@ -181,29 +272,34 @@ function resetGame() {
   document.getElementById("bonusText").textContent = "";
   document.getElementById("missionText").textContent = "";
   document.getElementById("scoreInputArea").innerHTML = "";
+  vib(8);
+  document.getElementById("timer").classList.remove("pulse");
 }
 
 function showScoreBoard() {
   document.getElementById("gameArea").style.display = "none";
+  updateProgressBar(1);
+  document.getElementById("timer").classList.remove("pulse");
+  safeCallUpdateActionBar();
   const board = document.getElementById("scoreBoard");
   board.innerHTML = "";
   let max = -1, mvp = "";
   Object.entries(scores).forEach(([name, score]) => {
     board.innerHTML += `<li>${name}: ${score} 点</li>`;
-    if (score > max) {
-      max = score;
-      mvp = name;
-    }
+    if (score > max) { max = score; mvp = name; }
   });
-  document.getElementById("mvpDisplay").textContent = `👑 MVP: ${mvp} さん おめでとう！`;
+  document.getElementById("mvpDisplay").textContent = `👑 MVPは ${mvp} さん！おめでとう！`;
   document.getElementById("scoreDisplay").style.display = "block";
+  if (typeof shootConfetti === 'function') shootConfetti(50);
 }
 
 function saveResultImage() {
   html2canvas(document.querySelector("#scoreDisplay")).then(canvas => {
     const a = document.createElement("a");
     a.href = canvas.toDataURL();
-    a.download = "result.png";
+    const dt = new Date();
+    const y = dt.getFullYear(), m = (dt.getMonth()+1+'').padStart(2,'0'), d = (dt.getDate()+'').padStart(2,'0');
+    a.download = `gesture_result_${y}${m}${d}.png`;
     a.click();
   });
 }
@@ -217,10 +313,54 @@ function returnToTitle() {
   document.getElementById("scoreBoard").innerHTML = "";
   document.getElementById("mvpDisplay").innerHTML = "";
   document.getElementById("topicArea").textContent = "ここにお題が表示されます";
-  document.getElementById("timer").textContent = "残り時間: --秒";
+  document.getElementById("timer").textContent = "残り時間：--秒";
+  combo = 0;
+  updateProgressBar(0);
+  safeCallUpdateActionBar();
+  scrollToTopOnMobile();
 }
 
 function forceEnd() {
   clearInterval(timer);
-  document.getElementById("timer").textContent = "時間終了（手動）！";
+  document.getElementById("timer").textContent = "手動で終了しました";
+  safeCallUpdateActionBar();
+}
+
+// ============= 一時停止 / 再開 =============
+function togglePause(){
+  if (document.getElementById('gameArea').style.display === 'none') return;
+  paused = !paused; updatePauseBtn(); vib(8);
+}
+function updatePauseBtn(){
+  const btn = document.getElementById('pauseBtn');
+  if (!btn) return;
+  btn.innerHTML = paused ? `<i class="fa-solid fa-play"></i> 再開` : `<i class="fa-solid fa-pause"></i> 一時停止`;
+}
+
+// ============= Undo（直前の送信を取り消し） =============
+function undoLast(){
+  if (!lastSubmission) return;
+  const { details } = lastSubmission;
+  details.forEach(({p, delta}) => { scores[p] -= delta; });
+  lastSubmission = null;
+  const undoBtn = document.getElementById('undoBtn'); if (undoBtn) undoBtn.disabled = true;
+  showToast('直前のスコア送信を取り消しました');
+}
+
+function shootConfetti(count = 36) {
+  const container = document.getElementById('confetti');
+  if (!container) return;
+  const emojis = ["🎉","✨","💖","⭐️","🍬","🌸","🥳"];
+  for (let i = 0; i < count; i++) {
+    const span = document.createElement('span');
+    span.className = 'confetti-piece';
+    span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    const startX = Math.random() * window.innerWidth;
+    const drift = (Math.random() * 140 - 70) + 'px';
+    span.style.left = startX + 'px';
+    span.style.setProperty('--x', drift);
+    span.style.animationDuration = (700 + Math.random() * 600) + 'ms';
+    container.appendChild(span);
+    setTimeout(() => span.remove(), 1500);
+  }
 }

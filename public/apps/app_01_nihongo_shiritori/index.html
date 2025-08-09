@@ -8,6 +8,8 @@
   <meta name="google-adsense-account" content="ca-pub-1643561503893272">
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="theme-color" content="#ff6699" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
@@ -16,6 +18,10 @@
   <!-- ヘッダー＆上部広告 -->
   <header>
     <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
+    <div style="display:none; justify-content:center; gap:8px; margin:6px 0;">
+      <button class="chip" id="themeToggle" title="色覚配慮テーマ"><i class="fa-solid fa-universal-access"></i> テーマ</button>
+      <button class="chip" id="handModeToggle" title="片手モード切替"><i class="fa-solid fa-hand"></i> 片手モード</button>
+    </div>
     <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -26,28 +32,28 @@
   <!-- ゲーム概要 -->
   <section class="card">
     <h1>App01：ジェスチャーゲーム</h1>
-    <p>お題をジェスチャーだけで伝えよう！スマホ1つですぐに遊べる、盛り上がり必至の飲み会定番ゲームです。</p>
+    <p>お題をジェスチャーだけで相手に伝えよう！スマホ1台で誰でも簡単に遊べる、笑いと盛り上がりが止まらない定番パーティーゲームです。</p>
     <h3>💡 このゲームの活用シーン</h3>
-<p>忘年会や新年会、大学のサークル飲み、オンライン飲み会など、場面を選ばず盛り上がります。とっさの身振り手振りが笑いを誘い、意外な一面が見えるかも。</p>
-<p>制限時間内に伝えるスリルや、得点・MVP表示によるチーム戦の盛り上がりが特長です。モノマネ力・表現力・発想力が問われるので、笑いと驚きの連続！</p>    
+    <p>忘年会や新年会、大学サークル、オンライン飲み会など、あらゆる場面で盛り上がります。とっさの動きや意外な表現で笑いが生まれ、意外な一面が見られるかも！</p>
+    <p>制限時間内に伝え切るスリルと、得点やMVP発表による達成感が魅力。モノマネ力・表現力・発想力が試され、笑いと驚きが連続します！</p>
 <img src="/images/icons/app01.jpg" alt="ジェスチャーゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
   <!-- ゲーム説明 -->
   <section class="card">
     <h2>🎮 このゲームって？</h2>
-    <p>出されたお題を<strong>声を使わず</strong>にジェスチャーだけで表現！チームや個人で挑戦し、見ている人が当てる王道ゲームです。</p>
+    <p>出されたお題を<strong>声を使わず</strong>、ジェスチャーだけで表現！チーム戦や個人戦で挑戦し、見ている人が正解を当てる王道パーティーゲームです。</p>
     <h3>👀 プレイ中の雰囲気</h3>
-<p>身振りだけで「ゾウ」「マクドナルドの店員」などを表現！爆笑が起きたり、予想外の動きが飛び出す瞬間が魅力。観客モードでは他の人の演技を見るだけでも楽しめます。</p>
+    <p>身振り手振りだけで「ゾウ」や「マクドナルドの店員」などを表現！爆笑や歓声が飛び交い、予想外の動きが飛び出す瞬間が魅力です。観客モードでは演技を観るだけでも十分楽しめます。</p>
 
 
     <h3>📝 遊び方＆ルール</h3>
     <ul>
-      <li>出題されたお題を声を出さずにジェスチャーで表現</li>
-      <li>見ている側は制限時間内に当てる</li>
-      <li>ジャンル選択：「動物」「職業」「アクション」「難問」</li>
-      <li>個人戦・チーム戦に対応</li>
-      <li>BGM選択、スコア表示、MVP演出、観客モードなど搭載</li>
+      <li>出題されたお題を声を出さずにジェスチャーで表現する</li>
+      <li>見ている人は制限時間内に答えを当てる</li>
+      <li>ジャンルは「動物」「職業」「アクション」「難問」から選択</li>
+      <li>個人戦・チーム戦どちらにも対応</li>
+      <li>BGM選択、スコア表示、MVP発表、観客モード搭載</li>
     </ul>
 
   </section>
@@ -57,40 +63,58 @@
     <section id="setupScreen" class="card">
       <h2>プレイヤー設定</h2>
       <div id="playerInputs">
-        <input type="text" placeholder="プレイヤー名" />
-        <input type="text" placeholder="プレイヤー名" />
-        <input type="text" placeholder="プレイヤー名" />
+        <input type="text" class="large-button" placeholder="プレイヤー名" />
+        <input type="text" class="large-button" placeholder="プレイヤー名" />
+        <input type="text" class="large-button" placeholder="プレイヤー名" />
       </div>
-      <button onclick="addPlayerInput()">プレイヤー追加</button>
-      <button onclick="removePlayerInput()">プレイヤー削除</button>
+      <button class="large-button" onclick="addPlayerInput()">
+        <i class="fa-solid fa-user-plus"></i>
+        プレイヤー追加
+      </button>
+      <button class="large-button" onclick="removePlayerInput()">
+        <i class="fa-solid fa-user-minus"></i>
+        プレイヤー削除
+      </button>
 
       <h3>観客設定（任意）</h3>
       <div id="audienceInputs">
-        <input type="text" placeholder="観客名" />
+        <input type="text" class="large-button" placeholder="観客名" />
       </div>
-      <button onclick="addAudienceInput()">観客追加</button>
-      <button onclick="removeAudienceInput()">観客削除</button>
+      <button class="large-button" onclick="addAudienceInput()">
+        <i class="fa-solid fa-eye"></i>
+        観客追加
+      </button>
+      <button class="large-button" onclick="removeAudienceInput()">
+        <i class="fa-solid fa-eye-slash"></i>
+        観客削除
+      </button>
 
       <label>チーム分け：</label>
-      <select id="teamMethod">
+      <select id="teamMethod" class="large-button">
         <option value="solo">個人戦</option>
         <option value="random">ランダム</option>
         <option value="manual">手動</option>
       </select>
 
       <label>ジャンル：</label>
-      <select id="topicCategory">
+      <select id="topicCategory" class="large-button">
         <option value="animals">動物</option>
         <option value="jobs">職業</option>
         <option value="actions">アクション</option>
         <option value="hard">難問</option>
       </select>
+      <label>難易度：</label>
+      <select id="difficulty" class="large-button">
+        <option value="normal">Normal</option>
+        <option value="easy">Easy</option>
+        <option value="hard">Hard</option>
+      </select>
 
       <label>ラウンド数：</label>
-      <input type="number" id="gameCount" value="3" min="1">
+      <input type="number" class="large-button" id="gameCount" value="3" min="1">
 
       <label>BGM：</label>
-      <select id="bgmSelect" onchange="changeBGM()">
+      <select id="bgmSelect" class="large-button" onchange="changeBGM()">
         <option value="none">なし</option>
         <option value="cafe">カフェ風</option>
         <option value="anime">アニメ風</option>
@@ -98,19 +122,28 @@
       </select>
       <audio id="bgm" loop autoplay></audio>
 
-      <button onclick="setupGame()">ゲーム開始</button>
+      <button class="large-button primary-button" onclick="setupGame()">
+        <i class="fa-solid fa-play"></i>
+        ゲーム開始
+      </button>
     </section>
 
     <!-- ゲーム画面 -->
     <section id="gameArea" class="card" style="display:none;">
+      <div id="progressWrap" style="position:relative; height:8px; background:rgba(255,255,255,0.6); border:1px solid rgba(255,182,193,0.45); border-radius:999px; overflow:hidden; margin-bottom:12px;">
+        <div id="progressBar" style="height:100%; width:0%; background:linear-gradient(90deg,#ff8ab6,#8ad8ff); box-shadow:0 0 16px rgba(255,102,153,0.35);"></div>
+      </div>
       <h2 id="instructionText">準備中...</h2>
       <p id="currentPlayerDisplay"></p>
       <p id="nextPlayerDisplay"></p>
       <p id="currentTeamDisplay"></p>
-      <p id="topicArea">ここにお題が表示されます</p>
+      <p id="topicArea" class="topic">ここにお題が表示されます</p>
       <p id="bonusText"></p>
       <p id="missionText"></p>
-      <p id="timer">残り時間: --秒</p>
+      <div id="comboHud" style="position:relative; text-align:center; min-height:28px;">
+        <!-- JS で COMBO 表示を差し込み -->
+      </div>
+      <p id="timer" class="timer">残り時間：--秒</p>
 
       <div class="ad-box">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -118,11 +151,9 @@
       </div>
 
       <div id="scoreInputArea"></div>
-      <button onclick="startGame()">お題を出す</button>
-      <button onclick="submitScores()">スコア送信</button>
-      <button onclick="forceEnd()">手動終了</button>
-      <button onclick="returnToTitle()">タイトルに戻る</button>
+      <div style="height: 56px;"></div> <!-- アクションバーの高さ分余白 -->
       <p>ラウンド <span id="roundNum">1</span> / <span id="totalRounds">3</span></p>
+      <div id="confetti" aria-hidden="true"></div>
     </section>
 
     <!-- 結果表示 -->
@@ -130,19 +161,56 @@
       <h2>🎉 結果発表 🎉</h2>
       <ul id="scoreBoard"></ul>
       <p id="mvpDisplay"></p>
-      <button onclick="saveResultImage()">📷 結果を画像保存</button>
-      <button onclick="returnToTitle()">タイトルに戻る</button>
+      <button class="large-button" onclick="saveResultImage()"><i class="fa-solid fa-image"></i> 結果を画像保存</button>
+      <button class="large-button" onclick="returnToTitle()"><i class="fa-solid fa-arrow-left"></i> タイトルに戻る</button>
     </section>
   </main>
 
   <!-- SNS共有＆画像保存 -->
   <section class="card" style="text-align:center;">
-    <button onclick="saveResultImage()">📷 画像保存</button>
+    <button class="large-button" onclick="saveResultImage()"><i class="fa-solid fa-image"></i> 画像保存</button>
     <div class="share-buttons">
       <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
       <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
     </div>
   </section>
+  <!-- アクションバー: ゲーム中のみ -->
+  <nav id="actionBar" style="display:none; position:fixed; left:0; right:0; bottom:0; z-index:1000; background:#fff; border-top:1px solid #eee; box-shadow:0 -2px 8px rgba(0,0,0,0.04); padding:4px 8px;">
+    <div id="barInner" style="display:flex; justify-content:space-around; align-items:center; max-width:980px; margin:0 auto; gap:6px;">
+      <button class="large-button primary-button" style="flex:1;" onclick="startGame()">
+        <i class="fa-solid fa-lightbulb"></i> お題
+      </button>
+      <button id="pauseBtn" class="large-button" style="flex:1;" onclick="togglePause()">
+        <i class="fa-solid fa-pause"></i> 一時停止
+      </button>
+      <button class="large-button primary-button" style="flex:1;" onclick="submitScores()">
+        <i class="fa-solid fa-paper-plane"></i> スコア送信
+      </button>
+      <button id="undoBtn" class="large-button" style="flex:1;" onclick="undoLast()" disabled>
+        <i class="fa-solid fa-rotate-left"></i> やり直し
+      </button>
+      <button class="large-button" style="flex:1; background:#eee; color:#333; border-radius:24px;" onclick="forceEnd()">
+        <i class="fa-solid fa-stop"></i> 終了
+      </button>
+    </div>
+  </nav>
+
+  <!-- チュートリアルモーダル -->
+  <div id="tutorialModal" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:18px; max-width:95vw; width:340px; margin:0 auto; padding:24px 16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
+      <h2 style="font-size:1.3em; margin-bottom:0.6em;"><i class="fa-solid fa-graduation-cap"></i> 遊び方</h2>
+      <ol style="padding-left:1em; font-size:1em;">
+        <li>プレイヤー名を入力して<b>ゲーム開始</b>を押す</li>
+        <li>ジャンルやラウンド数、難易度などを設定</li>
+        <li>お題をジェスチャーだけで表現</li>
+        <li>みんなで答えを当てて、スコアを入力</li>
+        <li>最後に結果発表でMVPをチェック！</li>
+      </ol>
+      <button class="large-button primary-button" style="width:100%; margin-top:1em;" onclick="closeTutorialModal()">
+        <i class="fa-solid fa-circle-check"></i> OK！はじめる
+      </button>
+    </div>
+  </div>
 
   <!-- 下部広告 -->
   <div class="ad-box">
@@ -181,7 +249,38 @@
       document.getElementById('shareLINE').href = `https://social-plugins.line.me/lineit/share?url=${url}`;
     }
 
-    window.onload = updateShareLinks;
+    // アクションバー制御
+    function updateActionBar() {
+      var gameArea = document.getElementById('gameArea');
+      var actionBar = document.getElementById('actionBar');
+      if (gameArea && actionBar) {
+        if (gameArea.style.display !== 'none') {
+          actionBar.style.display = 'block';
+        } else {
+          actionBar.style.display = 'none';
+        }
+      }
+    }
+    // ページ内の画面遷移イベントに応じて呼び出す必要あり
+    // 例: setupGame, returnToTitle, forceEnd, などでupdateActionBar()を呼ぶ
+    // window.onload時にも一度呼ぶ
+    window.onload = function() {
+      updateShareLinks();
+      updateActionBar();
+      showTutorialModalOnce();
+    };
+
+    // チュートリアルモーダル
+    function showTutorialModalOnce() {
+      if (!localStorage.getItem('gesture_tutorial_shown')) {
+        document.getElementById('tutorialModal').style.display = 'flex';
+      }
+    }
+    function closeTutorialModal() {
+      document.getElementById('tutorialModal').style.display = 'none';
+      localStorage.setItem('gesture_tutorial_shown', '1');
+    }
   </script>
+  <div id="toast" style="position:fixed; left:50%; transform:translateX(-50%); bottom:80px; z-index:1100; background:#111; color:#fff; padding:10px 14px; border-radius:12px; display:none; max-width:90%;"></div>
 </body>
 </html>
