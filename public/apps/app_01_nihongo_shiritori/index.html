@@ -2,14 +2,18 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>App01 ジェスチャーゲーム | 飲み会Webアプリ</title>
   <meta name="description" content="お題を身振り手振りで表現して当て合う、爆笑必至の定番ジェスチャーゲーム！チーム戦も個人戦もOK！">
   <meta name="google-adsense-account" content="ca-pub-1643561503893272">
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="manifest" href="./manifest.webmanifest">
   <meta name="theme-color" content="#ff6699" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1643561503893272" crossorigin="anonymous"></script>
@@ -17,11 +21,7 @@
 <body>
   <!-- ヘッダー＆上部広告 -->
   <header>
-    <img src="/images/logo.png" alt="飲み会アプリロゴ" style="height:40px; margin:10px auto; display:block;">
-    <div style="display:none; justify-content:center; gap:8px; margin:6px 0;">
-      <button class="chip" id="themeToggle" title="色覚配慮テーマ"><i class="fa-solid fa-universal-access"></i> テーマ</button>
-      <button class="chip" id="handModeToggle" title="片手モード切替"><i class="fa-solid fa-hand"></i> 片手モード</button>
-    </div>
+    <img src="/images/logo.png" alt="飲み会アプリロゴ" loading="lazy" draggable="false" style="height:40px; margin:10px auto; display:block;">
     <p style="font-size: 0.8em; color: #888;">スポンサーリンク</p>
     <div class="ad-box">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -36,7 +36,7 @@
     <h3>💡 このゲームの活用シーン</h3>
     <p>忘年会や新年会、大学サークル、オンライン飲み会など、あらゆる場面で盛り上がります。とっさの動きや意外な表現で笑いが生まれ、意外な一面が見られるかも！</p>
     <p>制限時間内に伝え切るスリルと、得点やMVP発表による達成感が魅力。モノマネ力・表現力・発想力が試され、笑いと驚きが連続します！</p>
-<img src="/images/icons/app01.jpg" alt="ジェスチャーゲームイメージ" style="max-width:90%; display:block; margin:10px auto;">
+<img src="/images/icons/app01.jpg" alt="ジェスチャーゲームの雰囲気イメージ" loading="lazy" draggable="false" style="max-width:90%; display:block; margin:10px auto;">
   </section>
 
   <!-- ゲーム説明 -->
@@ -122,18 +122,18 @@
       </select>
       <audio id="bgm" loop autoplay></audio>
 
-      <button class="large-button primary-button" onclick="setupGame()">
+      <button class="large-button primary-button" data-ripple="true" onclick="setupGame()">
         <i class="fa-solid fa-play"></i>
         ゲーム開始
       </button>
     </section>
 
     <!-- ゲーム画面 -->
-    <section id="gameArea" class="card" style="display:none;">
+    <section id="gameArea" class="card" style="display:none;" tabindex="0">
       <div id="progressWrap" style="position:relative; height:8px; background:rgba(255,255,255,0.6); border:1px solid rgba(255,182,193,0.45); border-radius:999px; overflow:hidden; margin-bottom:12px;">
-        <div id="progressBar" style="height:100%; width:0%; background:linear-gradient(90deg,#ff8ab6,#8ad8ff); box-shadow:0 0 16px rgba(255,102,153,0.35);"></div>
+        <div id="progressBar" role="progressbar" aria-label="進行状況" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="height:100%; width:0%; background:linear-gradient(90deg,#ff8ab6,#8ad8ff); box-shadow:0 0 16px rgba(255,102,153,0.35);"></div>
       </div>
-      <h2 id="instructionText">準備中...</h2>
+      <h2 id="instructionText" aria-live="polite">準備中...</h2>
       <p id="currentPlayerDisplay"></p>
       <p id="nextPlayerDisplay"></p>
       <p id="currentTeamDisplay"></p>
@@ -143,7 +143,7 @@
       <div id="comboHud" style="position:relative; text-align:center; min-height:28px;">
         <!-- JS で COMBO 表示を差し込み -->
       </div>
-      <p id="timer" class="timer">残り時間：--秒</p>
+      <p id="timer" class="timer" aria-live="polite">残り時間：--秒</p>
 
       <div class="ad-box">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1643561503893272" data-ad-slot="2222222222" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -170,31 +170,51 @@
   <section class="card" style="text-align:center;">
     <button class="large-button" onclick="saveResultImage()"><i class="fa-solid fa-image"></i> 画像保存</button>
     <div class="share-buttons">
-      <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" class="icon"></a>
-      <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" class="icon"></a>
+      <a id="shareX" href="#" target="_blank"><img src="/images/icons/x_logo.png" alt="Xでシェア" loading="lazy" class="icon"></a>
+      <a id="shareLINE" href="#" target="_blank"><img src="/images/icons/line_logo.png" alt="LINEでシェア" loading="lazy" class="icon"></a>
     </div>
   </section>
   <!-- アクションバー: ゲーム中のみ -->
-  <nav id="actionBar" style="display:none; position:fixed; left:0; right:0; bottom:0; z-index:1000; background:#fff; border-top:1px solid #eee; box-shadow:0 -2px 8px rgba(0,0,0,0.04); padding:4px 8px;">
+  <nav id="actionBar" role="toolbar" aria-label="ゲーム操作" style="display:none; position:fixed; left:0; right:0; bottom:0; z-index:1000; background:#fff; border-top:1px solid #eee; box-shadow:0 -2px 8px rgba(0,0,0,0.04); padding:4px 8px;">
     <div id="barInner" style="display:flex; justify-content:space-around; align-items:center; max-width:980px; margin:0 auto; gap:6px;">
-      <button class="large-button primary-button" style="flex:1;" onclick="startGame()">
+      <button class="large-button primary-button" data-ripple="true" style="flex:1;" onclick="startRound()">
         <i class="fa-solid fa-lightbulb"></i> お題
       </button>
-      <button id="pauseBtn" class="large-button" style="flex:1;" onclick="togglePause()">
+      <button id="skipBtn" class="large-button" data-ripple="true" style="flex:1;" onclick="skipTopic()">
+        <i class="fa-solid fa-forward"></i> スキップ
+      </button>
+      <button id="pauseBtn" class="large-button" data-ripple="true" style="flex:1;" onclick="togglePause()">
         <i class="fa-solid fa-pause"></i> 一時停止
       </button>
-      <button class="large-button primary-button" style="flex:1;" onclick="submitScores()">
+      <button class="large-button primary-button" data-ripple="true" style="flex:1;" onclick="submitScores()">
         <i class="fa-solid fa-paper-plane"></i> スコア送信
       </button>
-      <button id="undoBtn" class="large-button" style="flex:1;" onclick="undoLast()" disabled>
+      <button id="undoBtn" class="large-button" data-ripple="true" style="flex:1;" onclick="undoLast()" disabled>
         <i class="fa-solid fa-rotate-left"></i> やり直し
       </button>
-      <button class="large-button" style="flex:1; background:#eee; color:#333; border-radius:24px;" onclick="forceEnd()">
+      <button class="large-button" data-ripple="true" style="flex:1; background:#eee; color:#333; border-radius:24px;" onclick="forceEnd()">
         <i class="fa-solid fa-stop"></i> 終了
       </button>
     </div>
   </nav>
 
+  <!-- カウントダウンオーバーレイ -->
+  <div id="countdown" aria-hidden="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:2200; align-items:center; justify-content:center;">
+    <div id="countdownNum" style="font-size:72px; color:#fff; font-weight:800; text-shadow:0 6px 18px rgba(0,0,0,.45);"></div>
+  </div>
+  <!-- 操作ヒントオーバーレイ（初回のみ表示） -->
+  <div id="gestureHint" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:2150; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:18px; max-width:95vw; width:340px; margin:0 auto; padding:20px 16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); text-align:left;">
+      <h3 style="margin:0 0 10px 0;">操作ヒント</h3>
+      <ul style="margin:0 0 12px 0; padding-left:1.2em;">
+        <li>右にスワイプ：ラウンド開始</li>
+        <li>上にスワイプ：スキップ（各ラウンド1回・3秒ペナルティ）</li>
+        <li>下にスワイプ：一時停止／再開</li>
+        <li>ダブルタップ：スコア送信</li>
+      </ul>
+      <button class="large-button primary-button" style="width:100%;" onclick="document.getElementById('gestureHint').style.display='none'">OK</button>
+    </div>
+  </div>
   <!-- チュートリアルモーダル -->
   <div id="tutorialModal" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
     <div style="background:#fff; border-radius:18px; max-width:95vw; width:340px; margin:0 auto; padding:24px 16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
@@ -220,7 +240,7 @@
 
   <!-- フッター -->
   <footer>
-    <img src="/images/qrcode.png" alt="QRコード" style="height:80px; margin-top:10px;">
+    <img src="/images/qrcode.png" alt="QRコード" loading="lazy" draggable="false" style="height:80px; margin-top:10px;">
     <p><a href="/index.html">← ポータルに戻る</a> ｜ <a href="/terms.html">利用規約</a> ｜ <a href="/privacy.html">プライバシーポリシー</a></p>
     <p>&copy; 2025 飲み会アプリプロジェクト</p>
   </footer>
@@ -281,6 +301,6 @@
       localStorage.setItem('gesture_tutorial_shown', '1');
     }
   </script>
-  <div id="toast" style="position:fixed; left:50%; transform:translateX(-50%); bottom:80px; z-index:1100; background:#111; color:#fff; padding:10px 14px; border-radius:12px; display:none; max-width:90%;"></div>
+  <div id="toast" role="status" aria-live="polite" style="position:fixed; left:50%; transform:translateX(-50%); bottom:80px; z-index:1100; background:#111; color:#fff; padding:10px 14px; border-radius:12px; display:none; max-width:90%;"></div>
 </body>
 </html>

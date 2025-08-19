@@ -19,6 +19,7 @@ let totalRounds = 3, currentRound = 1, isTeamMode = false;
 let currentCategory = "animals";
 let teams = { A: [], B: [] };
 let timer, timeLeft = 20;
+let skipAvailable = false; // Added for skip mechanic
 
 // Progress & combo (for Trend/Hit-game UI)
 let combo = 0;
@@ -152,6 +153,33 @@ function setupGame() {
   vib();
 }
 
+// Wrapper function for countdown before starting the game
+function startRound() {
+  // 事前カウントダウン → startGame()
+  const overlay = document.getElementById('countdown');
+  const num = document.getElementById('countdownNum');
+  if (!overlay || !num) { startGame(); return; }
+  try { if (typeof tone === 'function') tone(660,0.1,'sine',0.08); } catch(e){}
+  overlay.style.display = 'flex';
+  const seq = ['3','2','1','GO!'];
+  let i = 0;
+  const step = () => {
+    num.textContent = seq[i];
+    num.style.animation = 'none'; void num.offsetWidth; num.style.animation = 'popIn 420ms ease';
+    i++;
+    if (i < seq.length) {
+      setTimeout(step, 520);
+    } else {
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        try { if (typeof tone === 'function') tone(880,0.12,'triangle',0.08); } catch(e){}
+        startGame();
+      }, 320);
+    }
+  };
+  step();
+}
+
 function updatePlayerDisplay() {
   const current = players[currentPlayerIndex];
   const next = players[(currentPlayerIndex + 1) % players.length];
@@ -166,6 +194,9 @@ function startGame() {
   if (startCooldown) return;
   startCooldown = true; setTimeout(() => (startCooldown = false), 600);
   paused = false; updatePauseBtn(); vib(20);
+
+  skipAvailable = true; // ラウンドごとに1回だけ
+  const skipBtn = document.getElementById('skipBtn'); if (skipBtn) skipBtn.disabled = false;
 
   const { start } = getDifficultyCfg();
   const topic = pickTopic(currentCategory);
@@ -187,11 +218,27 @@ function startGame() {
     if (paused) return; // 一時停止中は停止
     timeLeft--;
     document.getElementById("timer").textContent = `残り時間：${timeLeft}秒`;
+    const t = document.getElementById('timer');
+    if (timeLeft <= 10 && timeLeft > 0) t.classList.add('danger'); else t.classList.remove('danger');
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById("timer").textContent = "時間切れ！";
+      const t2 = document.getElementById('timer'); if (t2) t2.classList.remove('danger');
     }
   }, 1000);
+}
+
+function skipTopic() {
+  if (!skipAvailable) { showToast('このラウンドのスキップは使用済み'); return; }
+  if (timeLeft <= 3) { showToast('残り時間が少ないためスキップ不可'); return; }
+  const next = pickTopic(currentCategory);
+  document.getElementById('topicArea').textContent = 'お題：' + next;
+  timeLeft = Math.max(0, timeLeft - 3); // 3秒ペナルティ
+  const t = document.getElementById('timer');
+  if (t) t.textContent = `残り時間：${timeLeft}秒`;
+  skipAvailable = false;
+  const btn = document.getElementById('skipBtn'); if (btn) btn.disabled = true;
+  vib(6);
 }
 
 function showScoreInputs() {
@@ -238,6 +285,22 @@ function submitScores() {
     details.push({ p, delta });
   });
 
+  // 視覚フィードバック：合計 +score ポップ
+  const area = document.getElementById('scoreInputArea');
+  if (area && details.length) {
+    const totalDelta = details.reduce((s,d)=>s+d.delta,0);
+    const pop = document.createElement('span');
+    pop.className = 'score-pop' + (details.some(d=>d.delta>=7) ? ' great' : '');
+    pop.textContent = '+' + totalDelta;
+    const rect = area.getBoundingClientRect();
+    pop.style.left = (rect.width/2 - 8) + 'px';
+    pop.style.top = '0px';
+    pop.style.position = 'absolute';
+    area.style.position = 'relative';
+    area.appendChild(pop);
+    setTimeout(()=> pop.remove(), 1100);
+  }
+
   const succeeded = details.some(d => d.delta > 0);
   combo = succeeded ? (combo + 1) : 0;
   showCombo();
@@ -274,23 +337,59 @@ function resetGame() {
   document.getElementById("scoreInputArea").innerHTML = "";
   vib(8);
   document.getElementById("timer").classList.remove("pulse");
+  const td = document.getElementById('timer'); if (td) td.classList.remove('danger');
 }
 
 function showScoreBoard() {
+  // 画面切替とエフェクト整理
   document.getElementById("gameArea").style.display = "none";
+  const t = document.getElementById('timer'); if (t) t.classList.remove('danger');
   updateProgressBar(1);
+  const bar = document.getElementById('progressBar'); if (bar) bar.setAttribute('aria-valuenow','100');
   document.getElementById("timer").classList.remove("pulse");
   safeCallUpdateActionBar();
+
+  // スコア集計とランキング（同率対応）
   const board = document.getElementById("scoreBoard");
   board.innerHTML = "";
-  let max = -1, mvp = "";
-  Object.entries(scores).forEach(([name, score]) => {
-    board.innerHTML += `<li>${name}: ${score} 点</li>`;
-    if (score > max) { max = score; mvp = name; }
-  });
-  document.getElementById("mvpDisplay").textContent = `👑 MVPは ${mvp} さん！おめでとう！`;
+  const entries = Object.entries(scores);
+  if (entries.length === 0) {
+    board.innerHTML = '<li>スコアがありません</li>';
+  } else {
+    // 降順ソート
+    entries.sort((a,b) => b[1] - a[1]);
+
+    // 同率ランク算出
+    let rank = 0, prevScore = null, actualIndex = 0;
+    const rows = entries.map(([name, score]) => {
+      actualIndex++;
+      if (score !== prevScore) { rank = actualIndex; prevScore = score; }
+      let medal = '';
+      if (rank === 1) medal = '🥇';
+      else if (rank === 2) medal = '🥈';
+      else if (rank === 3) medal = '🥉';
+      return { name, score, rank, medal };
+    });
+
+    // 表示
+    rows.forEach(({name, score, rank, medal}) => {
+      board.innerHTML += `<li>${medal ? medal + ' ' : ''}${name}: ${score} 点</li>`;
+    });
+
+    // MVP（同率複数対応）
+    const topScore = rows[0].score;
+    const mvps = rows.filter(r => r.score === topScore).map(r => r.name);
+    if (mvps.length === 1) {
+      document.getElementById("mvpDisplay").textContent = `👑 MVPは ${mvps[0]} さん！おめでとう！`;
+    } else {
+      document.getElementById("mvpDisplay").textContent = `👑 同率MVP: ${mvps.join('、')} さん！すごい！`;
+    }
+  }
+
+  // 結果表示とお祝いエフェクト
   document.getElementById("scoreDisplay").style.display = "block";
   if (typeof shootConfetti === 'function') shootConfetti(50);
+  showToast('結果発表！MVPをチェックしよう');
 }
 
 function saveResultImage() {
